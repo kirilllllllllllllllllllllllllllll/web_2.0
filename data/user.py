@@ -20,7 +20,13 @@ class User(SqlAlchemyBase, UserMixin):
 
     friends = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
-    photo = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    potential_friends = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+
+    photo = sqlalchemy.Column(sqlalchemy.String)
+
+    messages = sqlalchemy.Column(sqlalchemy.String)
+
+    messages_bad = sqlalchemy.Column(sqlalchemy.String)
 
 
     def set_password(self, password):

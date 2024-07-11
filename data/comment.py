@@ -3,12 +3,11 @@ from .db_session import SqlAlchemyBase
 
 
 # таблица пользователя
-class Publication(SqlAlchemyBase):
-    __tablename__ = 'publication'
+class Comment(SqlAlchemyBase):
+    __tablename__ = 'comment'
 
     id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)
-    name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
     content = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
@@ -16,9 +15,6 @@ class Publication(SqlAlchemyBase):
 
     author_name = sqlalchemy.Column(sqlalchemy.String)
 
-    is_private = sqlalchemy.Column(sqlalchemy.Boolean)
+    publication = sqlalchemy.Column(sqlalchemy.Integer)
 
-    # photo = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-
-    # comments = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-
+    photo = sqlalchemy.Column(sqlalchemy.String)

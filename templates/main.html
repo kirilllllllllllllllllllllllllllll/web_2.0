@@ -1,5 +1,47 @@
-{% extends "base_teacher.html" %}
+{% extends "base.html" %}
 
 {% block content %}
-welcome!
+{% if current_user.is_authenticated %}
+<center><h1>Публикации</h1></center>
+<center><a href="add_publication" class="btn btn-primary">Добавить публикацию</a>
+<a href="add_friend" class="btn btn-primary">Добавить друга</a></center>
+{% for item in data%}
+<center>
+<div class="col-md6 border rounded">
+    <h2>{{item.name}}</h2>
+    <div>
+        Публикация от {{item.author_name}}
+    </div>
+    <a href="read_publication/{{item.id}}" class="btn btn-success">Читать</a>
+</div>
+</center>
+{% endfor %}
+<center><h1>Заявки в друзья</h1></center>
+{% for item in friends%}
+<center>
+<div class="col-md6 border rounded">
+    <h2><img src="/static/profile_photos/{{item.photo}}" width="100" height="100"> Заявка от {{item.name}}</h2>
+    <a href="shadow1/{{item.id}}" class="btn btn-success">Принять</a>
+    <a href="shadow2/{{item.id}}" class="btn btn-warning">Отклонить</a>
+</div>
+</center>
+{% endfor %}
+
+<center><h1>Сообщения</h1></center>
+{% for item in messages%}
+<center>
+<div class="col-md6 border rounded">
+    <h2><img src="/static/profile_photos/{{item.photo}}" width="100" height="100"> {{item.name}} принял вашу заявку в друзья</h2>
+</div>
+</center>
+{% endfor %}
+
+{% for item in messages_bad%}
+<center>
+<div class="col-md6 border rounded">
+    <h2><img src="/static/profile_photos/{{item.photo}}" width="100" height="100"> {{item.name}} отклонил вашу заявку в друзья</h2>
+</div>
+</center>
+{% endfor %}
+{% endif %}
 {% endblock %}

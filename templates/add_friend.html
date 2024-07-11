@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-<center><h1>Авторизация</h1></center>
+<a href="/main" class="btn btn-primary">Вернуться</a>
+<center><h1>Добавление друга</h1></center>
     <form action="" method="post">
         {{ form.hidden_tag() }}
         <p>
@@ -13,16 +14,6 @@
                 </div>
             {% endfor %}
         </p>
-        <p>
-            {{ form.password.label }}<br>
-            {{ form.password(class="form-control", type="password") }}<br>
-            {% for error in form.password.errors %}
-                <div class="alert alert-danger" role="alert">
-                    {{ error }}
-                </div>
-            {% endfor %}
-        </p>
-        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
         <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
         <div>{{ message }}</div>
     </form>
