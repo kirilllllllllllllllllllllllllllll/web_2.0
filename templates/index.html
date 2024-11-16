@@ -2,25 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
-          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
-          crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/index__style.css" />
     <title>Главная страница</title>
 </head>
 <body>
-<h1><center>Watch_cats</center></h1>
-<div><center>Главная страница</center></div>
-<nav>{% if current_user.is_authenticated %}
-    <center><a class="navbar-brand" href="/logout">Выйти из аккаунта</a></center>
-    {% else %}
-    <p>
-        <center><a class="btn btn-primary " href="/register">Зарегистрироваться</a>
-        <a class="btn btn-success" href="/login">Войти</a></center>
-    </p>
-    {% endif %}
-</nav>
+    <header class="header">
+        <div class="header__left">
+            <a href="" class="header__menu_el"><img src="../img/header__logo.png" alt="" class="header__logo"></a>
+            <a href="" class="header__menu_el">ГЛАВНАЯ</a>
+            <a href="" class="header__menu_el">КОМАНДА</a>
+            <a href="" class="header__menu_el">ВОЗМОЖНОСТИ</a>
+        </div>
+        <div class="header__log">
+            <button class="header__signup">ВОЙТИ</button>
+            <button class="login">ЗАРЕГИСТРИРОВАТЬСЯ</button>
+        </div>
+    </header>
+    <main class="content">
+        <h1 class="content__title">КРУТОЙ И КРАСИВЫЙ СЛОГАН НАШЕГО КРУТОГО САЙТИ</h1>
+        <p class="content__discription">Короткое описание нашего проекта Lorem ipsum dolor sit amet consectetur adipisicing elit. Error nisi, ad adipisci recusandae sequi aperiam ipsum dolore, praesentium cupiditate dolores dolor. Atque totam fugit laborum aut a suscipit, maiores ea? Est nulla eos ipsam sunt repellat sed, voluptates consequuntur quia, libero tenetur minus. Aut exercitationem, eveniet ab.</p>
+        <div class="content__buttons">
+            <button class="content__signup">Sign up for "name"</button>
+            <button class="content__more">Узнать подробнее</button>
+        </div>
+    </main>
+    <footer class="top__footer">
+        <img src="../img/liva.png" alt="">
+        <img src="../img/kanba.png" alt="">
+        <img src="../img/amara.png" alt="">
+        <img src="../img/aven.png" alt="">
+        <img src="../img/hexlab.png" alt="">
+    </footer>
 
 </body>
 </html>

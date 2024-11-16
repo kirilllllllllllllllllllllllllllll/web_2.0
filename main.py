@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from flask import Flask, render_template, redirect, url_for
 from data import db_session
 
@@ -6,10 +8,12 @@ from forms.login import Login
 from forms.addfriend import AddFriend
 from forms.addpublic import AddPublic
 from forms.addcomment import AddComment
+from forms.date import AddDate
 
 from data.user import User
 from data.publication import Publication
 from data.comment import Comment
+from data.date import Date
 
 from flask_login import login_user
 from flask_login import login_required
@@ -139,7 +143,7 @@ def add_publication():
         else:
             user.publications = user.publications + ',' + str(public.id)
         db_sess.commit()
-        return redirect('/main')
+        return redirect('/posts')
 
     return render_template('add_publication.html', title='Добавление публикации', form=form)
 
@@ -167,9 +171,9 @@ def add_friend():
     return render_template('add_friend.html', title='Добавление друга', form=form)
 
 
-@app.route('/read_publication/main')
+@app.route('/read_publication/posts')
 def mirror():
-    return redirect('/main')
+    return redirect('/posts')
 
 
 @app.route('/shadow1/<int:id>')
@@ -236,6 +240,48 @@ def read_publication(id):
         Comment.publication == id).all()  # список объектов класса Comment, затем в html отображаем комментарии
     return render_template('read_publication.html', title='Публикация', form=form, text=text, data=data,
                            name=public.author_name)
+
+
+@app.route('/posts', methods=['GET', 'POST'])
+def posts():
+    data = db_sess.query(Publication).filter(Publication.is_private == 0).all()
+    print(data)
+    data2 = db_sess.query(Publication).filter(Publication.is_private == 1).all()
+    data2 = list(filter(lambda a: str(current_user.id) in db_sess.query(User).filter(
+        User.id == a.author).first().friends or current_user.id == db_sess.query(User).filter(
+        User.id == a.author).first().id, data2))
+    print(data2)
+    data += data2
+    return render_template('posts.html', title='Публикации', data=data)
+
+
+@app.route('/date', methods=['GET', 'POST'])
+def date():
+    form = AddDate()
+    if form.validate_on_submit():
+        date = Date(
+            name=form.name.data,
+            date=str(form.date.data),
+            user=current_user.id
+        )
+        db_sess.add(date)
+        db_sess.commit()
+        return redirect('/date')
+
+    dates = db_sess.query(Date).filter(Date.user == current_user.id).all()
+    outdated = list(filter(lambda a: datetime.now().date() - datetime.fromisoformat(a.date).date() >= timedelta(days=1), dates))
+    outdated = list(map(lambda a: a.id, outdated))
+    db_sess.query(Date).filter(Date.id.in_(outdated)).delete()
+    db_sess.commit()
+
+    dates = db_sess.query(Date).filter(Date.user == current_user.id).all()
+
+    dates1 = list(filter(lambda a: datetime.fromisoformat(a.date).date() - datetime.now().date() < timedelta(days=2), dates))
+    dates2 = list(filter(lambda a: datetime.fromisoformat(a.date).date() - datetime.now().date() >= timedelta(days=2), dates))
+    print(dates1, dates2)
+
+
+    return render_template('date.html', title='Добавление даты', form=form, dates1=dates1, dates2=dates2)
 
 
 @app.route('/main')

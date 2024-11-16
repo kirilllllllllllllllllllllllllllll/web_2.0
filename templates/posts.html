@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if current_user.is_authenticated %}
+<center><h1>Публикации</h1></center>
+<center><a href="add_publication" class="btn btn-primary">Add post</a></center>
+{% for item in data%}
+<center>
+<div class="col-md6 border rounded">
+    <h2>{{item.name}}</h2>
+    <div>
+        Публикация от {{item.author_name}}
+    </div>
+    <a href="read_publication/{{item.id}}" class="btn btn-success">Читать</a>
+</div>
+</center>
+{% endfor %}
+{% endif %}
+{% endblock %}

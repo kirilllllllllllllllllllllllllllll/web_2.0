@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<center><h1>События в ближайшие дни</h1></center>
+{% for item in dates1%}
+<center>
+<div class="col-md6 border rounded">
+    <h2>{{item.name}}</h2>
+    <div>
+        Запланировано на {{item.date}}
+    </div>
+    <div>
+        Осталось меньше 2 дней!
+    </div>
+</div>
+</center>
+{% endfor %}
+<center><h1>Другие запланированные события</h1></center>
+{% for item in dates2%}
+<center>
+<div class="col-md6 border rounded">
+    <h2>{{item.name}}</h2>
+    <div>
+        Запланировано на {{item.date}}
+    </div>
+</div>
+</center>
+{% endfor %}
+<center><h1>Добавление даты</h1></center>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.name.label }}<br>
+            {{ form.name(class="form-control") }}<br>
+            {% for error in form.name.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.date.label }}<br>
+            {{ form.date(class="form-control") }}<br>
+            {% for error in form.date.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+        <div>{{ message }}</div>
+    </form>
+{% endblock %}
