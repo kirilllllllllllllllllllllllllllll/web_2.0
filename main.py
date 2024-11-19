@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta
 
+from sqlalchemy import and_
+
 from flask import Flask, render_template, redirect, url_for
 from data import db_session
 
@@ -64,11 +66,24 @@ def reqister():
                                    form=form,
                                    message="Такой пользователь уже есть")
         f = form.img.data
+        num1 = int(form.form.data)
+        st = str(num1 // 4 + 7)
+        num2 = num1 % 4
+        if num2 == 0:
+            st += 'A'
+        elif num2 == 1:
+            st += 'Б'
+        elif num2 == 2:
+            st += 'В'
+        else:
+            st += 'Г'
         if f.filename == '':
-
             user = User(
                 name=form.name.data,
                 email=form.email.data,
+                form=st,
+                informal_name=form.informal_name.data,
+                about=form.about.data,
                 publications='0',
                 friends='0',
                 photo='watch_cat_2.png',
@@ -86,6 +101,9 @@ def reqister():
                 user = User(
                     name=form.name.data,
                     email=form.email.data,
+                    form=st,
+                    informal_name=form.informal_name.data,
+                    about=form.about.data,
                     publications='0',
                     friends='0',
                     photo='0',
@@ -148,13 +166,26 @@ def add_publication():
     return render_template('add_publication.html', title='Добавление публикации', form=form)
 
 
-@app.route('/add_friend', methods=['GET', 'POST'])
+@app.route('/add_friend')
 def add_friend():
+    if current_user.friends != '0':
+        data = db_sess.query(User).filter(
+            and_(User.id.notin_(list(map(int, current_user.friends.split(',')))), User.id != current_user.id),
+            User.potential_friends.notlike(f'%{current_user.id}%'), User.id.notin_(list(map(int, current_user.potential_friends.split(','))))).all()
+    else:
+        data = db_sess.query(User).filter(
+            and_(User.id != current_user.id),
+            User.potential_friends.notlike(f'%{current_user.id}%'), User.id.notin_(list(map(int, current_user.potential_friends.split(','))))).all()
+    return render_template('add_friend.html', title='Добавление друга', data=data)
+
+
+@app.route('/add_friend2', methods=['GET', 'POST'])
+def add_friend2():
     form = AddFriend()
     if form.validate_on_submit():
         user = db_sess.query(User).filter(User.email == form.email.data).first()
         if user and user.email != current_user.email:
-            if str(user.id) not in current_user.friends:
+            if str(user.id) not in current_user.friends and str(user.id) not in current_user.potential_friends and str(current_user.id) not in user.potential_friends:
                 if user.potential_friends == '0':
                     user.potential_friends = str(current_user.id)
                 else:
@@ -162,18 +193,30 @@ def add_friend():
                 db_sess.commit()
                 return redirect('/main')
             else:
-                return render_template('add_friend.html',
+                return render_template('add_friend2.html',
                                        message="Этот пользователь уже ваш друг",
                                        form=form)
-        return render_template('add_friend.html',
+        return render_template('add_friend2.html',
                                message="Такого пользователя нет (либо вы пытаетесь добавить самого себя в друзья)",
                                form=form)
-    return render_template('add_friend.html', title='Добавление друга', form=form)
+    # data = db_sess.query(User).filter(User.id.notin_(current_user.friends))
+    return render_template('add_friend2.html', title='Добавление друга', form=form)
 
 
 @app.route('/read_publication/posts')
 def mirror():
     return redirect('/posts')
+
+
+@app.route('/reflection/<int:id>')
+def reflection(id):
+    user = db_sess.query(User).filter(User.id == id).first()
+    if user.potential_friends == '0':
+        user.potential_friends = str(current_user.id)
+    else:
+        user.potential_friends = user.potential_friends + ',' + str(current_user.id)
+    db_sess.commit()
+    return redirect('/add_friend')
 
 
 @app.route('/shadow1/<int:id>')
@@ -269,19 +312,42 @@ def date():
         return redirect('/date')
 
     dates = db_sess.query(Date).filter(Date.user == current_user.id).all()
-    outdated = list(filter(lambda a: datetime.now().date() - datetime.fromisoformat(a.date).date() >= timedelta(days=1), dates))
+    outdated = list(
+        filter(lambda a: datetime.now().date() - datetime.fromisoformat(a.date).date() >= timedelta(days=1), dates))
     outdated = list(map(lambda a: a.id, outdated))
     db_sess.query(Date).filter(Date.id.in_(outdated)).delete()
     db_sess.commit()
 
     dates = db_sess.query(Date).filter(Date.user == current_user.id).all()
 
-    dates1 = list(filter(lambda a: datetime.fromisoformat(a.date).date() - datetime.now().date() < timedelta(days=2), dates))
-    dates2 = list(filter(lambda a: datetime.fromisoformat(a.date).date() - datetime.now().date() >= timedelta(days=2), dates))
+    dates1 = list(
+        filter(lambda a: datetime.fromisoformat(a.date).date() - datetime.now().date() < timedelta(days=2), dates))
+    dates2 = list(
+        filter(lambda a: datetime.fromisoformat(a.date).date() - datetime.now().date() >= timedelta(days=2), dates))
     print(dates1, dates2)
 
-
     return render_template('date.html', title='Добавление даты', form=form, dates1=dates1, dates2=dates2)
+
+
+@app.route('/delete_friend/<int:id>')
+def delete_frined(id):
+    print(current_user.friends)
+    user1 = db_sess.query(User).filter(User.id == current_user.id).first()
+    data = user1.friends.split(',')
+    data.remove(str(id))
+    st = ','.join(data)
+    if not st:
+        st = 0
+        user1.friends = st
+    db_sess.commit()
+    print(user1.friends)
+    return redirect('/profile')
+
+
+@app.route('/profile')
+def profile():
+    friends = db_sess.query(User).filter(User.id.in_(list(map(int, current_user.friends.split(',')))))
+    return render_template('profile.html', title='Профиль', friends=friends)
 
 
 @app.route('/main')
