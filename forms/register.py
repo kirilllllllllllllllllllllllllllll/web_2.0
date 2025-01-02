@@ -17,4 +17,7 @@ class Register(FlaskForm):
                                 (15, '10Г'), (16, '11A'), (17, '11Б'), (18, '11В'), (19, '11Г')], validators=[DataRequired()])
     about = StringField('Немного о себе', validators=[DataRequired()])
     img = FileField('Фото пользователя (png, jpg, jpeg)')
+    role = SelectField('Роль',
+                       choices=[(0, 'ученик'), (1, 'учитель'), (2, 'модератор')], validators=[DataRequired()])
+    code = StringField('Код подтверждения (для учителей и модераторов)')
     submit = SubmitField('Войти')
