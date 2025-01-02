@@ -76,6 +76,24 @@
             </p>
         {% endfor %}
     </p>
+    <p>
+        {{ form.role.label }}<br>
+        {{ form.role(class="form-control") }}<br>
+        {% for error in form.role.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.code.label }}<br>
+        {{ form.code(class="form-control") }}<br>
+        {% for error in form.code.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
     <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
     {{message}}
 </form>

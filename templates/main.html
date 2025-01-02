@@ -5,33 +5,46 @@
 
 
 <center><h1>Заявки в друзья</h1></center>
-{% for item in friends%}
-<center>
-    <div class="col-md6 border rounded">
-        <h2><img src="/static/profile_photos/{{item.photo}}" width="100" height="100"> Заявка от {{item.name}}</h2>
-        <a href="shadow1/{{item.id}}" class="btn btn-success">Принять</a>
-        <a href="shadow2/{{item.id}}" class="btn btn-warning">Отклонить</a>
-    </div>
-</center>
-{% endfor %}
+{% if flag1 == False %}
+    {% for item in friends%}
+    <center>
+        <div class="col-md6 border rounded">
+            <h2><img src="/static/profile_photos/{{item.photo}}" width="100" height="100"> Заявка от {{item.name}}</h2>
+            <a href="shadow1/{{item.id}}" class="btn btn-success">Принять</a>
+            <a href="shadow2/{{item.id}}" class="btn btn-warning">Отклонить</a>
+        </div>
+    </center>
+    {% endfor %}
+{% else %}
+    <center>нет заявок</center>
+{% endif %}
+
+
 
 <center><h1>Сообщения</h1></center>
-{% for item in messages%}
-<center>
-    <div class="col-md6 border rounded">
-        <h2><img src="/static/profile_photos/{{item.photo}}" width="100" height="100"> {{item.name}} принял вашу заявку
-            в друзья</h2>
-    </div>
-</center>
-{% endfor %}
+{% if flag2 == False %}
+    {% for item in messages%}
+    <center>
+        <div class="col-md6 border rounded">
+            <h2><img src="/static/profile_photos/{{item.photo}}" width="100" height="100"> {{item.name}} принял вашу заявку
+                в друзья</h2>
+        </div>
+    </center>
+    {% endfor %}
 
-{% for item in messages_bad%}
-<center>
-    <div class="col-md6 border rounded">
-        <h2><img src="/static/profile_photos/{{item.photo}}" width="100" height="100"> {{item.name}} отклонил вашу
-            заявку в друзья</h2>
-    </div>
-</center>
-{% endfor %}
+    {% for item in messages_bad%}
+    <center>
+        <div class="col-md6 border rounded">
+            <h2><img src="/static/profile_photos/{{item.photo}}" width="100" height="100"> {{item.name}} отклонил вашу
+                заявку в друзья</h2>
+        </div>
+    </center>
+    {% endfor %}
+{% else %}
+    <center>сообщений нет</center>
+{% endif %}
+
+
+
 {% endif %}
 {% endblock %}

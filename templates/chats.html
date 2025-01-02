@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if current_user.is_authenticated %}
+<center><h1>Группы</h1></center>
+<center><a href="add_chat" class="btn btn-primary">Создать группу</a></center>
+{% for item in data%}
+<center>
+<div class="col-md6 border rounded">
+    <h2>{{item.name}}</h2>
+    <img src="/static/chat_imgs/{{item.photo}}" width="70" height="70">
+    <div>
+        {{item.count_peoples}} users
+    </div>
+    <a href="read_chat/{{item.id}}" class="btn btn-success">Перейти</a>
+</div>
+</center>
+{% endfor %}
+{% endif %}
+{% endblock %}

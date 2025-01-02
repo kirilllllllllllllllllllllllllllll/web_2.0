@@ -1,0 +1,54 @@
+{% extends "base2.html" %}
+
+{% block content %}
+<br><br>
+{% if current_user.id == admin %}
+    <center><a href="add_peoples2" class="btn btn-primary">По почте</a>
+    <a href="read_chat/{{id}}" class="btn btn-primary">Вернуться</a></center>
+
+
+    <center><h1>Текущие участники</h1></center>
+    {% if flag2 == False %}
+        {% for item in data2 %}
+            <center>
+              <div class="col-md6 border rounded">
+                <h2>{{item.name}}</h2>
+
+                <div>from {{item.form}}</div>
+                <img src="/static/profile_photos/{{item.photo}}" width="70" height="70">
+                <div>
+                  {{item.about}}
+                </div>
+                <a href="del/{{id}}/{{item.id}}" class="btn btn-success">Удалить</a>
+              </div>
+            </center>
+        {% endfor %}
+    {% else %}
+    <center>Нет участников</center>
+    {% endif %}
+
+    <center><h1>Добавление участников</h1></center>
+    {% if flag1 == False %}
+        {% for item in data1 %}
+            <center>
+              <div class="col-md6 border rounded">
+                <h2>{{item.name}}</h2>
+
+                <div>from {{item.form}}</div>
+                <img src="/static/profile_photos/{{item.photo}}" width="70" height="70">
+                <div>
+                  {{item.about}}
+                </div>
+                <a href="window/{{id}}/{{item.id}}" class="btn btn-success">Добавить</a>
+              </div>
+            </center>
+        {% endfor %}
+    {% else %}
+    <center>Некого добавлять</center>
+    {% endif %}
+
+{% else %}
+
+{% endif %}
+
+{% endblock %}

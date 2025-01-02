@@ -1,0 +1,71 @@
+{% extends "base2.html" %}
+
+{% block content %}
+<a href="chats" class="btn btn-primary">Вернуться</a>
+{% if current_user.id == admin %}
+<a href="add_peoples/{{id}}" class="btn btn-primary">Участники</a>
+<a href="delete_chat/{{id}}" class="btn btn-primary">Удалить группу</a>
+{% else %}
+<a href="del/{{id}}/{{current_user.id}}" class="btn btn-primary">Покинуть группу</a>
+{% endif %}
+<br>
+
+{% for item in messages%}
+    {% if item.sender == 0 %}
+        <div class="col-md6 border rounded" align="center">
+                <div>
+                    {{item.text}}
+                </div>
+            </div>
+    {% else %}
+        {% if item.sender != current_user.id %}
+            <div class="col-md6 border rounded" align="left">
+                <h3><img src="/static/profile_photos/{{item.photo}}" width="100" height="100"> {{item.name}}</h3>
+
+
+                <div>
+                    {{item.text}}
+                    {% if current_user.role == 2 %}
+                    <a href="delete_message/{{id}}/{{item.id}}">Удалить</a>
+                    {% endif %}
+                </div>
+
+                <div>
+                    {{item.time}}
+                </div>
+
+            </div>
+
+        {% else %}
+            <div class="col-md6 border rounded" align="right">
+                <h3><img src="/static/profile_photos/{{item.photo}}" width="100" height="100"> {{item.name}}</h3>
+
+                <div>
+                    {{item.text}}
+                    <a href="delete_message/{{id}}/{{item.id}}">Удалить</a>
+                </div>
+                <div>
+                    {{item.time}}
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endfor %}
+
+
+
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.content.label }}<br>
+            {{ form.content(class="form-control", type="email") }}<br>
+            {% for error in form.content.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+        <div>{{ message }}</div>
+    </form>
+{% endblock %}
