@@ -12,6 +12,9 @@
         Публикация от {{item.author_name}}
     </div>
     <a href="read_publication/{{item.id}}" class="btn btn-success">Читать</a>
+    {% if current_user.id == item.author or current_user.role == 2 %}
+        <a href="delete_post/{{item.id}}" class="btn btn-warning">Удалить</a>
+    {% endif %}
 </div>
 </center>
 {% endfor %}

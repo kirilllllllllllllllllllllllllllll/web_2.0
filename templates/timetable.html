@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<br><br>
+<h2>Расписание {{current_user.form}}</h2>
+{% if current_user.role == 2 %}
+    <a href="refactor_timetable">Редактировать расписание</a>
+{% endif %}
+
+{% for item in data %}
+    <br>
+    <center>{{item[0]}}</center>
+    <table border="2" width="20%" align="center">
+    {% for ind in nums %}
+        <tr bgcolor="{{colors[ind % 2]}}">
+            <td>{{ind}}</td>
+            {% if item[0] == 'понедельник' or item[0] == 'четверг' %}
+                <td>{{time1[ind]}}</td>
+            {% else %}
+                <td>{{time2[ind]}}</td>
+            {% endif %}
+
+            {% if item[1][ind] %}
+                <td>{{item[1][ind]}}</td>
+            {% else %}
+                <td>---</td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+    </table>
+{% endfor %}
+
+{% endblock %}
