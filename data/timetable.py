@@ -10,3 +10,7 @@ class Timetable(SqlAlchemyBase):
     id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)
     lessons = sqlalchemy.Column(sqlalchemy.String)
+
+    day = sqlalchemy.Column(sqlalchemy.Integer)
+
+    form = sqlalchemy.Column(sqlalchemy.String)
