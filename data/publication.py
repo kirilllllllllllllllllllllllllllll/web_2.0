@@ -18,6 +18,12 @@ class Publication(SqlAlchemyBase):
 
     is_private = sqlalchemy.Column(sqlalchemy.Boolean)
 
+    photos = sqlalchemy.Column(sqlalchemy.String)
+
+    count_photos = sqlalchemy.Column(sqlalchemy.Integer)
+
+    title = sqlalchemy.Column(sqlalchemy.String)
+
     # photo = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
     # comments = sqlalchemy.Column(sqlalchemy.String, nullable=True)

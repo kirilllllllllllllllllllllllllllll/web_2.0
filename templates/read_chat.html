@@ -1,6 +1,40 @@
 {% extends "base2.html" %}
 
 {% block content %}
+
+{% for item in data2%}
+<div class="col-md6 border rounded" align="left" width="400">
+    {% if current_user.id == item.user1%}
+        <h2>{{item.name1}}</h2>
+        <img src="/static/profile_photos/{{item.photo2}}" width="70" height="70">
+
+        <a href="read_private_chat/{{item.id}}" class="btn btn-success">Перейти</a>
+    {% else %}
+        <h2>{{item.name2}}</h2>
+        <img src="/static/profile_photos/{{item.photo1}}" width="70" height="70">
+
+        <a href="read_private_chat/{{item.id}}" class="btn btn-success">Перейти</a>
+    {% endif %}
+</div>
+{% endfor %}
+
+{% for item in data%}
+
+<div class="col-md6 border rounded" align="left">
+    <h2>{{item.name}}</h2>
+    <img src="/static/chat_imgs/{{item.photo}}" width="70" height="70">
+    <div>
+        {{item.count_peoples}} users
+    </div>
+    <a href="{{item.id}}" class="btn btn-success">Перейти</a>
+</div>
+{% endfor %}
+
+
+<br>
+<br>
+
+
 <a href="chats" class="btn btn-primary">Вернуться</a>
 {% if current_user.id == admin %}
 <a href="add_peoples/{{id}}" class="btn btn-primary">Участники</a>

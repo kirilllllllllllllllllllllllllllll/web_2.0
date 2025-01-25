@@ -4,9 +4,24 @@
 {% if current_user.is_authenticated %}
 <center><h1>Группы</h1></center>
 <center><a href="add_chat" class="btn btn-primary">Создать группу</a></center>
+<center><a href="add_private" class="btn btn-primary">Создать личный чат</a></center>
+{% for item in data2%}
+<div class="col-md6 border rounded" align="left" width="400">
+    {% if current_user.id == item.user1%}
+        <h2>{{item.name1}}</h2>
+        <img src="/static/profile_photos/{{item.photo2}}" width="70" height="70">
+
+        <a href="read_private_chat/{{item.id}}" class="btn btn-success">Перейти</a>
+    {% else %}
+        <h2>{{item.name2}}</h2>
+        <img src="/static/profile_photos/{{item.photo1}}" width="70" height="70">
+
+        <a href="read_private_chat/{{item.id}}" class="btn btn-success">Перейти</a>
+    {% endif %}
+</div>
+{% endfor %}
 {% for item in data%}
-<center>
-<div class="col-md6 border rounded">
+<div class="col-md6 border rounded" align="left" width="400">
     <h2>{{item.name}}</h2>
     <img src="/static/chat_imgs/{{item.photo}}" width="70" height="70">
     <div>
@@ -14,7 +29,11 @@
     </div>
     <a href="read_chat/{{item.id}}" class="btn btn-success">Перейти</a>
 </div>
-</center>
 {% endfor %}
+
+<br>
+<br>
+<center>Выберите чат</center>
+
 {% endif %}
 {% endblock %}

@@ -3,8 +3,26 @@
 {% block content %}
 <a href="posts" class="btn btn-primary">Вернуться</a>
 <br>
-<h4>{{name}} пишет:</h4><br>
-{{text}}
+<div class="col-md6 border rounded">
+    <h2>{{post.name}}</h2>
+    <div>
+        Публикация от {{post.author_name}}
+    </div>
+    <br>
+    {% for img in post.photos.split(',') %}
+        {% if img != '0' %}
+            <img src="/static/posts/{{img}}" width="300" height="img.split('.')[0].split('-')[2].split('_')[1]">
+        {% endif %}
+    {% endfor %}
+    <br>
+    <div>
+        {{post.content}}
+    </div>
+
+
+</div>
+<br>
+<br>
 {% for item in data%}
 <center>
 <div class="col-md6 border rounded">

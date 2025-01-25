@@ -1,9 +1,10 @@
 from datetime import datetime, timedelta
 
-from sqlalchemy import and_
+from sqlalchemy import and_, or_
 
 from flask import Flask, render_template, redirect, url_for
 from data import db_session
+from data.private_chat import PrivateChat
 
 from forms.register import Register
 from forms.login import Login
@@ -14,6 +15,8 @@ from forms.date import AddDate
 from forms.addchat import AddChat
 from forms.addmessage import AddMessage
 from forms.refactortimetable import RefactorTimetable
+from forms.addphoto import AddPhoto
+from forms.addpeoples import AddPeoples
 
 from data.user import User
 from data.publication import Publication
@@ -28,19 +31,24 @@ from flask_login import login_required
 from flask_login import LoginManager
 from flask_login import logout_user
 from flask_login import current_user
+
 import os
+
+from PIL import Image
 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'kirik1234pro_and_thisismyshadow_secret_key'
 app.config['UPLOAD_FOLDER'] = os.getcwd() + "\static\profile_photos"
 app.config['UPLOAD_FOLDER2'] = os.getcwd() + "\static\chat_imgs "
+app.config['UPLOAD_FOLDER3'] = os.getcwd() + "\static\posts"
 SECRET_CODE1 = '124_9713'
 SECRET_CODE2 = '124_nexus'
 CONST = ['7А', '7Б', '7В', '7Г', '8А', '8Б', '8В', '8Г', '9А', '9Б', '9В', '9Г', '10А', '10Б', '10В', '10Г', '11А', '11Б', '11В', '11Г']
 TIME1 = ['8:00 - 8:35', '8:40 - 9:20', '9:25 - 10:05', '10:25 - 12:05', '12:25 - 13:05', '13:10 - 13:50', '13:55 - 14:35', '14:50 - 15:20', '14:50 - 15:20']
 TIME2 = ['---', '8:00 - 8:40', '8:45 - 9:25', '9:30 - 10:10', '10:30 - 11:10', '11:30 - 12:10', '12:30 - 13:10', '13:15 - 13:55', '14:15 - 14:45']
 COLORS = ['#E8EAF6', '#C5CAE9']
+SIZE_PHOTO = 300
 
 
 login_manager = LoginManager()
@@ -145,7 +153,8 @@ def reqister():
                         potential_friends='0',
                         messages='0',
                         messages_bad='0',
-                        role=role
+                        role=role,
+                        chats='0'
                     )
                     user.set_password(form.password.data)
                     db_sess.add(user)
@@ -174,7 +183,8 @@ def reqister():
                             potential_friends='0',
                             messages='0',
                             messages_bad='0',
-                            role=role
+                            role=role,
+                            chats='0'
                         )
                         user.set_password(form.password.data)
                         db_sess.add(user)
@@ -203,7 +213,7 @@ def login():
         user = db_sess.query(User).filter(User.email == form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            return redirect("/main")
+            return redirect("/posts")
 
         return render_template('login.html',
                                message="Неправильный логин или пароль",
@@ -216,25 +226,118 @@ def add_publication():
     form = AddPublic()
     if form.validate_on_submit():
         db_sess = db_session.create_session()
+        f = form.photo.data
+        if not f.filename:
 
-        public = Publication(
-            name=form.name.data,
-            content=form.content.data,
-            author=current_user.id,
-            author_name=current_user.name,
-            is_private=form.is_private.data,
-        )
+            public = Publication(
+                name=form.name.data,
+                content=form.content.data,
+                author=current_user.id,
+                author_name=current_user.name,
+                photos='0',
+                count_photos=0,
+                title='0',
+                is_private=form.is_private.data,
+            )
 
-        db_sess.add(public)
-        user = db_sess.query(User).filter(User.id == current_user.id).first()
-        if current_user.publications == '0':
-            user.publications = str(public.id)
+            db_sess.add(public)
+            user = db_sess.query(User).filter(User.id == current_user.id).first()
+            if current_user.publications == '0':
+                user.publications = str(public.id)
+            else:
+                user.publications = user.publications + ',' + str(public.id)
+            db_sess.commit()
+            return redirect('/posts')
         else:
-            user.publications = user.publications + ',' + str(public.id)
-        db_sess.commit()
-        return redirect('/posts')
+            f = form.photo.data
+            type = f.filename.split('.')[-1]
+            if type in ['png', 'jpg', 'jpeg', 'bmp']:
+                public = Publication(
+                    name=form.name.data,
+                    content=form.content.data,
+                    author=current_user.id,
+                    author_name=current_user.name,
+                    photos='0',
+                    title='0',
+                    count_photos=1,
+                    is_private=form.is_private.data,
+                )
+
+                db_sess.add(public)
+                db_sess.commit()
+                st2 = str(public.id) + '-0' + '.' + type
+                path = os.path.join(app.config['UPLOAD_FOLDER3'], st2)
+                f.save(path)
+                im = Image.open(path)
+                size = im.size
+                num1 = SIZE_PHOTO
+                num2 = int(num1 / size[1] * size[0])
+                st3 = st2.split('.')[0] + '-' + str(num1) + '_' + str(num2) + '.' + st2.split('.')[-1]
+                im.close()
+                os.rename(path, os.path.join(app.config['UPLOAD_FOLDER3'], st3))
+
+                public.photos = st3
+                public.title = st3
+
+                db_sess.commit()
+                user = db_sess.query(User).filter(User.id == current_user.id).first()
+                if current_user.publications == '0':
+                    user.publications = str(public.id)
+                else:
+                    user.publications = user.publications + ',' + str(public.id)
+                db_sess.commit()
+                return redirect('/posts')
+            else:
+                return render_template('add_publication.html', title='Добавление публикации', form=form, message='Неподходящий тип файла')
+
 
     return render_template('add_publication.html', title='Добавление публикации', form=form)
+
+
+@app.route("/add_photo/<int:id>", methods=['GET', 'POST'])
+def add_photo(id):
+    form = AddPhoto()
+    if form.validate_on_submit():
+        f = form.photo.data
+        type = f.filename.split('.')[-1]
+        if type in ['png', 'jpg', 'jpeg', 'bmp']:
+            public = db_sess.query(Publication).filter(Publication.id == id).first()
+            if public.title == '0':
+                st2 = str(public.id) + '-0' + '.' + type
+                path = os.path.join(app.config['UPLOAD_FOLDER3'], st2)
+                f.save(path)
+                im = Image.open(path)
+                size = im.size
+                num1 = SIZE_PHOTO
+                num2 = int(num1 / size[1] * size[0])
+                st3 = st2.split('.')[0] + '-' + str(num1) + '_' + str(num2) + '.' + st2.split('.')[-1]
+                im.close()
+                os.rename(path, os.path.join(app.config['UPLOAD_FOLDER3'], st3))
+
+                public.photos = st3
+                public.title = st3
+                public.count_photos += 1
+                db_sess.commit()
+            else:
+                st2 = str(public.id) + '-' + str(public.count_photos) + '.' + type
+                path = os.path.join(app.config['UPLOAD_FOLDER3'], st2)
+                f.save(path)
+                im = Image.open(path)
+                size = im.size
+                num1 = SIZE_PHOTO
+                num2 = int(num1 / size[1] * size[0])
+                st3 = st2.split('.')[0] + '-' + str(num1) + '_' + str(num2) + '.' + st2.split('.')[-1]
+                im.close()
+                os.rename(path, os.path.join(app.config['UPLOAD_FOLDER3'], st3))
+
+                public.photos = public.photos + ',' + st3
+                # public.title = st2
+                public.count_photos += 1
+                db_sess.commit()
+            # print(1, f)
+            return redirect('/posts')
+        return render_template('add_photo.html', title='Добавление фото', message='Неподходящий тип', form=form)
+    return render_template('add_photo.html', title='Добавление фото', form=form)
 
 
 @app.route('/add_friend')
@@ -265,7 +368,7 @@ def add_friend2():
                 else:
                     user.potential_friends = user.potential_friends + ',' + str(current_user.id)
                 db_sess.commit()
-                return redirect('/main')
+                return redirect('/add_friend')
             else:
                 return render_template('add_friend2.html',
                                        message="Этот пользователь уже ваш друг",
@@ -367,10 +470,10 @@ def read_publication(id):
         return redirect(f'/read_publication/{id}')
 
     public = db_sess.query(Publication).filter(Publication.id == id).first()
-    text = public.content  # текст публикации
+    # text = public.content  # текст публикации
     data = db_sess.query(Comment).filter(
         Comment.publication == id).all()  # список объектов класса Comment, затем в html отображаем комментарии
-    return render_template('read_publication.html', title='Публикация', form=form, text=text, data=data,
+    return render_template('read_publication.html', title='Публикация', form=form, post=public, data=data,
                            name=public.author_name)
 
 
@@ -389,6 +492,11 @@ def posts():
 
 @app.route('/delete_post/<int:id>')
 def delete_post(id):
+    post = db_sess.query(Publication).filter(Publication.id == id).first()
+    data = post.photos
+    for i in data.split(','):
+        if i != '0':
+            os.remove(os.path.join(app.config['UPLOAD_FOLDER3'], i))
     db_sess.query(Publication).filter(Publication.id == id).delete()
     db_sess.query(Comment).filter(Comment.publication == id).delete()
     db_sess.commit()
@@ -457,7 +565,8 @@ def profile():
 @app.route('/chats')
 def chats():
     data = db_sess.query(Chat).filter(Chat.peoples.like(f'%{current_user.id}%')).all()
-    return render_template('chats.html', title='Группы', data=data)
+    data2 = db_sess.query(PrivateChat).filter(or_(PrivateChat.user2 == current_user.id, PrivateChat.user1 == current_user.id)).all()
+    return render_template('chats.html', title='Группы', data=data, data2=data2)
 
 
 
@@ -477,9 +586,13 @@ def read_chat(id):
         db_sess.commit()
         return redirect(f'/read_chat/{id}')
 
-    chat = db_sess.query(Chat).filter(Chat.id == id).first()
+    # chat = db_sess.query(Chat).filter(Chat.id == id).first()
+    data = db_sess.query(Chat).filter(Chat.peoples.like(f'%{current_user.id}%')).all()
+    data2 = db_sess.query(PrivateChat).filter(or_(PrivateChat.user2 == current_user.id, PrivateChat.user1 == current_user.id)).all()
+
+    chat, = filter(lambda a: a.id == id, data)
     messages = db_sess.query(Messages).filter(Messages.chat == id).all()
-    return render_template('read_chat.html', title='Группа', form=form, chat=chat, messages=messages, id=id, admin=chat.admin)
+    return render_template('read_chat.html', title='Группа', form=form, chat=chat, messages=messages, id=id, admin=chat.admin, data=data, data2=data2)
 
 
 @app.route('/add_peoples/window/<int:id>/<user>')
@@ -489,6 +602,36 @@ def window(id, user):
     chat.count_peoples += 1
     db_sess.commit()
     return redirect(f'/add_peoples/{id}')
+
+
+@app.route('/window1/<int:user>')
+def window1(user):
+    user1 = db_sess.query(User).filter(User.id == current_user.id).first()
+    user2 = db_sess.query(User).filter(User.id == user).first()
+    chat = PrivateChat(
+        name1=current_user.name,
+        name2=user2.name,
+        user1=user2.id,
+        user2=current_user.id,
+        photo1=user2.photo,
+        photo2=current_user.photo
+    )
+    db_sess.add(chat)
+    db_sess.commit()
+    if user2.chats == '0':
+        user2.chats = str(current_user.id)
+    else:
+        user2.chats = user2.chats + ',' + str(current_user.id)
+    # user2 = db_sess.query(User).filter(User.id == current_user.id).first()
+    if user1.chats == '0':
+        user1.chats = str(user2.id)
+    else:
+        user1.chats = user1.chats + ',' + str(user2.id)
+    db_sess.commit()
+    return redirect('/chats')
+
+
+
 
 
 
@@ -537,20 +680,41 @@ def delete_message(id, message):
     db_sess.query(Messages).filter(Messages.id == message).delete()
     return redirect(f'/read_chat/{id}')
 
-@app.route('/add_peoples/<int:id>')
+@app.route('/add_peoples/<int:id>', methods=['GET', 'POST'])
 def add_peoples(id):
-    # form = AddPeoples()
+    form = AddPeoples()
     chat = db_sess.query(Chat).filter(Chat.id == id).first()
     data1 = db_sess.query(User).filter(User.id.notin_(list(map(int, chat.peoples.split(',')))))
-    data2 = db_sess.query(User).filter(and_(User.id.in_(list(map(int, chat.peoples.split(',')))), User.id != chat.admin))
+    data2 = db_sess.query(User).filter(
+        and_(User.id.in_(list(map(int, chat.peoples.split(',')))), User.id != chat.admin))
     flag1 = False
     flag2 = False
     if not list(data1):
         flag1 = True
     if not list(data2):
         flag2 = True
+    if form.validate_on_submit():
+        user = db_sess.query(User).filter(User.email == form.email.data).first()
+        if user and user.email != current_user.email:
+            if str(user.id) not in chat.peoples and user.id != chat.admin:
+                chat.peoples = chat.peoples + ',' + str(user.id)
+                chat.count_peoples += 1
+                db_sess.commit()
+                return redirect(f'/add_peoples/{id}')
+            else:
+                return render_template('add_peoples.html',
+                                       message="Этот пользователь уже в группе",
+                                       data1=data1, data2=data2, id=id, flag1=flag1, flag2=flag2, admin=chat.admin,
+                                       form=form)
+        return render_template('add_peoples.html',
+                               message="Такого пользователя нет (либо вы пытаетесь добавить самого себя)",
+                               data1=data1, data2=data2, id=id, flag1=flag1, flag2=flag2, admin=chat.admin,
+                               form=form)
+    # chat = db_sess.query(Chat).filter(Chat.id == id).first()
+    # data1 = db_sess.query(User).filter(User.id.notin_(list(map(int, chat.peoples.split(',')))))
 
-    return render_template('add_peoples.html', title='Добавление участников', data1=data1, data2=data2, id=id, flag1=flag1, flag2=flag2, admin=chat.admin)
+
+    return render_template('add_peoples.html', title='Добавление участников', data1=data1, data2=data2, id=id, flag1=flag1, flag2=flag2, admin=chat.admin, form=form)
 
 
 @app.route('/add_chat', methods=['GET', 'POST'])
@@ -597,6 +761,55 @@ def add_chat():
     # data = db_sess.query(User).filter(User.id.notin_(current_user.friends))
     return render_template('add_chat.html', title='Добавление группы', form=form)
 
+
+@app.route('/add_private', methods=['GET', 'POST'])
+def add_private():
+    form = AddPeoples()
+    # chat = db_sess.query(Chat).filter(Chat.id == id).first()
+    # user = db_sess.query(User).filter(User.id == current_user.id).first()
+    data1 = db_sess.query(User).filter(and_(User.id.notin_(list(map(int, current_user.chats.split(',')))), User.id != current_user.id)).all()
+    flag1 = False
+    if not list(data1):
+        flag1 = True
+    if form.validate_on_submit():
+        user = db_sess.query(User).filter(User.email == form.email.data).first()
+        if user and user.email != current_user.email:
+            if str(user.id) not in current_user.chats:
+                chat = PrivateChat(
+                    name1=current_user.name,
+                    name2=user.name,
+                    user1=user.id,
+                    user2=current_user.id,
+                    photo1=user.photo,
+                    photo2=current_user.photo
+                )
+                db_sess.add(chat)
+                db_sess.commit()
+                if user.chats == '0':
+                    user.chats = str(current_user.id)
+                else:
+                    user.chats = user.chats + ',' + str(current_user.id)
+                user2 = db_sess.query(User).filter(User.id == current_user.id).first()
+                if user2.chats == '0':
+                    user2.chats = str(user.id)
+                else:
+                    user2.chats = user2.chats + ',' + str(user.id)
+                db_sess.commit()
+                return redirect('/chats')
+            else:
+                return render_template('add_private.html',
+                                       message="Этот пользователь уже есть в личных чатах",
+                                       data1=data1, flag1=flag1,
+                                       form=form)
+        return render_template('add_private.html',
+                               message="Такого пользователя нет (либо вы пытаетесь добавить самого себя)",
+                               data1=data1, flag1=flag1,
+                               form=form)
+    # chat = db_sess.query(Chat).filter(Chat.id == id).first()
+    # data1 = db_sess.query(User).filter(User.id.notin_(list(map(int, chat.peoples.split(',')))))
+
+    return render_template('add_private.html', title='Добавление участников', data1=data1, id=id,
+                           flag1=flag1, form=form)
 
 
 @app.route('/timetable')
