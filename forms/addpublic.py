@@ -1,11 +1,11 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, SubmitField, BooleanField
+from wtforms import StringField, TextAreaField, SubmitField, BooleanField, FileField
 from wtforms.validators import DataRequired
 
 
 class AddPublic(FlaskForm):
     name = StringField('Заголовок', validators=[DataRequired()])
-    content = TextAreaField('...', validators=[DataRequired()])
-    # img = FileField('Фото пользователя (png, jpg, jpeg)')
+    content = TextAreaField('Текст', validators=[DataRequired()])
+    photo = FileField('Изображение (png, jpg, jpeg)')
     is_private = BooleanField('Только для друзей')
     submit = SubmitField('Готово')

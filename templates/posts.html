@@ -11,9 +11,21 @@
     <div>
         Публикация от {{item.author_name}}
     </div>
-    <a href="read_publication/{{item.id}}" class="btn btn-success">Читать</a>
+    <br>
+    {% for img in item.photos.split(',') %}
+        {% if img != '0' %}
+            <img src="/static/posts/{{img}}" width="300" height="img.split('.')[0].split('-')[2].split('_')[1]">
+        {% endif %}
+    {% endfor %}
+    <br>
+    <div>
+        {{item.content}}
+    </div>
+
+    <a href="read_publication/{{item.id}}" class="btn btn-success">Комменты</a>
     {% if current_user.id == item.author or current_user.role == 2 %}
         <a href="delete_post/{{item.id}}" class="btn btn-warning">Удалить</a>
+        <a href="add_photo/{{item.id}}" class="btn btn-warning">+ фото</a>
     {% endif %}
 </div>
 </center>

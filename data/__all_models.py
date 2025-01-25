@@ -5,3 +5,5 @@ from . import date
 from . import chat
 from . import messages
 from . import timetable
+from . import private_chat
+from . import private_messages
