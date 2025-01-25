@@ -1,69 +1,16 @@
-*
-    padding: 0
-    margin: 0
-    border: 0
-
-*, *:before, *:after
-    -webkit-box-sizing: border-box
-    box-sizing: border-box
-
-:focus, :active
-    outline: none
-
-a:focus, a:active
-    outline: none
-
-nav, footer, header, aside
-    display: block
-
-html, body
-    height: 100%
-    width: 100%
-    font-size: 100%
-    line-height: 1
-    font-size: 14px
-    -ms-text-size-adjust: 100%
-    -moz-text-size-adjust: 100%
-    -webkit-text-size-adjust: 100%
-
-input, button, textarea
-    font-family: inherit
-
-input::-ms-clear
-    display: none
-
-button
-    cursor: pointer
-
-button::-moz-focus-inner
-    padding: 0
-    border: 0
-
-a, a:visited
-    text-decoration: none
-
-a:hover
-    text-decoration: none
-
-ul li 
-    list-style: none
-
-img
-    vertical-align: top
-
-h1, h2, h3, h4, h5, h6
-    font-size: inherit
-    font-weight: 400
+@import 'nullstyle'
 $brown_light: #EAE7DC
 $brown_dark: #D8C3A5
 $red_light: #E98074
 $red_dark: #E98074
 $grey: #8E8D8A
 
+html
+    scroll-behavior: smooth
+
 body
     font-family: Open Sans
     background-color: $brown_light
-    transition: all 1s
 
 .center
     padding: 0 calc(50% - 45%)
@@ -252,3 +199,70 @@ body
         width: 100%
         height: 100%
         border-radius: 50px
+
+.role
+    width: 95vw
+    background-image: url('../../img/role_bg.png')
+    background-position: center 15% 
+    background-repeat: no-repeat
+    &__container
+        height: 100vh
+        padding: 33px 0
+        display: flex
+        justify-content: center
+
+        background-color: $brown_dark
+    &__cards
+        display: grid
+        grid-template-columns: repeat(2, 1fr)
+        grid-template-rows: repeat(2, 400px)
+        gap: 90px
+    &__card
+        display: flex
+        flex-direction: column
+        gap: 30px
+        justify-content: center
+        align-items: flex-start
+        padding: 0 40px
+
+        width: 100%
+        background-color: rgba($brown_light, 0.8)
+        border-radius: 50px
+
+        &_main
+            padding: 0
+            align-items: center
+            width: 400px
+            height: 200px
+
+        &_container
+            display: flex
+            justify-content: center
+            align-items: center
+    &__title
+        color: $red_light
+        font-size: 48px
+        font-weight: 800
+        line-height: 120%
+        letter-spacing: 0%
+        text-align: left
+        margin-left: 30px
+
+        &_main
+            margin-left: 0
+
+            color: $red_dark
+            font-size: 96px
+            font-weight: 800
+            line-height: 120%
+            letter-spacing: 0%
+            text-align: center
+    &__paragraph
+        width: 700px
+
+        color: rgba($grey, 0.75)
+        font-size: 36px
+        font-weight: 700
+        line-height: 120%
+        letter-spacing: 0%
+        text-align: left
