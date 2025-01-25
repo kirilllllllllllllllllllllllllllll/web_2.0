@@ -1,49 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../static/css/index__style.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/index_style.css" />
     <title>Главная страница</title>
 </head>
+
 <body>
-    <header class="header">
-        <div class="header__left">
-            <a href="" class="header__menu_el"><img src="../img/header__logo.png" alt="" class="header__logo"></a>
-            <a href="" class="header__menu_el">ГЛАВНАЯ</a>
-            <a href="" class="header__menu_el">КОМАНДА</a>
-            <a href="" class="header__menu_el">ВОЗМОЖНОСТИ</a>
-        </div>
-        <div class="header__log">
-            <a href="login"><button class="header__signup">ВОЙТИ</button></a>
-            <a href="register"><button class="login">ЗАРЕГИСТРИРОВАТЬСЯ</button></a>
-        </div>
-    </header>
-    <main class="content">
-        <h1 class="content__title">с BITок в учёбе и общениии всё будет ок</h1>
-        <p class="content__discription">Короткое описание нашего проекта Lorem ipsum dolor sit amet consectetur adipisicing elit. Error nisi, ad adipisci recusandae sequi aperiam ipsum dolore, praesentium cupiditate dolores dolor. Atque totam fugit laborum aut a suscipit, maiores ea? Est nulla eos ipsam sunt repellat sed, voluptates consequuntur quia, libero tenetur minus. Aut exercitationem, eveniet ab.</p>
-        {% if current_user.is_authenticated %}
-        <div class="content__buttons">
-            <a href="main"><button class="content__signup">Продолжить работу</button></a>
-            <button class="content__more">Узнать подробнее</button>
-        </div>
-        {% else %}
-        <div class="content__buttons">
-            <a href="login"><button class="content__signup">Sign up for "name"</button></a>
-            <button class="content__more">Узнать подробнее</button>
-        </div>
-        {% endif %}
+    <div class="top__container">
+        <header class="header">
+            <div class="header__left">
+                <a href="index.html" class="header__menu_el"><img src="../img/header__logo.png" alt=""
+                        class="header__logo"></a>
+                <a href="index.html" class="header__menu_el">ГЛАВНАЯ</a>
+                <a href="#info" class="header__menu_el">ВОЗМОЖНОСТИ</a>
+                <a href="" class="header__menu_el">КОМАНДА</a>
+            </div>
+            <div class="header__right">
+                <a href="login">ВОЙТИ</a>
+                <a href="register" class="header__reg">ЗАРЕГИСТРИРОВАТЬСЯ</a>
+            </div>
+        </header>
+        <main class="content">
+            <div class="content__left">
+                <h1 class="content__title">C BITок в учёбе и общениии всё будет ОК</h1>
+                <p class="content__discription">Сайт BIToк даст возможность всем ученикам следить за актуальным в школе
+                    расписанием, общаться между собой и учителями, следить за последними новостями, а также узнавать об
+                    олимпиадах и различных мероприятиях.</p>
+                <!-- {% if current_user.is_authenticated %} -->
+                <div class="content__buttons">
+                    <a href="main.html" class="content__signup">Продолжить работу</a>
+                    <a class="content__more">Узнать подробнее</a>
+                </div>
+                <!-- {% else %}
+            <div class="content__buttons">
+                <a href="register.html" class="content__signup">Заргистрироваться в BITок</a>
+                <a class="content__more">Узнать подробнее</a>
+            </div>
+            {% endif %} -->
+            </div>
+            <img src="../img/landing__content.svg" alt="">
+        </main>
+        <footer class="top__footer">
+            <img src="../img/liva.png" alt="">
+            <img src="../img/kanba.png" alt="">
+            <img src="../img/amara.png" alt="">
+            <img src="../img/aven.png" alt="">
+            <img src="../img/hexlab.png" alt="">
+        </footer>
+    </div>
+    <div class="info__container" id="info">
+        <main class="info">
+            <div class="info__cards">
+                <section class="info__card" data-video="../img/liva.png">
+                    <img src="../img/info__key.png" alt="" class="info__img">
+                    <h2 class="info__heading">Закрытое пространство</h2>
+                    <p class="info__paragraph">Попасть в учебный чат можно только по ссылке-приглашению или QR-коду от
+                        педагога
+                    </p>
+                </section>
+                <section class="info__card" data-video="../img/kanba.png">
+                    <img src="../img/info__key.png" alt="" class="info__img">
+                    <h2 class="info__heading">Закрытое пространство</h2>
+                    <p class="info__paragraph">Попасть в учебный чат можно только по ссылке-приглашению или QR-коду от
+                        педагога
+                    </p>
+                </section>
+                <section class="info__card" data-video="../img/amara.png">
+                    <img src="../img/info__key.png" alt="" class="info__img">
+                    <h2 class="info__heading">Закрытое пространство</h2>
+                    <p class="info__paragraph">Попасть в учебный чат можно только по ссылке-приглашению или QR-коду от
+                        педагога
+                    </p>
+                </section>
+            </div>
+            <img src="" class="info__video"></img>
+        </main>
+    </div>
 
-    </main>
-    <footer class="top__footer">
-        <img src="../img/liva.png" alt="">
-        <img src="../img/kanba.png" alt="">
-        <img src="../img/amara.png" alt="">
-        <img src="../img/aven.png" alt="">
-        <img src="../img/hexlab.png" alt="">
-    </footer>
+    
 
+    <script>
+        const cards = document.querySelectorAll('.info__card')
+        const video = document.querySelector('.info__video')
+
+        document.body.addEventListener('click', (event) => {
+            const target = event.target
+            if (target.classList.contains('info__card')
+                || target.classList.contains('info__img')
+                || target.classList.contains('info__heading')
+                || target.classList.contains('info__paragraph')) {
+
+                let parent = target
+                while (!parent.classList.contains('info__card')) {
+                    parent = target.parentElement
+                }
+
+                parent.style.backgroundColor = 'rgb(196, 191, 177)'
+                if (parent.nextElementSibling) {
+                    parent.nextElementSibling.style.backgroundColor = ''
+                }
+                else {
+                    parent.previousElementSibling.previousElementSibling.style.backgroundColor = ''
+                }
+                if (parent.previousElementSibling) {
+                    parent.previousElementSibling.style.backgroundColor = ''
+                }
+                else {
+                    parent.nextElementSibling.nextElementSibling.style.backgroundColor = ''
+                }
+
+                video.setAttribute('src', parent.getAttribute('data-video'))
+            }
+        })
+    </script>
 </body>
+
 </html>
