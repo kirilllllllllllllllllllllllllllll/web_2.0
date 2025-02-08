@@ -5,6 +5,22 @@
 <h2>Расписание {{current_user.form}}</h2>
 {% if current_user.role == 2 %}
     <a href="refactor_timetable">Редактировать расписание</a>
+
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.form.label }}<br>
+            {{ form.form(class="form-control", type="email") }}<br>
+            {% for error in form.form.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+        <div>{{ message }}</div>
+    </form>
 {% endif %}
 
 {% for item in data %}

@@ -25,6 +25,7 @@ from data.date import Date
 from data.chat import Chat
 from data.messages import Messages
 from data.timetable import Timetable
+from data.private_messages import PrivateMessages
 
 from flask_login import login_user
 from flask_login import login_required
@@ -400,6 +401,21 @@ def mirror4(id):
     return redirect(f'/read_chat/{id}')
 
 
+@app.route('/read_private_chat/chats')
+def mirror5():
+    return redirect(f'/chats')
+
+
+@app.route('/read_private_chat/read_chat/<int:id>')
+def mirror6(id):
+    return redirect(f'/read_chat/{id}')
+
+
+@app.route('/read_chat/read_private_chat/<int:id>')
+def mirror7(id):
+    return redirect(f'/read_private_chat/{id}')
+
+
 @app.route('/reflection/<int:id>')
 def reflection(id):
     user = db_sess.query(User).filter(User.id == id).first()
@@ -593,6 +609,79 @@ def read_chat(id):
     chat, = filter(lambda a: a.id == id, data)
     messages = db_sess.query(Messages).filter(Messages.chat == id).all()
     return render_template('read_chat.html', title='Группа', form=form, chat=chat, messages=messages, id=id, admin=chat.admin, data=data, data2=data2)
+
+
+@app.route('/read_private_chat/<int:id>', methods=['GET', 'POST'])
+def read_private_chat(id):
+    form = AddMessage()
+    if form.validate_on_submit():
+        message = PrivateMessages(
+            text=form.content.data,
+            sender=current_user.id,
+            name=current_user.name,
+            photo=current_user.photo,
+            chat=id,
+            time=str(datetime.now()).split('.')[0][:-3]
+        )
+        db_sess.add(message)
+        db_sess.commit()
+        return redirect(f'/read_private_chat/{id}')
+
+    # chat = db_sess.query(Chat).filter(Chat.id == id).first()
+    data = db_sess.query(Chat).filter(Chat.peoples.like(f'%{current_user.id}%')).all()
+    data2 = db_sess.query(PrivateChat).filter(or_(PrivateChat.user2 == current_user.id, PrivateChat.user1 == current_user.id)).all()
+
+    chat, = filter(lambda a: a.id == id, data2)
+    messages = db_sess.query(PrivateMessages).filter(PrivateMessages.chat == id).all()
+    return render_template('read_private_chat.html', title='Группа', form=form, chat=chat, messages=messages, id=id, data=data, data2=data2)
+
+
+@app.route('/read_private_chat/delete_message1/<int:id>/<int:message>')
+def delete_message1(id, message):
+    db_sess.query(PrivateMessages).filter(PrivateMessages.id == message).delete()
+    return redirect(f'/read_private_chat/{id}')
+
+
+@app.route('/read_chat/check_private/<int:user>')
+@app.route('/check_private/<int:user>')
+def check_private(user):
+    chat = db_sess.query(PrivateChat).filter(or_(and_(PrivateChat.user1 == current_user.id, PrivateChat.user2 == user), and_(PrivateChat.user2 == current_user.id, PrivateChat.user1 == user))).first()
+    if chat:
+        return redirect(f'/read_private_chat/{chat.id}')
+    else:
+        user1 = db_sess.query(User).filter(User.id == user).first()
+        chat = PrivateChat(
+            name1=current_user.name,
+            name2=user1.name,
+            user1=user1.id,
+            user2=current_user.id,
+            photo1=user1.photo,
+            photo2=current_user.photo
+        )
+        db_sess.add(chat)
+        db_sess.commit()
+        if user1.chats == '0':
+            user1.chats = str(current_user.id)
+        else:
+            user1.chats = user1.chats + ',' + str(current_user.id)
+        user2 = db_sess.query(User).filter(User.id == current_user.id).first()
+        if user2.chats == '0':
+            user2.chats = str(user1.id)
+        else:
+            user2.chats = user2.chats + ',' + str(user1.id)
+        db_sess.commit()
+        return redirect(f'/read_private_chat/{chat.id}')
+
+
+@app.route('/check_peoples/<int:id>')
+@app.route('/read_chat/check_peoples/<int:id>')
+def check_peoples(id):
+    chat = db_sess.query(Chat).filter(Chat.id == id).first()
+    data1 = db_sess.query(User).filter(and_(User.id.in_(list(map(int, chat.peoples.split(',')))), User.id != current_user.id))
+
+
+    return render_template('check_peoples.html', title='Добавление участников', data1=data1, id=id, admin=chat.admin)
+
 
 
 @app.route('/add_peoples/window/<int:id>/<user>')
@@ -808,7 +897,7 @@ def add_private():
     # chat = db_sess.query(Chat).filter(Chat.id == id).first()
     # data1 = db_sess.query(User).filter(User.id.notin_(list(map(int, chat.peoples.split(',')))))
 
-    return render_template('add_private.html', title='Добавление участников', data1=data1, id=id,
+    return render_template('add_private.html', title='Добавление участников', data1=data1,
                            flag1=flag1, form=form)
 
 

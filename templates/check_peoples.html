@@ -1,0 +1,26 @@
+{% extends "base2.html" %}
+
+{% block content %}
+<br><br>
+    <a href="/read_chat/{{id}}" class="btn btn-primary">Вернуться</a></center>
+
+
+    <center><h1>Текущие участники</h1></center>
+
+        {% for item in data1 %}
+            <center>
+              <div class="col-md6 border rounded">
+                <h2>{{item.name}}</h2>
+
+                <div>from {{item.form}}</div>
+                <img src="/static/profile_photos/{{item.photo}}" width="70" height="70">
+                <div>
+                  {{item.about}}
+                </div>
+                <a href="/check_private/{{item.id}}" class="btn btn-success">Личные сообщения</a>
+              </div>
+            </center>
+        {% endfor %}
+
+
+{% endblock %}
