@@ -24,6 +24,10 @@ class Publication(SqlAlchemyBase):
 
     title = sqlalchemy.Column(sqlalchemy.String)
 
+    likes = sqlalchemy.Column(sqlalchemy.Integer)
+
+    flags = sqlalchemy.Column(sqlalchemy.String)
+
     # photo = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
     # comments = sqlalchemy.Column(sqlalchemy.String, nullable=True)
