@@ -16,9 +16,9 @@
     <div class="top__container">
         <header class="header">
             <div class="header__left">
-                <a href="index.html" class="header__menu_el"><img src="../img/header__logo.png" alt=""
+                <a href="index" class="header__menu_el"><img src="../img/header__logo.png" alt=""
                         class="header__logo"></a>
-                <a href="index.html" class="header__menu_el">ГЛАВНАЯ</a>
+                <a href="/" class="header__menu_el">ГЛАВНАЯ</a>
                 <a href="#info" class="header__menu_el">ВОЗМОЖНОСТИ</a>
                 <a href="" class="header__menu_el">КОМАНДА</a>
             </div>
@@ -33,17 +33,17 @@
                 <p class="content__discription">Сайт BIToк даст возможность всем ученикам следить за актуальным в школе
                     расписанием, общаться между собой и учителями, следить за последними новостями, а также узнавать об
                     олимпиадах и различных мероприятиях.</p>
-                <!-- {% if current_user.is_authenticated %} -->
+                {% if current_user.is_authenticated %}
                 <div class="content__buttons">
-                    <a href="main.html" class="content__signup">Продолжить работу</a>
+                    <a href="posts" class="content__signup">Продолжить работу</a>
                     <a class="content__more">Узнать подробнее</a>
                 </div>
-                <!-- {% else %}
+                {% else %}
             <div class="content__buttons">
-                <a href="register.html" class="content__signup">Заргистрироваться в BITок</a>
+                <a href="register" class="content__signup">Заргистрироваться в BITок</a>
                 <a class="content__more">Узнать подробнее</a>
             </div>
-            {% endif %} -->
+            {% endif %}
             </div>
             <img src="../img/landing__content.svg" alt="">
         </main>
@@ -95,7 +95,7 @@
                         <h2 class="role__title role__title_main">Роли</h2>
                     </section>
                 </div>
-                
+
                 <section class="role__card">
                     <h2 class="role__title">Учитель</h2>
                     <p class="role__paragraph">Создаёт чаты класса приглашает в них учеников, проводит онлайн-занятия и делится учебными материалами</p>
@@ -107,7 +107,7 @@
             </div>
         </main>
     </div>
-    
+
 
     <script>
         const cards = document.querySelectorAll('.info__card')
