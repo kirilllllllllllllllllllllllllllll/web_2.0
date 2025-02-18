@@ -59,7 +59,11 @@
 
 
                 <div>
-                    {{item.text}}
+                    {% if item.sticker == 'none' %}
+                        {{item.text}}
+                    {% else %}
+                        <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
+                    {% endif %}
                     {% if current_user.role == 2 %}
                     <a href="delete_message/{{id}}/{{item.id}}">Удалить</a>
                     {% endif %}
@@ -78,7 +82,11 @@
                 <h3><img src="/static/profile_photos/{{item.photo}}" width="100" height="100"> {{item.name}}</h3>
 
                 <div>
-                    {{item.text}}
+                    {% if item.sticker == 'none' %}
+                        {{item.text}}
+                    {% else %}
+                        <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
+                    {% endif %}
                     <a href="delete_message/{{id}}/{{item.id}}">Удалить</a>
                 </div>
                 <div>
@@ -105,4 +113,9 @@
         <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
         <div>{{ message }}</div>
     </form>
+
+    {% for item in stickers %}
+<a href="/send_sticker/{{id}}/{{item}}"><img src="/static/stickers/{{item}}.png" width="100" height="100"></a>
+    {% endfor %}
+
 {% endblock %}

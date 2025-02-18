@@ -37,7 +37,6 @@ import os
 
 from PIL import Image
 
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'kirik1234pro_and_thisismyshadow_secret_key'
 app.config['UPLOAD_FOLDER'] = os.getcwd() + "\static\profile_photos"
@@ -45,12 +44,21 @@ app.config['UPLOAD_FOLDER2'] = os.getcwd() + "\static\chat_imgs "
 app.config['UPLOAD_FOLDER3'] = os.getcwd() + "\static\posts"
 SECRET_CODE1 = '124_9713'
 SECRET_CODE2 = '124_nexus'
-CONST = ['7А', '7Б', '7В', '7Г', '8А', '8Б', '8В', '8Г', '9А', '9Б', '9В', '9Г', '10А', '10Б', '10В', '10Г', '11А', '11Б', '11В', '11Г']
-TIME1 = ['8:00 - 8:35', '8:40 - 9:20', '9:25 - 10:05', '10:25 - 12:05', '12:25 - 13:05', '13:10 - 13:50', '13:55 - 14:35', '14:50 - 15:20', '14:50 - 15:20']
-TIME2 = ['---', '8:00 - 8:40', '8:45 - 9:25', '9:30 - 10:10', '10:30 - 11:10', '11:30 - 12:10', '12:30 - 13:10', '13:15 - 13:55', '14:15 - 14:45']
+CONST = ['7А', '7Б', '7В', '7Г', '8А', '8Б', '8В', '8Г', '9А', '9Б', '9В', '9Г', '10А', '10Б', '10В', '10Г', '11А',
+         '11Б', '11В', '11Г']
+TIME1 = ['8:00 - 8:35', '8:40 - 9:20', '9:25 - 10:05', '10:25 - 12:05', '12:25 - 13:05', '13:10 - 13:50',
+         '13:55 - 14:35', '14:50 - 15:20', '14:50 - 15:20']
+TIME2 = ['---', '8:00 - 8:40', '8:45 - 9:25', '9:30 - 10:10', '10:30 - 11:10', '11:30 - 12:10', '12:30 - 13:10',
+         '13:15 - 13:55', '14:15 - 14:45']
 COLORS = ['#E8EAF6', '#C5CAE9']
+STICKERS = ['shark_1', 'shark_2', 'shark_3', 'shark_4', 'shark_5', 'shark_6', 'shark_7', 'shark_8', 'shark_9',
+            'shark_10', 'shark_11', 'shark_12', 'shark_13', 'shark_14', 'shark_15', 'shark_16', 'shark_17', 'shark_18',
+            'shark_19', 'shark_20', 'shark_21', 'shark_22', 'shark_23', 'shark_24', 'shark_25', 'shark_26', 'shark_27',
+            'shark_28', 'shark_29', 'shark_30', 'shark_31', 'shark_32', 'shark_33', 'shark_34', 'shark_35', 'shark_36',
+            'shark_37', 'shark_38', 'shark_39', 'shark_40', 'shark_41', 'shark_42', 'shark_43', 'shark_44', 'shark_45',
+            'shark_46',
+            'shark_47', 'shark_48']
 SIZE_PHOTO = 300
-
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -155,12 +163,13 @@ def reqister():
                         messages='0',
                         messages_bad='0',
                         role=role,
-                        chats='0'
+                        chats='0',
                     )
                     user.set_password(form.password.data)
                     db_sess.add(user)
 
-
+                    db_sess.commit()
+                    user.idstr = str(user.id)
                     db_sess.commit()
 
                     if role == 1:
@@ -190,6 +199,8 @@ def reqister():
                         user.set_password(form.password.data)
                         db_sess.add(user)
                         db_sess.commit()
+                        user.idstr = str(user.id)
+
                         st2 = str(user.id) + '.' + type
                         f.save(os.path.join(app.config['UPLOAD_FOLDER'], st2))
                         user.photo = st2
@@ -239,6 +250,8 @@ def add_publication():
                 count_photos=0,
                 title='0',
                 is_private=form.is_private.data,
+                likes=0,
+                flags='0'
             )
 
             db_sess.add(public)
@@ -262,6 +275,8 @@ def add_publication():
                     title='0',
                     count_photos=1,
                     is_private=form.is_private.data,
+                    likes=0,
+                    flags='0'
                 )
 
                 db_sess.add(public)
@@ -289,8 +304,8 @@ def add_publication():
                 db_sess.commit()
                 return redirect('/posts')
             else:
-                return render_template('add_publication.html', title='Добавление публикации', form=form, message='Неподходящий тип файла')
-
+                return render_template('add_publication.html', title='Добавление публикации', form=form,
+                                       message='Неподходящий тип файла')
 
     return render_template('add_publication.html', title='Добавление публикации', form=form)
 
@@ -493,6 +508,33 @@ def read_publication(id):
                            name=public.author_name)
 
 
+@app.route('/like/<int:id>/<user>')
+def like(id, user):
+    post = db_sess.query(Publication).filter(Publication.id == id).first()
+    post.likes += 1
+    if post.flags == '0':
+        post.flags = user
+    else:
+        post.flags = post.flags + ',' + user
+    db_sess.commit()
+    return redirect('/posts')
+
+
+@app.route('/dislike/<int:id>/<user>')
+def dislike(id, user):
+    post = db_sess.query(Publication).filter(Publication.id == id).first()
+    post.likes -= 1
+    data = post.flags.split(',')
+    data.remove(user)
+    if data:
+        post.flags = ','.join(data)
+    else:
+        post.flags = '0'
+
+    db_sess.commit()
+    return redirect('/posts')
+
+
 @app.route('/posts', methods=['GET', 'POST'])
 def posts():
     data = db_sess.query(Publication).filter(Publication.is_private == 0).all()
@@ -581,9 +623,41 @@ def profile():
 @app.route('/chats')
 def chats():
     data = db_sess.query(Chat).filter(Chat.peoples.like(f'%{current_user.id}%')).all()
-    data2 = db_sess.query(PrivateChat).filter(or_(PrivateChat.user2 == current_user.id, PrivateChat.user1 == current_user.id)).all()
+    data2 = db_sess.query(PrivateChat).filter(
+        or_(PrivateChat.user2 == current_user.id, PrivateChat.user1 == current_user.id)).all()
     return render_template('chats.html', title='Группы', data=data, data2=data2)
 
+
+@app.route('/send_sticker/<int:id>/<sticker>')
+def send_sticker(id, sticker):
+    message = Messages(
+        text='none',
+        sender=current_user.id,
+        name=current_user.name,
+        photo=current_user.photo,
+        chat=id,
+        time=str(datetime.now()).split('.')[0][:-3],
+        sticker=sticker + '.png'
+    )
+    db_sess.add(message)
+    db_sess.commit()
+    return redirect(f'/read_chat/{id}')
+
+
+@app.route('/send_sticker1/<int:id>/<sticker>')
+def send_sticker1(id, sticker):
+    message = PrivateMessages(
+        text='none',
+        sender=current_user.id,
+        name=current_user.name,
+        photo=current_user.photo,
+        chat=id,
+        time=str(datetime.now()).split('.')[0][:-3],
+        sticker=sticker + '.png'
+    )
+    db_sess.add(message)
+    db_sess.commit()
+    return redirect(f'/read_private_chat/{id}')
 
 
 @app.route('/read_chat/<int:id>', methods=['GET', 'POST'])
@@ -596,19 +670,23 @@ def read_chat(id):
             name=current_user.name,
             photo=current_user.photo,
             chat=id,
-            time=str(datetime.now()).split('.')[0][:-3]
+            time=str(datetime.now()).split('.')[0][:-3],
+            sticker='none'
         )
         db_sess.add(message)
         db_sess.commit()
-        return redirect(f'/read_chat/{id}')
+        return redirect(f'/read_private_chat/{id}')
 
     # chat = db_sess.query(Chat).filter(Chat.id == id).first()
     data = db_sess.query(Chat).filter(Chat.peoples.like(f'%{current_user.id}%')).all()
-    data2 = db_sess.query(PrivateChat).filter(or_(PrivateChat.user2 == current_user.id, PrivateChat.user1 == current_user.id)).all()
+    data2 = db_sess.query(PrivateChat).filter(
+        or_(PrivateChat.user2 == current_user.id, PrivateChat.user1 == current_user.id)).all()
 
     chat, = filter(lambda a: a.id == id, data)
     messages = db_sess.query(Messages).filter(Messages.chat == id).all()
-    return render_template('read_chat.html', title='Группа', form=form, chat=chat, messages=messages, id=id, admin=chat.admin, data=data, data2=data2)
+
+    return render_template('read_chat.html', title='Группа', form=form, chat=chat, messages=messages, id=id,
+                           admin=chat.admin, data=data, data2=data2, stickers=STICKERS)
 
 
 @app.route('/read_private_chat/<int:id>', methods=['GET', 'POST'])
@@ -629,11 +707,13 @@ def read_private_chat(id):
 
     # chat = db_sess.query(Chat).filter(Chat.id == id).first()
     data = db_sess.query(Chat).filter(Chat.peoples.like(f'%{current_user.id}%')).all()
-    data2 = db_sess.query(PrivateChat).filter(or_(PrivateChat.user2 == current_user.id, PrivateChat.user1 == current_user.id)).all()
+    data2 = db_sess.query(PrivateChat).filter(
+        or_(PrivateChat.user2 == current_user.id, PrivateChat.user1 == current_user.id)).all()
 
     chat, = filter(lambda a: a.id == id, data2)
     messages = db_sess.query(PrivateMessages).filter(PrivateMessages.chat == id).all()
-    return render_template('read_private_chat.html', title='Группа', form=form, chat=chat, messages=messages, id=id, data=data, data2=data2)
+    return render_template('read_private_chat.html', title='Группа', form=form, chat=chat, messages=messages, id=id,
+                           data=data, data2=data2, stickers=STICKERS)
 
 
 @app.route('/read_private_chat/delete_message1/<int:id>/<int:message>')
@@ -645,7 +725,9 @@ def delete_message1(id, message):
 @app.route('/read_chat/check_private/<int:user>')
 @app.route('/check_private/<int:user>')
 def check_private(user):
-    chat = db_sess.query(PrivateChat).filter(or_(and_(PrivateChat.user1 == current_user.id, PrivateChat.user2 == user), and_(PrivateChat.user2 == current_user.id, PrivateChat.user1 == user))).first()
+    chat = db_sess.query(PrivateChat).filter(or_(and_(PrivateChat.user1 == current_user.id, PrivateChat.user2 == user),
+                                                 and_(PrivateChat.user2 == current_user.id,
+                                                      PrivateChat.user1 == user))).first()
     if chat:
         return redirect(f'/read_private_chat/{chat.id}')
     else:
@@ -677,11 +759,10 @@ def check_private(user):
 @app.route('/read_chat/check_peoples/<int:id>')
 def check_peoples(id):
     chat = db_sess.query(Chat).filter(Chat.id == id).first()
-    data1 = db_sess.query(User).filter(and_(User.id.in_(list(map(int, chat.peoples.split(',')))), User.id != current_user.id))
-
+    data1 = db_sess.query(User).filter(
+        and_(User.id.in_(list(map(int, chat.peoples.split(',')))), User.id != current_user.id))
 
     return render_template('check_peoples.html', title='Добавление участников', data1=data1, id=id, admin=chat.admin)
-
 
 
 @app.route('/add_peoples/window/<int:id>/<user>')
@@ -718,10 +799,6 @@ def window1(user):
         user1.chats = user1.chats + ',' + str(user2.id)
     db_sess.commit()
     return redirect('/chats')
-
-
-
-
 
 
 @app.route('/add_peoples/del/<int:id>/<user>')
@@ -769,6 +846,7 @@ def delete_message(id, message):
     db_sess.query(Messages).filter(Messages.id == message).delete()
     return redirect(f'/read_chat/{id}')
 
+
 @app.route('/add_peoples/<int:id>', methods=['GET', 'POST'])
 def add_peoples(id):
     form = AddPeoples()
@@ -802,8 +880,8 @@ def add_peoples(id):
     # chat = db_sess.query(Chat).filter(Chat.id == id).first()
     # data1 = db_sess.query(User).filter(User.id.notin_(list(map(int, chat.peoples.split(',')))))
 
-
-    return render_template('add_peoples.html', title='Добавление участников', data1=data1, data2=data2, id=id, flag1=flag1, flag2=flag2, admin=chat.admin, form=form)
+    return render_template('add_peoples.html', title='Добавление участников', data1=data1, data2=data2, id=id,
+                           flag1=flag1, flag2=flag2, admin=chat.admin, form=form)
 
 
 @app.route('/add_chat', methods=['GET', 'POST'])
@@ -811,7 +889,8 @@ def add_chat():
     form = AddChat()
     if form.validate_on_submit():
         f = form.img.data
-        if form.name.data not in ['7А', '7Б', '7В', '7Г', '8А', '8Б', '8В', '8Г', '9А', '9Б', '9В', '9Г', '10А', '10Б', '10В', '10Г', '11А', '11Б', '11В', '11Г']:
+        if form.name.data not in ['7А', '7Б', '7В', '7Г', '8А', '8Б', '8В', '8Г', '9А', '9Б', '9В', '9Г', '10А', '10Б',
+                                  '10В', '10Г', '11А', '11Б', '11В', '11Г']:
 
             if f.filename == '':
                 chat = Chat(
@@ -856,7 +935,8 @@ def add_private():
     form = AddPeoples()
     # chat = db_sess.query(Chat).filter(Chat.id == id).first()
     # user = db_sess.query(User).filter(User.id == current_user.id).first()
-    data1 = db_sess.query(User).filter(and_(User.id.notin_(list(map(int, current_user.chats.split(',')))), User.id != current_user.id)).all()
+    data1 = db_sess.query(User).filter(
+        and_(User.id.notin_(list(map(int, current_user.chats.split(',')))), User.id != current_user.id)).all()
     flag1 = False
     if not list(data1):
         flag1 = True
@@ -914,7 +994,8 @@ def timetable():
     for i in range(5):
         data[i] = (days[i], data[i])
 
-    return render_template('timetable.html', title='Расписание', data=data, nums=nums, time1=TIME1, time2=TIME2, colors=COLORS)
+    return render_template('timetable.html', title='Расписание', data=data, nums=nums, time1=TIME1, time2=TIME2,
+                           colors=COLORS)
 
 
 @app.route('/refactor_timetable', methods=['GET', 'POST'])
@@ -937,7 +1018,8 @@ def refactor_timetable():
 
 def setup():
     if not db_sess.query(Timetable).all():
-        for i in ['7А', '7Б', '7В', '7Г', '8А', '8Б', '8В', '8Г', '9А', '9Б', '9В', '9Г', '10А', '10Б', '10В', '10Г', '11А', '11Б', '11В', '11Г']:
+        for i in ['7А', '7Б', '7В', '7Г', '8А', '8Б', '8В', '8Г', '9А', '9Б', '9В', '9Г', '10А', '10Б', '10В', '10Г',
+                  '11А', '11Б', '11В', '11Г']:
             for j in range(5):
                 lessons = Timetable(
                     form=i,
@@ -946,10 +1028,6 @@ def setup():
                 )
                 db_sess.add(lessons)
                 db_sess.commit()
-
-
-
-
 
 
 @app.route('/main')

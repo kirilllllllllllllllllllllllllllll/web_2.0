@@ -20,3 +20,5 @@ class Messages(SqlAlchemyBase):
     photo = sqlalchemy.Column(sqlalchemy.String)
 
     time = sqlalchemy.Column(sqlalchemy.String)
+
+    sticker = sqlalchemy.Column(sqlalchemy.String)

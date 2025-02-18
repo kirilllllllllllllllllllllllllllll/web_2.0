@@ -39,6 +39,8 @@ class User(SqlAlchemyBase, UserMixin):
 
     chats = sqlalchemy.Column(sqlalchemy.String)
 
+    idstr = sqlalchemy.Column(sqlalchemy.String)
+
 
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)
