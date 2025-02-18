@@ -3,59 +3,98 @@
 
 <head>
     <meta charset="UTF-8">
+    <!-- DM Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
         rel="stylesheet">
+    <!-- Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <!-- Основные стили -->
     <link rel="stylesheet" href="../static/css/index_style.css" />
+
     <title>Главная страница</title>
 </head>
 
 <body>
-    <div class="top__container">
-        <header class="header">
-            <div class="header__left">
-                <a href="index.html" class="header__menu_el"><img src="../img/header__logo.png" alt=""
-                        class="header__logo"></a>
-                <a href="index.html" class="header__menu_el">ГЛАВНАЯ</a>
-                <a href="#info" class="header__menu_el">ВОЗМОЖНОСТИ</a>
-                <a href="" class="header__menu_el">КОМАНДА</a>
+    <header class="header center">
+        <a href="index.html" class="header__logo logo"><img src="../img/logo_header.png" alt=""></a>
+        <nav class="header__menu-container">
+            <ul class="header__menu">
+                <li><a class="header__link" href="#hero">ГЛАВНАЯ</a></li>
+                <li><a class="header__link" href="#about">О НАС</a></li>
+                <li><a class="header__link" href="#advantages">ВОЗМОЖНОСТИ</a></li>
+                <li><a class="header__link" href="#team">КОМАНДА</a></li>
+            </ul>
+        </nav>
+        <div class="header__buttons">
+            <a href="" class="header__button header__button_1">ВОЙТИ</a>
+            <a href="" class="header__button header__button_2">ЗАРЕГИСТРИРОВАТЬСЯ</a>
+        </div>
+    </header>
+    <div class="hero__wrapper center">
+        <div id="hero" class="hero">
+            <div class="hero__img-wrapper">
+                <img src="" alt="">
             </div>
-            <div class="header__right">
-                <a href="login">ВОЙТИ</a>
-                <a href="register" class="header__reg">ЗАРЕГИСТРИРОВАТЬСЯ</a>
-            </div>
-        </header>
-        <main class="content">
-            <div class="content__left">
-                <h1 class="content__title">C BITок в учёбе и общениии всё будет ОК</h1>
-                <p class="content__discription">Сайт BIToк даст возможность всем ученикам следить за актуальным в школе
-                    расписанием, общаться между собой и учителями, следить за последними новостями, а также узнавать об
-                    олимпиадах и различных мероприятиях.</p>
+            <section class="hero__content">
+                <h1 class="hero__heading">С BITок<br> всё будет ОК</h1>
+                <p class="hero__description">BITok даст возможность всем ученикам следить за расписанием и новостями,
+                    общаться, узнавать о различных мероприятиях.</p>
                 <!-- {% if current_user.is_authenticated %} -->
-                <div class="content__buttons">
-                    <a href="main.html" class="content__signup">Продолжить работу</a>
-                    <a class="content__more">Узнать подробнее</a>
-                </div>
+                <a href="" class="hero__button">Продолжить работу</a>
                 <!-- {% else %}
-            <div class="content__buttons">
-                <a href="register.html" class="content__signup">Заргистрироваться в BITок</a>
-                <a class="content__more">Узнать подробнее</a>
-            </div>
-            {% endif %} -->
-            </div>
-            <img src="../img/landing__content.svg" alt="">
-        </main>
-        <footer class="top__footer">
-            <img src="../img/liva.png" alt="">
-            <img src="../img/kanba.png" alt="">
-            <img src="../img/amara.png" alt="">
-            <img src="../img/aven.png" alt="">
-            <img src="../img/hexlab.png" alt="">
-        </footer>
+                    <a href="" class="hero__button"></a>
+                    {% endif %} -->
+            </section>
+        </div>
     </div>
-    <div class="info__container" id="info">
+    
+    <div class="social-proof center">
+        <a href=""><img src="../img/kanba.png" alt=""></a>
+        <a href=""><img src="../img/liva.png" alt=""></a>
+        <a href=""><img src="../img/amara.png" alt=""></a>
+        <a href=""><img src="../img/aven.png" alt=""></a>
+        <a href=""><img src="../img/hexlab.png" alt=""></a>
+    </div>
+    <div id="about" class="about center">
+        <div class="about__image-wrapper">
+            <img src="" alt="">
+        </div>
+        <section class="about__content">
+            <h2 class="about__title">Для чего наша платформа?</h2>
+            <p class="about__description">BITок объединяет учеников, родителей и учителей, предоставляя удобные инструменты для общения и обучения.</p>
+            <ul class="about__list">
+                <li class="about__list-el">
+                    <svg width="85.000000" height="83.000000" viewBox="0 0 85 83" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <ellipse id="Эллипс 2" cx="42.500000" cy="41.500000" rx="42.500000" ry="41.500000" fill="#C4C4C4" fill-opacity="1.000000"/>
+                    </svg>
+                    <h3 class="about__ability">Учебное расписание</h3>
+                    <p class="about__ability-description">Легко просматривайте расписание уроков, следите за изменениями и получайте уведомления о предстоящих занятиях.  </p>
+                </li>
+                <li class="about__list-el">
+                    <svg width="85.000000" height="83.000000" viewBox="0 0 85 83" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <ellipse id="Эллипс 2" cx="42.500000" cy="41.500000" rx="42.500000" ry="41.500000" fill="#C4C4C4" fill-opacity="1.000000"/>
+                    </svg>
+                    <h3 class="about__ability">Общение с учителями</h3>
+                    <p class="about__ability-description">Общайтесь с вашими преподавателями напрямую в личных чатах. Задавайте вопросы, обсуждайте темы уроков и получайте помощь в любое время.  </p>
+                </li>
+                <li class="about__list-el">
+                    <svg width="85.000000" height="83.000000" viewBox="0 0 85 83" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <ellipse id="Эллипс 2" cx="42.500000" cy="41.500000" rx="42.500000" ry="41.500000" fill="#C4C4C4" fill-opacity="1.000000"/>
+                    </svg>
+                    <h3 class="about__ability">Сообщество</h3>
+                    <p class="about__ability-description">Присоединяйтесь к обсуждениям и делитесь опытом. Читайте посты и участвуйте в опросах, чтобы быть в курсе жизни вашей школы.  </p>
+                </li>
+            </ul>
+        </section>
+    </div>
+    <!-- <div class="info__container container" id="info">
         <main class="info">
             <div class="info__cards">
                 <section class="info__card" data-video="../img/liva.png">
@@ -80,69 +119,144 @@
                     </p>
                 </section>
             </div>
-            <img src="" class="info__video"></img>
+            <video src="" class="info__video"></video>
         </main>
     </div>
-    <div class="role__container">
+    <div class="role__container container">
         <main class="role">
             <div class="role__cards">
                 <section class="role__card">
                     <h2 class="role__title">Учитель</h2>
-                    <p class="role__paragraph">Создаёт чаты класса приглашает в них учеников, проводит онлайн-занятия и делится учебными материалами</p>
+                    <p class="role__paragraph">Создаёт чаты класса приглашает в них учеников, проводит онлайн-занятия и
+                        делится учебными материалами</p>
                 </section>
                 <div class="role__card_container">
                     <section class="role__card role__card_main">
                         <h2 class="role__title role__title_main">Роли</h2>
                     </section>
                 </div>
-                
+
                 <section class="role__card">
                     <h2 class="role__title">Учитель</h2>
-                    <p class="role__paragraph">Создаёт чаты класса приглашает в них учеников, проводит онлайн-занятия и делится учебными материалами</p>
+                    <p class="role__paragraph">Создаёт чаты класса приглашает в них учеников, проводит онлайн-занятия и
+                        делится учебными материалами</p>
                 </section>
                 <section class="role__card">
                     <h2 class="role__title">Учитель</h2>
-                    <p class="role__paragraph">Создаёт чаты класса приглашает в них учеников, проводит онлайн-занятия и делится учебными материалами</p>
+                    <p class="role__paragraph">Создаёт чаты класса приглашает в них учеников, проводит онлайн-занятия и
+                        делится учебными материалами</p>
                 </section>
             </div>
         </main>
     </div>
-    
-
+    <div id="developers" class="developer__container container">
+        <main class="developer">
+            <div class="developer__top-container">
+                <h2 class="developer__heading">Команда</h2>
+                <section class="developer__card developer__card_top">
+                    <div class="developer__top">
+                        <img src="" alt="" class="developer__photo">
+                        <div class="developer__titles">
+                            <h3 class="developer__name">Тихомиров Дмитрий</h3>
+                            <h4 class="developer__role">Веб-дизайнер</h4>
+                        </div>
+                    </div>
+                    <p class="developer__info">Немного о себе Немного о себе Немного о себеНемного о себеНемного о себе
+                        Немного о себе Немного о себе Немного о себеНемного о себеНемного о себе</p>
+                </section>
+            </div>
+            <div class="developer__bottom">
+                <section class="developer__card">
+                    <div class="developer__top">
+                        <img src="" alt="" class="developer__photo">
+                        <div class="developer__titles">
+                            <h3 class="developer__name">Тихомиров Дмитрий</h3>
+                            <h4 class="developer__role">Веб-дизайнер</h4>
+                        </div>
+                    </div>
+                    <p class="developer__info">Немного о себе Немного о себе Немного о себеНемного о себеНемного о себе
+                        Немного о себе Немного о себе Немного о себеНемного о себеНемного о себе</p>
+                </section>
+                <section class="developer__card">
+                    <div class="developer__top">
+                        <img src="" alt="" class="developer__photo">
+                        <div class="developer__titles">
+                            <h3 class="developer__name">Тихомиров Дмитрий</h3>
+                            <h4 class="developer__role">Веб-дизайнер</h4>
+                        </div>
+                    </div>
+                    <p class="developer__info">Немного о себе Немного о себе Немного о себеНемного о себеНемного о себе
+                        Немного о себе Немного о себе Немного о себеНемного о себеНемного о себе</p>
+                </section>
+                <section class="developer__card">
+                    <div class="developer__top">
+                        <img src="" alt="" class="developer__photo">
+                        <div class="developer__titles">
+                            <h3 class="developer__name">Тихомиров Дмитрий</h3>
+                            <h4 class="developer__role">Веб-дизайнер</h4>
+                        </div>
+                    </div>
+                    <p class="developer__info">Немного о себе Немного о себе Немного о себеНемного о себеНемного о себе
+                        Немного о себе Немного о себе Немного о себеНемного о себеНемного о себе</p>
+                </section>
+                <section class="developer__card">
+                    <div class="developer__top">
+                        <img src="" alt="" class="developer__photo">
+                        <div class="developer__titles">
+                            <h3 class="developer__name">Тихомиров Дмитрий</h3>
+                            <h4 class="developer__role">Веб-дизайнер</h4>
+                        </div>
+                    </div>
+                    <p class="developer__info">Немного о себе Немного о себе Немного о себеНемного о себеНемного о себе
+                        Немного о себе Немного о себе Немного о себеНемного о себеНемного о себе</p>
+                </section>
+            </div>
+        </main>
+    </div>
     <script>
         const cards = document.querySelectorAll('.info__card')
         const video = document.querySelector('.info__video')
 
         document.body.addEventListener('click', (event) => {
             const target = event.target
-            if (target.classList.contains('info__card')
-                || target.classList.contains('info__img')
-                || target.classList.contains('info__heading')
-                || target.classList.contains('info__paragraph')) {
+            const classList_ = ['info__card', 'info__img', 'info__heading', 'info__paragraph']
+            let isCard = classList_.includes(target.classList[0])
 
+            if (isCard) {
                 let parent = target
                 while (!parent.classList.contains('info__card')) {
                     parent = target.parentElement
                 }
+                cards.forEach(elem => {
+                    elem.style.backgroundColor = ''
+                })
 
                 parent.style.backgroundColor = 'rgb(196, 191, 177)'
-                if (parent.nextElementSibling) {
-                    parent.nextElementSibling.style.backgroundColor = ''
-                }
-                else {
-                    parent.previousElementSibling.previousElementSibling.style.backgroundColor = ''
-                }
-                if (parent.previousElementSibling) {
-                    parent.previousElementSibling.style.backgroundColor = ''
-                }
-                else {
-                    parent.nextElementSibling.nextElementSibling.style.backgroundColor = ''
-                }
-
                 video.setAttribute('src', parent.getAttribute('data-video'))
             }
         })
-    </script>
+
+        const developerBtn = document.querySelector('.developer__heading')
+        let isHidden = false
+        const developerCards = document.querySelectorAll('.developer__card')
+        const developerContainer = document.querySelector('.developer__container')
+        developerBtn.addEventListener('click', (event) => {
+            if (!isHidden) {
+                developerCards.forEach(card => {
+                    card.style.display = 'none'
+                    developerContainer.style.backgroundPosition = '60% 0%'
+                });
+                isHidden = true
+            }
+            else {
+                developerCards.forEach(card => {
+                    card.style.display = 'flex'
+                });
+                isHidden = false
+            }
+        })
+
+    </script> -->
 </body>
 
 </html>

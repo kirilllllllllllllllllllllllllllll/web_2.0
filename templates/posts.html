@@ -1,34 +1,64 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block content %}
-{% if current_user.is_authenticated %}
-<center><h1>Публикации</h1></center>
-<center><a href="add_publication" class="btn btn-primary">Add post</a></center>
-{% for item in data%}
-<center>
-<div class="col-md6 border rounded">
-    <h2>{{item.name}}</h2>
-    <div>
-        Публикация от {{item.author_name}}
-    </div>
-    <br>
-    {% for img in item.photos.split(',') %}
-        {% if img != '0' %}
-            <img src="/static/posts/{{img}}" width="300" height="img.split('.')[0].split('-')[2].split('_')[1]">
-        {% endif %}
-    {% endfor %}
-    <br>
-    <div>
-        {{item.content}}
-    </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts</title>
+</head>
 
-    <a href="read_publication/{{item.id}}" class="btn btn-success">Комменты</a>
-    {% if current_user.id == item.author or current_user.role == 2 %}
-        <a href="delete_post/{{item.id}}" class="btn btn-warning">Удалить</a>
-        <a href="add_photo/{{item.id}}" class="btn btn-warning">+ фото</a>
+<body>
+    {% if current_user.is_authenticated %}
+    <center><a class="navbar-brand" href="/profile">Профиль</a></center>
+    <center>
+        <a href="main" class="btn btn-primary">Messages</a>
+        <a href="chats" class="btn btn-primary">Chats</a>
+        <a href="add_friend" class="btn btn-primary">Add friend</a>
+        <a href="posts" class="btn btn-primary">Posts</a>
+        <a href="date" class="btn btn-primary">Planer</a>
+        <a href="timetable" class="btn btn-primary">Timetable</a>
+    </center>
+    {% else %}
+    <center>
+        <p>
+            <a class="btn btn-primary " href="/register">Зарегистрироваться</a>
+            <a class="btn btn-success" href="/login">Войти</a>
+
+        </p>
+    </center>
     {% endif %}
-</div>
-</center>
-{% endfor %}
-{% endif %}
-{% endblock %}
+    {% if current_user.is_authenticated %}
+    <center>
+        <h1>Публикации</h1>
+    </center>
+    <center><a href="add_publication" class="btn btn-primary">Add post</a></center>
+    {% for item in data%}
+    <center>
+        <div class="col-md6 border rounded">
+            <h2>{{item.name}}</h2>
+            <div>
+                Публикация от {{item.author_name}}
+            </div>
+            <br>
+            {% for img in item.photos.split(',') %}
+            {% if img != '0' %}
+            <img src="/static/posts/{{img}}" width="300" height="img.split('.')[0].split('-')[2].split('_')[1]">
+            {% endif %}
+            {% endfor %}
+            <br>
+            <div>
+                {{item.content}}
+            </div>
+
+            <a href="read_publication/{{item.id}}" class="btn btn-success">Комменты</a>
+            {% if current_user.id == item.author or current_user.role == 2 %}
+            <a href="delete_post/{{item.id}}" class="btn btn-warning">Удалить</a>
+            <a href="add_photo/{{item.id}}" class="btn btn-warning">+ фото</a>
+            {% endif %}
+        </div>
+    </center>
+    {% endfor %}
+    {% endif %}
+</body>
+
+</html>

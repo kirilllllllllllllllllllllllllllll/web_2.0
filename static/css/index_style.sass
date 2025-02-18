@@ -1,268 +1,463 @@
 @import 'nullstyle'
-$brown_light: #EAE7DC
-$brown_dark: #D8C3A5
-$red_light: #E98074
-$red_dark: #E98074
-$grey: #8E8D8A
 
 html
     scroll-behavior: smooth
 
 body
-    font-family: Open Sans
-    background-color: $brown_light
 
 .center
-    padding: 0 calc(50% - 45%)
-.top__container
-    height: 100vh
-    background-color: $brown_light
+    padding: 0 calc( 50% - 620px )
+
+.logo
+
 .header
-    position: sticky
-    top: 0
     display: flex
     justify-content: space-between
     align-items: center
-    height: 90px
-    margin: 0 auto
-    padding: 0 20px
-    width: 95vw
-    background-color: $brown_light
 
-    box-sizing: border-box
-    border-bottom: 2px solid $brown_dark
-    border-left: 2px solid $brown_dark
-    border-right: 2px solid $brown_dark
-    border-radius: 50px
-
-    &__left
+    padding-top: 44px
+    padding-bottom: 25px
+    &__menu
         display: flex
-        gap: 24px
-        align-items: center
-
-    &__menu_el
-        color: rgba(17, 17, 17, 0.75)
-        font-family: Open Sans
+        gap: 50px
+    &__link
+        color: rgb(22, 22, 22)
+        font-family: "Montserrat", sans
         font-size: 16px
-        font-weight: 600
-        line-height: 22px
-        letter-spacing: 0px
+        font-weight: 400
+        line-height: 21px
         text-align: left
-
-    &__menu_el img
-        width: 50px
-        margin-right: 10px
-
-    &__right
-        display: flex
-        gap: 35px
-        align-items: center
-        a
-            color: rgba(17, 17, 17, 0.75)
-            font-size: 16px
-            font-weight: 600
-            line-height: 22px
-            text-align: left
-    &__reg
-        border: 2px solid $brown_dark
-        border-radius: 15px
-        padding: 15px 20px
-
-.content
-    display: flex
-    padding-top: 70px
-    justify-content: center
-    align-items: center
-    background-color: #EAE7DC
-    &__left
-        display: flex
-        flex-direction: column
-        align-items: center
-    &__title
-        color: $red_dark
-        font-size: 78px
-        font-weight: 800
-        line-height: 110%
-        letter-spacing: 0px
-        text-align: center
-        text-align: center
-        max-width: 1000px
-        margin-bottom: 15px
-
-    &__discription
-        text-align: center
-        color: $grey
-        font-size: 20px
-        font-weight: 600
-        line-height: 130%
-
-        max-width: 800px
-        margin-bottom: 50px
+        text-decoration: none
     &__buttons
         display: flex
-        width: 600px
-        justify-content: space-between
+        gap: 14px
 
-    &__signup
-        display: flex
-        align-items: center
-        justify-content: center
-        color: #fff
-        font-size: 20px
-        font-weight: 700
-        line-height: 130%
-        text-align: center
-        width: 285px
-        height: 72px
+    &__button
+        padding: 8px
 
-        border-radius: 15px
-        background: $red_light
-        transition: all 0.3s
+        color: rgb(22, 22, 22)
+        font-family: "Montserrat", sans
+        font-size: 16px
+        font-weight: 500
+        line-height: 22px
+        text-align: left
+    &__button_2
+        box-sizing: border-box
+        border: 1px solid rgb(22, 22, 22)
+        border-radius: 10px
 
-    &__signup:hover
-        color: rgb(255, 255, 255)
-        background: $brown_dark
-
-    &__more
-        display: flex
-        align-items: center
-        justify-content: center
-        width: 285px
-        color: rgb(255, 255, 255)
-        font-size: 20px
-        font-weight: 700
-        line-height: 130%
-        text-align: center
-        height: 72px
-
-        border-radius: 15px
-        background: $brown_dark
-        transition: all 0.3s
-
-    &__more:hover
-        background: $red_light
-
-.top__footer
-    background-color: #EAE7DC
+.hero
     display: flex
-    justify-content: center
-    padding: 50px 0
-    gap: 10px
+    margin-bottom: 20px
+    background-color: #154444
+    overflow: hidden
 
-    & img
-        max-width: 225px
-        height: 60px
+    &__img-wrapper
+        background-color: #3C7E7E
+        width: 505px
+        animation: 0.8s hero_img_appearance
+    &__content
+        padding: 100px 170px 100px 125px
+        animation: 0.8s hero_content_appearance
+        
 
-.info
-    width: 95vw
-    display: grid
-    grid-template-columns: 700px 1fr
-    gap: 20px
-    &__container
-        height: 100vh
-        background-color: $brown_dark
-        display: flex
-        justify-content: center
-        padding: 33px 0
-    &__cards
-        display: grid
-        grid-template-rows: repeat(1fr)
-        gap: 20px
-    &__card
-        background-color: $brown_light
-        border-radius: 50px
-        padding: 35px 0 20px 30px
-        display: grid
-        grid-template-columns: 115px 1fr
-        grid-template-rows: repeat(115px, 2)
-        column-gap: 20px
-        &:hover
-            background-color: rgb(220, 216, 203)
+        
     &__heading
-        color: rgba(17, 17, 17, 0.75)
-        font-size: 36px
-        font-weight: 600
+        color: rgb(255, 255, 255)
+        font-family: Montserrat
+        font-size: 56px
+        font-weight: 700
         line-height: 130%
-        letter-spacing: 0px
+        letter-spacing: 1px
         text-align: left
-        padding-top: 50px
-    &__paragraph
-        color: $grey
-        font-size: 24px
-        font-weight: 600
+ 
+        margin-bottom: 24px
+        
+    &__description
+        color: rgb(255, 255, 255)
+        font-family: Montserrat
+        font-size: 20px
+        font-weight: 400
+        line-height: 25px
+        letter-spacing: 1px
+        text-align: left
+
+        max-width: 440px
+        margin-bottom: 50px
+
+    &__button
+        padding: 15px 25px
+        background-color: #fff
+        border-radius: 5px
+
+        color: rgb(34, 88, 88)
+        font-family: Montserrat
+        font-size: 20px
+        font-weight: 400
         line-height: 130%
-        letter-spacing: 0px
-        text-align: left
-        grid-column: 1 / 3
-    video
-        background-color: $red_dark
+        text-align: center
+
+
+
+@keyframes hero_content_appearance
+    0%
+        transform: translateX(500px)
+        opacity: 0
+    100%
+        transform: translateX(0px)
+        opacity: 1
+@keyframes hero_img_appearance
+    0%
+        transform: translateX(-500px)
+        opacity: 0
+    100%
+        transform: translateX(0px)
+        opacity: 1
+.social-proof
+    display: flex
+    padding-top: 80px
+    padding-bottom: 50px
+    margin-bottom: 140px
+    background: radial-gradient(25.00% 40.00% at 50% 60%,rgba(61, 163, 163, 0.2),rgba(61, 163, 163, 0) 98.998%)
+    img
         width: 100%
         height: 100%
-        border-radius: 50px
 
-.role
-    width: 95vw
-    background-image: url('../../img/role_bg.png')
-    background-position: center 15% 
-    background-repeat: no-repeat
-    &__container
-        height: 100vh
-        padding: 33px 0
-        display: flex
-        justify-content: center
+.about
+    display: flex
+    &__image-wrapper
+        min-width: 610px
+        background-color: #3C7E7E
+        position: relative
+        &::after
+            content: ""
+            width: 780px
+            height: 780px
+            border-radius: 50%
+            position: absolute
+            right: -390px
 
-        background-color: $brown_dark
-    &__cards
-        display: grid
-        grid-template-columns: repeat(2, 1fr)
-        grid-template-rows: repeat(2, 400px)
-        gap: 90px
-    &__card
+            background: radial-gradient(50.00% 50.00% at 50% 50%,rgba(61, 163, 163, 0.5),rgba(61, 163, 163, 0.4) 18.213%,rgba(61, 163, 163, 0) 100%)
+            opacity: 1
+
+    &__content
+        padding: 32px 0 60px 70px
+    &__title
+        color: rgb(34, 88, 88)
+        font-family: Montserrat
+        font-size: 32px
+        font-weight: 700
+        line-height: 130%
+        text-align: left
+
+        margin-bottom: 32px
+    &__description
+        color: rgb(68, 68, 68)
+        font-family: Montserrat
+        font-size: 20px
+        font-weight: 400
+        line-height: 130%
+        letter-spacing: 0px
+        text-align: left
+
+        margin-bottom: 50px
+    &__list
         display: flex
         flex-direction: column
         gap: 30px
-        justify-content: center
-        align-items: flex-start
-        padding: 0 40px
-
-        width: 100%
-        background-color: rgba($brown_light, 0.8)
-        border-radius: 50px
-
-        &_main
-            padding: 0
-            align-items: center
-            width: 400px
-            height: 200px
-
-        &_container
-            display: flex
-            justify-content: center
-            align-items: center
-    &__title
-        color: $red_light
-        font-size: 48px
-        font-weight: 800
-        line-height: 120%
-        letter-spacing: 0%
-        text-align: left
-        margin-left: 30px
-
-        &_main
-            margin-left: 0
-
-            color: $red_dark
-            font-size: 96px
-            font-weight: 800
-            line-height: 120%
-            letter-spacing: 0%
-            text-align: center
-    &__paragraph
-        width: 700px
-
-        color: rgba($grey, 0.75)
-        font-size: 36px
+    &__list-el
+        position: relative
+        padding-left: 105px
+        svg
+            position: absolute
+            top: 20px
+            left: 0
+    &__ability
+        color: rgb(34, 88, 88)
+        font-family: Montserrat
+        font-size: 20px
         font-weight: 700
-        line-height: 120%
-        letter-spacing: 0%
+        line-height: 130%
         text-align: left
+
+        margin-bottom: 14px
+    &__ability-description
+        color: rgb(56, 55, 56)
+        font-family: Montserrat
+        font-size: 18px
+        font-weight: 400
+        line-height: 130%
+        letter-spacing: 0px
+        text-align: left
+
+// .content
+//     display: flex
+//     padding-top: 70px
+//     justify-content: center
+//     align-items: center
+//     background-color: #EAE7DC
+//     &__left
+//         display: flex
+//         flex-direction: column
+//         align-items: center
+//     &__title
+//         color: $red_dark
+//         font-size: 78px
+//         font-weight: 800
+//         line-height: 110%
+//         letter-spacing: 0px
+//         text-align: center
+//         text-align: center
+//         max-width: 1000px
+//         margin-bottom: 15px
+
+//     &__discription
+//         text-align: center
+//         color: $grey
+//         font-size: 20px
+//         font-weight: 600
+//         line-height: 130%
+
+//         max-width: 800px
+//         margin-bottom: 50px
+//     &__buttons
+//         display: flex
+//         width: 600px
+//         justify-content: space-between
+
+//     &__signup
+//         display: flex
+//         align-items: center
+//         justify-content: center
+//         color: #fff
+//         font-size: 20px
+//         font-weight: 700
+//         line-height: 130%
+//         text-align: center
+//         width: 285px
+//         height: 72px
+
+//         border-radius: 15px
+//         background: $red_light
+//         transition: all 0.3s
+
+//     &__signup:hover
+//         color: rgb(255, 255, 255)
+//         background: $brown_dark
+
+//     &__more
+//         display: flex
+//         align-items: center
+//         justify-content: center
+//         width: 285px
+//         color: rgb(255, 255, 255)
+//         font-size: 20px
+//         font-weight: 700
+//         line-height: 130%
+//         text-align: center
+//         height: 72px
+
+//         border-radius: 15px
+//         background: $brown_dark
+//         transition: all 0.3s
+
+//     &__more:hover
+//         background: $red_light
+
+// .top__footer
+//     background-color: #EAE7DC
+//     display: flex
+//     justify-content: center
+//     padding: 50px 0
+//     gap: 10px
+
+//     & img
+//         max-width: 225px
+//         height: 60px
+
+// .container
+//     height: 100vh
+//     padding: 33px 0
+//     display: flex
+//     justify-content: center
+//     background-color: $brown_dark
+
+// .info
+//     width: 95vw
+//     display: grid
+//     grid-template-columns: 700px 1fr
+//     gap: 20px
+//     &__cards
+//         display: grid
+//         grid-template-rows: repeat(1fr)
+//         gap: 20px
+//     &__card
+//         background-color: $brown_light
+//         border-radius: 50px
+//         padding: 35px 0 20px 30px
+//         display: grid
+//         grid-template-columns: 115px 1fr
+//         grid-template-rows: repeat(115px, 2)
+//         column-gap: 20px
+//         &:hover
+//             background-color: rgb(220, 216, 203)
+//     &__heading
+//         color: rgba(17, 17, 17, 0.75)
+//         font-size: 36px
+//         font-weight: 600
+//         line-height: 130%
+//         letter-spacing: 0px
+//         text-align: left
+//         padding-top: 50px
+//     &__paragraph
+//         color: $grey
+//         font-size: 24px
+//         font-weight: 600
+//         line-height: 130%
+//         letter-spacing: 0px
+//         text-align: left
+//         grid-column: 1 / 3
+//     video
+//         background-color: $red_dark
+//         width: 100%
+//         height: 100%
+//         border-radius: 50px
+
+// .role
+//     width: 95vw
+//     background-image: url('../../img/role_bg.png')
+//     background-position: center 15%
+//     background-repeat: no-repeat
+//     &__cards
+//         display: grid
+//         grid-template-columns: repeat(2, 1fr)
+//         grid-template-rows: repeat(2, 400px)
+//         gap: 90px
+//     &__card
+//         display: flex
+//         flex-direction: column
+//         gap: 30px
+//         justify-content: center
+//         align-items: flex-start
+//         padding: 0 40px
+
+//         width: 100%
+//         background-color: rgba($brown_light, 0.8)
+//         border-radius: 50px
+
+//         &_main
+//             padding: 0
+//             align-items: center
+//             width: 400px
+//             height: 200px
+
+//         &_container
+//             display: flex
+//             justify-content: center
+//             align-items: center
+//     &__title
+//         color: $red_light
+//         font-size: 48px
+//         font-weight: 800
+//         line-height: 120%
+//         letter-spacing: 0%
+//         text-align: left
+//         margin-left: 30px
+
+//         &_main
+//             margin-left: 0
+
+//             color: $red_dark
+//             font-size: 96px
+//             font-weight: 800
+//             line-height: 120%
+//             letter-spacing: 0%
+//             text-align: center
+//     &__paragraph
+//         width: 700px
+
+//         color: rgba($grey, 0.75)
+//         font-size: 36px
+//         font-weight: 700
+//         line-height: 120%
+//         letter-spacing: 0%
+//         text-align: left
+
+// .developer
+//     width: 95vw
+//     display: flex
+//     flex-direction: column
+//     gap: 90px
+
+//     &__container
+//         padding-top: 25px
+//         height: auto
+//         background-image: url('../../img/developers_bg.png')
+//         background-position: center
+//         background-size: contain
+//     &__top-container
+//         display: grid
+//         grid-template-columns: repeat(2, 1fr)
+//         align-items: center
+//         gap: 90px
+//     &__bottom
+//         display: grid
+//         grid-template-columns: repeat(2, 1fr)
+//         gap: 90px
+//     &__card
+//         width: 100%
+//         height: 400px
+//         background-color: rgba($brown_light, 0.9)
+//         border-radius: 50px
+//         display: flex
+//         flex-direction: column
+//         gap: 40px
+//         justify-content: center
+//         padding: 0 70px
+//     &__top
+//         display: flex
+//         gap: 50px
+//         align-items: center
+//     &__name
+//         color: $red_light
+//         font-family: Open Sans
+//         font-size: 36px
+//         font-weight: 700
+//         line-height: 120%
+//         letter-spacing: 0%
+//         text-align: left
+//     &__photo
+//         width: 150px
+//         height: 150px
+//         display: block
+//         background-color: rgba(grey, 0.7)
+//     &__role
+//         padding-left: 10px
+//         color: rgb(142, 141, 138)
+//         font-size: 20px
+//         font-weight: 700
+//         line-height: 120%
+//         text-align: left
+//     &__info
+//         color: rgba(142, 141, 138, 0.7)
+//         font-family: Open Sans
+//         font-size: 24px
+//         font-weight: 700
+//         line-height: 120%
+//         letter-spacing: 0%
+//         text-align: left
+//     &__heading
+//         display: flex
+//         align-items: center
+//         justify-content: center
+//         width: 100%
+//         height: 200px
+//         background-color: rgba($brown_light, 0.8)
+//         border-radius: 50px
+//         margin-left: 0
+
+//         color: $red_dark
+//         font-size: 96px
+//         font-weight: 800
+//         line-height: 120%
+//         text-align: left
