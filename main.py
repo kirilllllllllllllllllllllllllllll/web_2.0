@@ -17,6 +17,7 @@ from forms.addmessage import AddMessage
 from forms.refactortimetable import RefactorTimetable
 from forms.addphoto import AddPhoto
 from forms.addpeoples import AddPeoples
+from forms.chooseform import ChooseForm
 
 from data.user import User
 from data.publication import Publication
@@ -164,6 +165,7 @@ def reqister():
                         messages_bad='0',
                         role=role,
                         chats='0',
+                        current_form=st
                     )
                     user.set_password(form.password.data)
                     db_sess.add(user)
@@ -194,7 +196,8 @@ def reqister():
                             messages='0',
                             messages_bad='0',
                             role=role,
-                            chats='0'
+                            chats='0',
+                            current_form=st
                         )
                         user.set_password(form.password.data)
                         db_sess.add(user)
@@ -981,12 +984,29 @@ def add_private():
                            flag1=flag1, form=form)
 
 
-@app.route('/timetable')
+@app.route('/timetable', methods=['GET', 'POST'])
 def timetable():
-    print(current_user.form)
-    print(db_sess.query(Timetable).all())
-    data = db_sess.query(Timetable).filter(Timetable.form == current_user.form).all()
-    print(data)
+    form = ChooseForm()
+    if form.validate_on_submit():
+        user = db_sess.query(User).filter(User.id == current_user.id).first()
+        num1 = int(form.form.data)
+        st = str(num1 // 4 + 7)
+        num2 = num1 % 4
+        if num2 == 0:
+            st += 'А'
+        elif num2 == 1:
+            st += 'Б'
+        elif num2 == 2:
+            st += 'В'
+        else:
+            st += 'Г'
+        user.current_form = st
+        db_sess.commit()
+        return redirect('/timetable')
+    # print(current_user.form)
+    # print(db_sess.query(Timetable).all())
+    data = db_sess.query(Timetable).filter(Timetable.form == current_user.current_form).all()
+    # print(data)
     data = sorted(data, key=lambda a: a.day)
     data = list(map(lambda a: a.lessons.split(','), data))
     days = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница']
@@ -995,7 +1015,7 @@ def timetable():
         data[i] = (days[i], data[i])
 
     return render_template('timetable.html', title='Расписание', data=data, nums=nums, time1=TIME1, time2=TIME2,
-                           colors=COLORS)
+                           colors=COLORS, form=form)
 
 
 @app.route('/refactor_timetable', methods=['GET', 'POST'])

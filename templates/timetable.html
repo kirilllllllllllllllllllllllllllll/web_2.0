@@ -2,7 +2,7 @@
 
 {% block content %}
 <br><br>
-<h2>Расписание {{current_user.form}}</h2>
+<h2>Расписание {{current_user.current_form}}</h2>
 {% if current_user.role == 2 %}
     <a href="refactor_timetable">Редактировать расписание</a>
 

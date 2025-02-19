@@ -41,6 +41,8 @@ class User(SqlAlchemyBase, UserMixin):
 
     idstr = sqlalchemy.Column(sqlalchemy.String)
 
+    current_form = sqlalchemy.Column(sqlalchemy.String)
+
 
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)
