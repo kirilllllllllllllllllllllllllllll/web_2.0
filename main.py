@@ -41,7 +41,7 @@ from PIL import Image
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'kirik1234pro_and_thisismyshadow_secret_key'
 app.config['UPLOAD_FOLDER'] = os.getcwd() + "\static\profile_photos"
-app.config['UPLOAD_FOLDER2'] = os.getcwd() + "\static\chat_imgs "
+app.config['UPLOAD_FOLDER2'] = os.getcwd() + "\static\chat_imgs"
 app.config['UPLOAD_FOLDER3'] = os.getcwd() + "\static\posts"
 SECRET_CODE1 = '124_9713'
 SECRET_CODE2 = '124_nexus'
