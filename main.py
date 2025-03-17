@@ -59,7 +59,7 @@ STICKERS = ['shark_1', 'shark_2', 'shark_3', 'shark_4', 'shark_5', 'shark_6', 's
             'shark_37', 'shark_38', 'shark_39', 'shark_40', 'shark_41', 'shark_42', 'shark_43', 'shark_44', 'shark_45',
             'shark_46',
             'shark_47', 'shark_48']
-SIZE_PHOTO = 300
+SIZE_PHOTO = 500
 
 login_manager = LoginManager()
 login_manager.init_app(app)

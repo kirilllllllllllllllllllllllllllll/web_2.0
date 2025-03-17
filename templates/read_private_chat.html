@@ -1,92 +1,99 @@
-{% extends "base2.html" %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
 
-{% for item in data2%}
-<div class="col-md6 border rounded" align="left" width="400">
-    {% if current_user.id == item.user1%}
+<body>
+    {% for item in data2%}
+    <div class="col-md6 border rounded" align="left" width="400">
+        {% if current_user.id == item.user1%}
         <h2>{{item.name1}}</h2>
         <img src="/static/profile_photos/{{item.photo2}}" width="70" height="70">
 
         <a href="{{item.id}}" class="btn btn-success">Перейти</a>
-    {% else %}
+        {% else %}
         <h2>{{item.name2}}</h2>
         <img src="/static/profile_photos/{{item.photo1}}" width="70" height="70">
 
         <a href="{{item.id}}" class="btn btn-success">Перейти</a>
-    {% endif %}
-</div>
-{% endfor %}
-
-{% for item in data%}
-
-<div class="col-md6 border rounded" align="left">
-    <h2>{{item.name}}</h2>
-    <img src="/static/chat_imgs/{{item.photo}}" width="70" height="70">
-    <div>
-        {{item.count_peoples}} users
-    </div>
-    <a href="read_chat/{{item.id}}" class="btn btn-success">Перейти</a>
-</div>
-{% endfor %}
-
-
-<br>
-<br>
-
-
-<a href="chats" class="btn btn-primary">Вернуться</a>
-
-<br>
-
-{% for item in messages%}
-    {% if item.sender == 0 %}
-        <div class="col-md6 border rounded" align="center">
-                <div>
-                    {{item.text}}
-                </div>
-            </div>
-    {% else %}
-        {% if item.sender != current_user.id %}
-            <div class="col-md6 border rounded" align="left">
-
-
-
-                <div>
-                    {% if item.sticker == 'none' %}
-                        {{item.text}}
-                    {% else %}
-                        <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
-                    {% endif %}
-                    {% if current_user.role == 2 %}
-                    <a href="delete_message1/{{id}}/{{item.id}}">Удалить</a>
-                    {% endif %}
-                </div>
-
-                <div>
-                    {{item.time}}
-                </div>
-
-            </div>
-
-        {% else %}
-            <div class="col-md6 border rounded" align="right">
-
-                <div>
-                    {% if item.sticker == 'none' %}
-                        {{item.text}}
-                    {% else %}
-                        <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
-                    {% endif %}
-                    <a href="delete_message1/{{id}}/{{item.id}}">Удалить</a>
-                </div>
-                <div>
-                    {{item.time}}
-                </div>
-            </div>
         {% endif %}
+    </div>
+    {% endfor %}
+
+    {% for item in data%}
+
+    <div class="col-md6 border rounded" align="left">
+        <h2>{{item.name}}</h2>
+        <img src="/static/chat_imgs/{{item.photo}}" width="70" height="70">
+        <div>
+            {{item.count_peoples}} users
+        </div>
+        <a href="read_chat/{{item.id}}" class="btn btn-success">Перейти</a>
+    </div>
+    {% endfor %}
+
+
+    <br>
+    <br>
+
+
+    <a href="chats" class="btn btn-primary">Вернуться</a>
+
+    <br>
+
+    {% for item in messages%}
+    {% if item.sender == 0 %}
+    <div class="col-md6 border rounded message" align="center">
+        <div>
+            {{item.text}}
+        </div>
+    </div>
+    {% else %}
+    {% if item.sender != current_user.id %}
+    <div class="col-md6 border rounded message" align="left">
+
+
+
+        <div>
+            {% if item.sticker == 'none' %}
+            {{item.text}}
+            {% else %}
+            <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
+            {% endif %}
+            {% if current_user.role == 2 %}
+            <a href="delete_message1/{{id}}/{{item.id}}">Удалить</a>
+            {% endif %}
+        </div>
+
+        <div>
+            {{item.time}}
+        </div>
+
+    </div>
+
+    {% else %}
+    <div class="col-md6 border rounded message message_your" align="right">
+
+        <div>
+            {% if item.sticker == 'none' %}
+            {{item.text}}
+            {% else %}
+            <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
+            {% endif %}
+            <a href="delete_message1/{{id}}/{{item.id}}">Удалить</a>
+            <button class="message__delete-for-you">Удалить только у себя</button>
+        </div>
+        <div>
+            {{item.time}}
+        </div>
+    </div>
     {% endif %}
-{% endfor %}
+    {% endif %}
+    {% endfor %}
 
 
 
@@ -96,17 +103,21 @@
             {{ form.content.label }}<br>
             {{ form.content(class="form-control", type="email") }}<br>
             {% for error in form.content.errors %}
-                <div class="alert alert-danger" role="alert">
-                    {{ error }}
-                </div>
-            {% endfor %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+        {% endfor %}
         </p>
         <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
         <div>{{ message }}</div>
     </form>
+    <div class="stickers">
+        {% for item in stickers %}
+            <a href="/send_sticker1/{{id}}/{{item}}"><img src="/static/stickers/{{item}}.png" width="100" height="100"></a>
+        {% endfor %}
+    </div>
+    
+    <script src="../static/js/read_private_chat.js"></script>
+</body>
 
-    {% for item in stickers %}
-        <a href="/send_sticker1/{{id}}/{{item}}"><img src="/static/stickers/{{item}}.png" width="100" height="100"></a>
-    {% endfor %}
-
-{% endblock %}
+</html>

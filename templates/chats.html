@@ -1,39 +1,90 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block content %}
-{% if current_user.is_authenticated %}
-<center><h1>Группы</h1></center>
-<center><a href="add_chat" class="btn btn-primary">Создать группу</a></center>
-<center><a href="add_private" class="btn btn-primary">Создать личный чат</a></center>
-{% for item in data2%}
-<div class="col-md6 border rounded" align="left" width="400">
-    {% if current_user.id == item.user1%}
-        <h2>{{item.name1}}</h2>
-        <img src="/static/profile_photos/{{item.photo2}}" width="70" height="70">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
 
-        <a href="read_private_chat/{{item.id}}" class="btn btn-success">Перейти</a>
-    {% else %}
-        <h2>{{item.name2}}</h2>
-        <img src="/static/profile_photos/{{item.photo1}}" width="70" height="70">
+<body>
+    <div class="site">
+        <div class="site_left">
+            <div class="profile">
+                <div class="profile__img-wrapper">
+                    <img src="/static/profile_photos/{{current_user.photo}}" alt="" class="profile__img">
+                </div>
+                <a href="/profile" class="profile__name" display="block">{{current_user.name}}</a>
+            </div>
+            <nav class="menu">
+                <details class="menu__deatils-block">
+                    <summary class="menu__title">Меню</summary>
+                    <div class="menu__list-wrapper">
+                        <ul class="menu__list">
+                            <li><a href="/main" class="menu__link">Сообщения</a></li>
+                            <li><a href="/chats" class="menu__link">Чаты</a></li>
+                            <li><a href="/add_friend" class="menu__link">Добавить друга</a></li>
+                            <li><a href="/date" class="menu__link">Планер</a></li>
+                            <li><a href="/timetable" class="menu__link">Расписание</a></li>
+                        </ul>
+                    </div>
+                </details>
+                <ul class="menu__buttons">
+                    <li><a href="add_private" class="menu__link">Создать чат</a></li>
+                    <li><a href="add_chat" class="menu__link">Создать группу</a></li>
+                </ul>
+                <ul class="menu__chats">
+                    <li><a href="add_chat" class="menu__link">Создать группу</a></li>
+                    {% for item in data2%}
+                    <div class="chat"width="400">
+                        {% if current_user.id == item.user1%}
+                        <h2>{{item.name1}}</h2>
+                        <img src="/static/profile_photos/{{item.photo2}}" width="70" height="70">
 
-        <a href="read_private_chat/{{item.id}}" class="btn btn-success">Перейти</a>
-    {% endif %}
-</div>
-{% endfor %}
-{% for item in data%}
-<div class="col-md6 border rounded" align="left" width="400">
-    <h2>{{item.name}}</h2>
-    <img src="/static/chat_imgs/{{item.photo}}" width="70" height="70">
-    <div>
-        {{item.count_peoples}} users
+                        <a href="read_private_chat/{{item.id}}" class="btn btn-success">Перейти</a>
+                        {% else %}
+                        <h2>{{item.name2}}</h2>
+                        <img src="/static/profile_photos/{{item.photo1}}" width="70" height="70">
+
+                        <a href="read_private_chat/{{item.id}}" class="btn btn-success">Перейти</a>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    {% for item in data%}
+                    <div class="chat"width="400">
+                        <h2>{{item.name}}</h2>
+                        <img src="/static/chat_imgs/{{item.photo}}" width="70" height="70">
+                        <div>
+                            {{item.count_peoples}} users
+                        </div>
+                        <a href="read_chat/{{item.id}}" class="btn btn-success">Перейти</a>
+                    </div>
+                    {% endfor %}
+                </ul>
+                content
+            </nav>
+            <footer class="footer">
+                <a href="/index" class="footer__logo"><img src="../img/logo_footer.png" alt=""></a>
+                <p class="footer__copyright">copyright</p>
+            </footer>
+        </div>
+        <div class="site_right">
+            {% if current_user.is_authenticated %}
+            <center>
+                <h1>Группы</h1>
+            </center>
+            <center><a href="add_chat" class="btn btn-primary">Создать группу</a></center>
+            <center><a href="add_private" class="btn btn-primary">Создать личный чат</a></center>
+
+
+            <br>
+            <br>
+            <center>Выберите чат</center>
+            {% endif %}
+        </div>
     </div>
-    <a href="read_chat/{{item.id}}" class="btn btn-success">Перейти</a>
-</div>
-{% endfor %}
 
-<br>
-<br>
-<center>Выберите чат</center>
 
-{% endif %}
-{% endblock %}
+</body>
+
+</html>

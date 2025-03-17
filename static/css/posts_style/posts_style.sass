@@ -1,0 +1,305 @@
+@import "../nullstyle/nullstyle"
+
+$menu_width: 430px
+
+.wrapper
+    position: relative
+
+    background-color: #fff
+
+.site__left
+    position: sticky
+    z-index: 100
+    left: 0
+    top: 0
+
+    width: $menu_width
+    height: 100vh
+
+    border-radius: 0px 5px 5px 0px
+    background: rgb(60, 126, 126)
+
+    .profile
+        display: flex
+        gap: 24px
+
+        padding: 30px 0px 50px 40px
+        &__img
+            width: 100%
+            height: 100%
+            border-radius: 50%
+            &-wrapper
+                width: 100px
+                height: 100px
+                background: rgb(60, 126, 126)
+
+                border-radius: 50%
+        &__name
+            color: rgba(255, 255, 255, 0.9)
+            font-family: Open Sans
+            font-size: 19.89px
+            font-weight: 700
+            line-height: 120%
+            letter-spacing: 0%
+            text-align: center
+
+            padding-top: 50px
+    .menu
+        padding: 2px
+        &__deatils-block
+            overflow: hidden
+            &[open]
+                ul
+                    animation: slide .5s ease-in-out
+            
+
+        &__title
+            color: rgb(255, 255, 255)
+            font-family: Montserrat
+            font-size: 24.27px
+            font-weight: 700
+            line-height: 120%
+            letter-spacing: 0%
+            text-align: left
+
+            margin-bottom: 15px
+            padding-left: 20px
+            cursor: pointer
+
+        &__list
+            display: flex
+            flex-direction: column
+            gap: 2px
+            z-index: -10
+            &-wrapper
+                overflow: hidden
+
+        &__link
+            display: block
+
+            border-radius: 1px
+            background: rgb(255, 255, 255)
+            width: 100%
+            padding: 20px 34px
+
+            color: rgb(21, 68, 68)
+            font-family: Montserrat
+            font-size: 36px
+            font-weight: 400
+            line-height: 120%
+            letter-spacing: 0%
+            text-align: left
+
+            &:hover
+                color: rgb(60, 126, 126)
+    .footer
+        position: absolute
+        left: 0
+        bottom: 0
+
+        display: flex
+        justify-content: space-between
+        align-items: flex-end
+        width: 100%
+
+        padding: 0 20px 15px 20px
+        &__logo
+        &__copyright
+            color: rgb(142, 141, 138)
+            font-family: "DM Sans"
+            font-size: 8.42px
+            font-weight: 800
+            line-height: 130%
+            letter-spacing: 0px
+            text-align: center
+
+@keyframes slide
+    0%
+        opacity: 0
+        transform: translate(0, -426px)
+    100%
+        opacity: 1
+        transform: translate(0, 0)
+@keyframes slide-back
+    0%
+        opacity: 0
+        transform: translate(0, 0px)
+    100%
+        opacity: 1
+        transform: translate(0, -10px)
+
+.site__right
+    position: absolute
+    top: 0
+    width: 100vw
+
+    padding-left: $menu_width
+.posts
+    padding: 50px 100px 0
+    overflow: auto
+    height: 100vh
+    &__header
+        position: sticky
+
+        display: flex
+        align-items: center
+        justify-content: space-between
+    &__heading
+        color: rgb(21, 68, 68)
+        font-family: Montserrat
+        font-size: 64px
+        font-weight: 700
+        line-height: 120%
+        letter-spacing: 0%
+        text-align: center
+    &__add-post
+        padding: 14px 20px
+        width: 240px
+
+        display: flex
+        gap: 24px
+        align-items: center
+        justify-content: center
+
+        color: rgb(255, 255, 255)
+        font-family: "Open Sans"
+        font-size: 19.32px
+        font-weight: 700
+        line-height: 120%
+        letter-spacing: 0%
+        text-align: center
+
+        border-radius: 5px
+        background: rgb(60, 126, 126)
+
+        transition: all 0.3s
+        &:hover
+            box-shadow: 0px 0px 20px 0px rgba(61, 163, 163, 0.8)
+
+.post
+    padding: 10px 20px
+    border-top: 1px solid rgb(60, 126, 126)
+
+    &__top
+        display: flex
+        justify-content: space-between
+    &__info
+        display: flex
+        gap: 8px
+    &__user-photo
+        width: 64px
+        height: 64px
+
+        background: rgb(60, 126, 126)
+        display: block
+        border-radius: 50%
+    &__user-name
+        padding-top: 40px
+
+        color: rgba(56, 55, 56, 0.9)
+        font-family: Open Sans
+        font-size: 14.72px
+        font-weight: 700
+        line-height: 120%
+        text-align: left
+    &__refactor
+        display: flex
+        flex-direction: column
+        gap: 16px
+
+        padding-top: 10px
+    &__add-photo
+        color: rgb(60, 126, 126)
+        font-family: Montserrat
+        font-size: 18px
+        font-weight: 700
+        line-height: 120%
+        text-align: right
+        &:hover
+            text-decoration: underline
+    &__delete
+        color: rgb(60, 126, 126)
+        font-family: Montserrat
+        font-size: 18px
+        font-weight: 700
+        line-height: 120%
+        text-align: right
+
+        &:hover
+            text-decoration: underline
+
+    &__content
+        padding-top: 20px
+        margin-bottom: 25px
+    &__title
+        color: rgb(56, 55, 56)
+        font-family: Montserrat
+        font-size: 44px
+        font-weight: 600
+        line-height: 120%
+        text-align: left
+
+        margin-bottom: 10px
+        max-width: 796px
+    &__imgs
+        display: block
+        min-height: 100%
+        width: 100%
+
+        border-radius: 10px
+        background: rgb(238, 241, 246)
+        margin-bottom: 10px
+
+        overflow: hidden
+        img
+            height: 500px
+    &__text
+        color: rgb(56, 55, 56)
+        font-family: Open Sans
+        font-size: 24px
+        font-weight: 400
+        line-height: 120%
+        text-align: left
+
+        min-height: 30px
+        max-width: 100%
+        overflow: hidden
+
+    &__bottom
+        display: flex
+        gap: 24px
+    &_like
+        width: 50px
+        height: 50px
+        display: flex
+        align-items: center
+        justify-content: center
+
+        border-radius: 50%
+
+        box-sizing: border-box
+        border: 3px solid rgb(60, 126, 126)
+        background: rgb(255, 255, 255)
+
+        color: rgb(60, 126, 126)
+        font-family: Open Sans
+        font-size: 24px
+        font-weight: 700
+        line-height: 120%
+
+        &_liked
+            background: rgb(60, 126, 126)
+            color: rgb(255, 255, 255)
+            box-shadow: 0px 0px 20px 0px rgb(60, 126, 126)
+    &__comments
+        padding-top: 16px
+
+        color: rgb(60, 126, 126)
+        font-family: Open Sans
+        font-size: 24px
+        font-weight: 600
+        line-height: 120%
+        text-align: left
+
+        &:hover
+            text-decoration: underline
