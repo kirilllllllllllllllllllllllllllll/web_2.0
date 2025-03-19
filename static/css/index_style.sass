@@ -54,8 +54,10 @@ body
 
     &__img-wrapper
         background-color: #3C7E7E
-        width: 505px
-
+        // overflow: hidden
+        img
+            max-height: 545px
+            width: 505px
         animation: 1s hero_img_appearance
     &__content
         padding: 100px 170px 100px 125px
@@ -125,9 +127,11 @@ body
     display: flex
     margin-bottom: 140px
     &__image-wrapper
-        min-width: 610px
         background-color: #3C7E7E
         position: relative
+        img
+            min-width: 610px
+            height: 754px
         &::after
             content: ""
             width: 780px
@@ -135,6 +139,7 @@ body
             border-radius: 50%
             position: absolute
             right: -390px
+            z-index: -100
 
             background: radial-gradient(50.00% 50.00% at 50% 50%,rgba(61, 163, 163, 0.5),rgba(61, 163, 163, 0.4) 18.213%,rgba(61, 163, 163, 0) 100%)
             opacity: 1

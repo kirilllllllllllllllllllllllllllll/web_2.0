@@ -4,10 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <!-- DM Sans font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+
+    <!-- Open Sans font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../static/css/chats_style/chats_style.css">
+    <title>Чаты</title>
 </head>
 
 <body>
+    {% if current_user.is_authenticated %}
     <div class="site">
         <div class="site_left">
             <div class="profile">
@@ -22,7 +38,7 @@
                     <div class="menu__list-wrapper">
                         <ul class="menu__list">
                             <li><a href="/main" class="menu__link">Сообщения</a></li>
-                            <li><a href="/chats" class="menu__link">Чаты</a></li>
+                            <li><a href="/posts" class="menu__link">Посты</a></li>
                             <li><a href="/add_friend" class="menu__link">Добавить друга</a></li>
                             <li><a href="/date" class="menu__link">Планер</a></li>
                             <li><a href="/timetable" class="menu__link">Расписание</a></li>
@@ -34,57 +50,44 @@
                     <li><a href="add_chat" class="menu__link">Создать группу</a></li>
                 </ul>
                 <ul class="menu__chats">
-                    <li><a href="add_chat" class="menu__link">Создать группу</a></li>
                     {% for item in data2%}
-                    <div class="chat"width="400">
+                    <a href="read_private_chat/{{item.id}}" class="chat" width="400">
                         {% if current_user.id == item.user1%}
-                        <h2>{{item.name1}}</h2>
-                        <img src="/static/profile_photos/{{item.photo2}}" width="70" height="70">
-
-                        <a href="read_private_chat/{{item.id}}" class="btn btn-success">Перейти</a>
+                        <h2 class="chat__name">{{item.name1}}</h2>
+                        <img class="chat__img" src="/static/profile_photos/{{item.photo2}}" width="70" height="70">
                         {% else %}
-                        <h2>{{item.name2}}</h2>
-                        <img src="/static/profile_photos/{{item.photo1}}" width="70" height="70">
-
-                        <a href="read_private_chat/{{item.id}}" class="btn btn-success">Перейти</a>
+                        <h2 class="chat__name">{{item.name2}}</h2>
+                        <img class="chat__img" src="/static/profile_photos/{{item.photo1}}" width="70" height="70">
                         {% endif %}
-                    </div>
+
+                    </a>
                     {% endfor %}
                     {% for item in data%}
-                    <div class="chat"width="400">
-                        <h2>{{item.name}}</h2>
-                        <img src="/static/chat_imgs/{{item.photo}}" width="70" height="70">
-                        <div>
+                    <a href="read_chat/{{item.id}}" class="chat" width="400">
+                        <h2 class="chat__name">{{item.name}}</h2>
+                        <img class="chat__img" src="/static/chat_imgs/{{item.photo}}" width="70" height="70">
+                        <!-- <div>
                             {{item.count_peoples}} users
-                        </div>
-                        <a href="read_chat/{{item.id}}" class="btn btn-success">Перейти</a>
-                    </div>
+                        </div> -->
+                    </a>
                     {% endfor %}
                 </ul>
-                content
             </nav>
             <footer class="footer">
-                <a href="/index" class="footer__logo"><img src="../img/logo_footer.png" alt=""></a>
+                <a href="/index" class="footer__logo"><img src="/static/img/logo_footer.png" alt=""></a>
                 <p class="footer__copyright">copyright</p>
             </footer>
         </div>
         <div class="site_right">
-            {% if current_user.is_authenticated %}
-            <center>
-                <h1>Группы</h1>
-            </center>
-            <center><a href="add_chat" class="btn btn-primary">Создать группу</a></center>
-            <center><a href="add_private" class="btn btn-primary">Создать личный чат</a></center>
-
-
-            <br>
-            <br>
-            <center>Выберите чат</center>
-            {% endif %}
+            <p>выберите чат</p>
         </div>
+
     </div>
-
-
+    {% endif %}
+    <script>
+        const page = 'chats'
+        localStorage.setItem('currentPage', page)
+    </script>
 </body>
 
 </html>

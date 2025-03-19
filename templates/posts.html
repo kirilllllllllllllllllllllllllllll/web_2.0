@@ -33,7 +33,7 @@
                 <a href="/profile" class="profile__name" display="block">{{current_user.name}}</a>
             </div>
             <nav class="menu">
-                <details class="menu__deatils-block">
+                <details class="menu__deatils-block" open>
                     <summary class="menu__title">Меню</summary>
                     <div class="menu__list-wrapper">
                         <ul class="menu__list">
@@ -45,10 +45,9 @@
                         </ul>
                     </div>
                 </details>
-                content
             </nav>
             <footer class="footer">
-                <a href="/index" class="footer__logo"><img src="../img/logo_footer.png" alt=""></a>
+                <a href="/index" class="footer__logo"><img src="/static/img/logo_footer.png" alt=""></a>
                 <p class="footer__copyright">copyright</p>
             </footer>
         </div>
@@ -106,23 +105,19 @@
                     </div>
                     <div class="post__bottom">
                         {% if current_user.idstr not in item.flags %}
-                            <a href="#like/{{item.id}}/{{current_user.id}}" class="post_like">{{item.likes}}</a>
+                            <a href="like/{{item.id}}/{{current_user.id}}" class="post_like">{{item.likes}}</a>
                         {% else %}
-                            <a href="#dislike/{{item.id}}/{{current_user.id}}" class="post_like post_like_liked">{{item.likes}}</a>
+                            <a href="dislike/{{item.id}}/{{current_user.id}}" class="post_like post_like_liked">{{item.likes}}</a>
                         {% endif %}
                         
                         <a href="read_publication/{{item.id}}" class="post__comments">Комменты</a>
                     </div>
-
                 </div>
                 {% endfor %}
                 {% endif %}
             </section>
-
         </div>
-
     </div>
-
     <script src="../static/js/posts.js"></script>
 </body>
 

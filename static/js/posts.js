@@ -1,16 +1,20 @@
+const page = 'posts'
+
 const likes = document.querySelectorAll('.post_like')
+const posts = document.querySelector('.posts')
+
+if (localStorage.getItem("currentPage") == page) {
+  posts.scroll(0, localStorage.getItem('postsY'))
+}
+localStorage.setItem('currentPage', page)
 
 likes.forEach(elem => {
     elem.addEventListener('click', (event)=> {
-        const classList_ = event.target.classList 
-        if (classList_.contains('post_like_liked')) {
-            classList_.remove('post_like_liked')
-        }
-        else {
-            classList_.add('post_like_liked')
-        }
+      localStorage.setItem('postsY', posts.scrollTop)
     })
 })
+
+
 
 const detailsBlock = document.querySelector('.menu__deatils-block')
 const detailsContent = detailsBlock.querySelector('.menu__list')
@@ -21,6 +25,6 @@ detailsBlock.addEventListener("toggle", (event) => {
     } else {
       /* the element was toggled closed */
       detailsContent.style.animation = 'slide-back .3s ease-in-out'
-      console.log(0);
     }
-  });
+});
+

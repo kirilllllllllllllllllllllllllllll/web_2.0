@@ -124,8 +124,11 @@ html {
 }
 .hero__img-wrapper {
   background-color: #3C7E7E;
-  width: 505px;
   animation: 1s hero_img_appearance;
+}
+.hero__img-wrapper img {
+  max-height: 545px;
+  width: 505px;
 }
 .hero__content {
   padding: 100px 170px 100px 125px;
@@ -201,9 +204,12 @@ html {
   margin-bottom: 140px;
 }
 .about__image-wrapper {
-  min-width: 610px;
   background-color: #3C7E7E;
   position: relative;
+}
+.about__image-wrapper img {
+  min-width: 610px;
+  height: 754px;
 }
 .about__image-wrapper::after {
   content: "";
@@ -212,6 +218,7 @@ html {
   border-radius: 50%;
   position: absolute;
   right: -390px;
+  z-index: -100;
   background: radial-gradient(50% 50% at 50% 50%, rgba(61, 163, 163, 0.5), rgba(61, 163, 163, 0.4) 18.213%, rgba(61, 163, 163, 0) 100%);
   opacity: 1;
 }

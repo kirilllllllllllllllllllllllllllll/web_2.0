@@ -639,7 +639,7 @@ def send_sticker(id, sticker):
         name=current_user.name,
         photo=current_user.photo,
         chat=id,
-        time=str(datetime.now()).split('.')[0][:-3],
+        time=str(datetime.now()).split('.')[0][:-3].split()[1],
         sticker=sticker + '.png'
     )
     db_sess.add(message)
@@ -655,7 +655,7 @@ def send_sticker1(id, sticker):
         name=current_user.name,
         photo=current_user.photo,
         chat=id,
-        time=str(datetime.now()).split('.')[0][:-3],
+        time=str(datetime.now()).split('.')[0][:-3].split()[1],
         sticker=sticker + '.png'
     )
     db_sess.add(message)
@@ -673,12 +673,12 @@ def read_chat(id):
             name=current_user.name,
             photo=current_user.photo,
             chat=id,
-            time=str(datetime.now()).split('.')[0][:-3],
+            time=str(datetime.now()).split('.')[0][:-3].split()[1],
             sticker='none'
         )
         db_sess.add(message)
         db_sess.commit()
-        return redirect(f'/read_private_chat/{id}')
+        return redirect(f'/read_chat/{id}')
 
     # chat = db_sess.query(Chat).filter(Chat.id == id).first()
     data = db_sess.query(Chat).filter(Chat.peoples.like(f'%{current_user.id}%')).all()
@@ -702,7 +702,7 @@ def read_private_chat(id):
             name=current_user.name,
             photo=current_user.photo,
             chat=id,
-            time=str(datetime.now()).split('.')[0][:-3]
+            time=str(datetime.now()).split('.')[0][:-3].split()[1]
         )
         db_sess.add(message)
         db_sess.commit()
