@@ -40,9 +40,9 @@ from PIL import Image
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'kirik1234pro_and_thisismyshadow_secret_key'
-app.config['UPLOAD_FOLDER'] = os.getcwd() + "\static\profile_photos"
-app.config['UPLOAD_FOLDER2'] = os.getcwd() + "\static\chat_imgs"
-app.config['UPLOAD_FOLDER3'] = os.getcwd() + "\static\posts"
+app.config['UPLOAD_FOLDER'] = os.getcwd() + "/static/profile_photos"
+app.config['UPLOAD_FOLDER2'] = os.getcwd() + "/static/chat_imgs"
+app.config['UPLOAD_FOLDER3'] = os.getcwd() + "/static/posts"
 SECRET_CODE1 = '124_9713'
 SECRET_CODE2 = '124_nexus'
 CONST = ['7А', '7Б', '7В', '7Г', '8А', '8Б', '8В', '8Г', '9А', '9Б', '9В', '9Г', '10А', '10Б', '10В', '10Г', '11А',
@@ -702,6 +702,7 @@ def read_private_chat(id):
             name=current_user.name,
             photo=current_user.photo,
             chat=id,
+            sticker='none',
             time=str(datetime.now()).split('.')[0][:-3].split()[1]
         )
         db_sess.add(message)
@@ -1090,4 +1091,4 @@ if __name__ == '__main__':
     db_sess = db_session.create_session()
     print(os.getcwd() + '\statiс\profile_photos')
     setup()
-    app.run(port=8080, host='127.0.0.1')
+    app.run(port=8000, host='127.0.0.1')

@@ -50,7 +50,7 @@
                 </ul>
                 <ul class="menu__chats">
                     {% for item in data2%}
-                    <a href="read_private_chat/{{item.id}}" class="chat" width="400">
+                    <a href="/read_private_chat/{{item.id}}" class="chat" width="400">
                         {% if current_user.id == item.user1%}
                         <h2 class="chat__name">{{item.name1}}</h2>
                         <img class="chat__img" src="/static/profile_photos/{{item.photo2}}" width="70" height="70">
@@ -81,8 +81,17 @@
             <div class="group-chat">
                 <nav class="group-chat__header header">
                     <div class="header-wrapper">
-                        <img src="/static/chat_imgs/{{chat.photo}}" width="60" height="60">
-                        <!-- <p class="header__chat-name"></p> -->
+                        {% if current_user.id == chat.user1%}
+                             <img src="/static/profile_photos/{{chat.photo2}}" width="70" height="70">
+                             <h2>{{chat.name1}}</h2>
+
+
+                         {% else %}
+                             <img src="/static/profile_photos/{{chat.photo1}}" width="70" height="70">
+                             <h2>{{chat.name2}}</h2>
+
+
+                         {% endif %}
 
                     </div>
                     <button class="header__menu-button">
@@ -91,13 +100,7 @@
                         <div class=""></div>
                     </button>
                     <div class="header__menu">
-                        {% if current_user.id == admin %}
-                        <a href="add_peoples/{{id}}" class="header__menu-el">Участники</a>
-                        <a href="delete_chat/{{id}}" class="header__menu-el header__menu-el_red">Удалить группу</a>
-                        {% else %}
-                        <a href="del/{{id}}/{{current_user.id}}" class="header__menu-el header__menu-el_red">Покинуть группу</a>
-                        <a href="/check_peoples/{{id}}" class="header__menu-el">Участники</a>
-                        {% endif %}
+
                     </div>
                 </nav>
             </div>
@@ -135,8 +138,10 @@
 
                 <div>
                     {% if item.sticker == 'none' %}
+
                     {{item.text}}
                     {% else %}
+
                     <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
                     {% endif %}
                     <a href="delete_message1/{{id}}/{{item.id}}">Удалить</a>
@@ -148,7 +153,7 @@
             </div>
             {% endif %}
             {% endif %}
-            {% endfor %}
+            {% endfor %} 
 
 
 
