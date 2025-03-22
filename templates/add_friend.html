@@ -7,12 +7,10 @@
 {% for item in data%}
 <center>
 <div class="col-md6 border rounded">
-    <h2>{{item.informal_name}}</h2>
+    <h2>{{item.name}}</h2>
     <div>from {{item.form}}</div>
     <img src="/static/profile_photos/{{item.photo}}" width="70" height="70">
-    <div>
-        {{item.about}}
-    </div>
+
     <a href="reflection/{{item.id}}" class="btn btn-success">Подать заявку</a>
 
 </div>

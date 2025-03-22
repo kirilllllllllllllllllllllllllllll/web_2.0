@@ -1,62 +1,126 @@
-{% extends "base2.html" %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- DM Sans font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
 
-{% for item in data2%}
-<div class="col-md6 border rounded" align="left" width="400">
-    {% if current_user.id == item.user1%}
-        <h2>{{item.name1}}</h2>
-        <img src="/static/profile_photos/{{item.photo2}}" width="70" height="70">
+    <!-- Open Sans font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
 
-        <a href="{{item.id}}" class="btn btn-success">Перейти</a>
-    {% else %}
-        <h2>{{item.name2}}</h2>
-        <img src="/static/profile_photos/{{item.photo1}}" width="70" height="70">
+    <link rel="stylesheet" href="../static/css/read-chat_style/read-chat_style.css">
+    <title>Read private chat</title>
+</head>
 
-        <a href="{{item.id}}" class="btn btn-success">Перейти</a>
-    {% endif %}
-</div>
-{% endfor %}
+<body>
+    <div class="site">
+        <div class="site_left">
+            <div class="profile">
+                <div class="profile__img-wrapper">
+                    <img src="/static/profile_photos/{{current_user.photo}}" alt="" class="profile__img">
+                </div>
+                <a href="/profile" class="profile__name" display="block">{{current_user.name}}</a>
+            </div>
+            <nav class="menu">
+                <details class="menu__deatils-block">
+                    <summary class="menu__title">Меню</summary>
+                    <div class="menu__list-wrapper">
+                        <ul class="menu__list">
+                            <li><a href="/main" class="menu__link">Сообщения</a></li>
+                            <li><a href="/posts" class="menu__link">Посты</a></li>
+                            <li><a href="/add_friend" class="menu__link">Добавить друга</a></li>
+                            <li><a href="/date" class="menu__link">Планер</a></li>
+                            <li><a href="/timetable" class="menu__link">Расписание</a></li>
+                        </ul>
+                    </div>
+                </details>
+                <ul class="menu__buttons">
+                    <li><a href="/add_private" class="menu__link">Создать чат</a></li>
+                    <li><a href="/add_chat" class="menu__link">Создать группу</a></li>
+                </ul>
+                <ul class="menu__chats">
+                    {% for item in data2%}
+                    <a href="/read_private_chat/{{item.id}}" class="chat" width="400">
+                        {% if current_user.id == item.user1%}
+                        <h2 class="chat__name">{{item.name1}}</h2>
+                        <img class="chat__img" src="/static/profile_photos/{{item.photo2}}" width="70" height="70">
+                        {% else %}
+                        <h2 class="chat__name">{{item.name2}}</h2>
+                        <img class="chat__img" src="/static/profile_photos/{{item.photo1}}" width="70" height="70">
+                        {% endif %}
 
-{% for item in data%}
+                    </a>
+                    {% endfor %}
+                    {% for item in data%}
+                    <a href="/read_chat/{{item.id}}" class="chat" width="400">
+                        <h2 class="chat__name">{{item.name}}</h2>
+                        <img class="chat__img" src="/static/chat_imgs/{{item.photo}}" width="70" height="70">
+                        <!-- <div>
+                            {{item.count_peoples}} users
+                        </div> -->
+                    </a>
+                    {% endfor %}
+                </ul>
+            </nav>
+            <footer class="footer">
+                <a href="/index" class="footer__logo"><img src="/static/img/logo_footer.png" alt=""></a>
+                <p class="footer__copyright">copyright</p>
+            </footer>
+        </div>
+        <div class="site_right">
+            <div class="group-chat">
+                <nav class="group-chat__header header">
+                    <div class="header-wrapper">
+                        {% if current_user.id == chat.user1%}
+                             <img src="/static/profile_photos/{{chat.photo2}}" width="70" height="70">
+                             <h2>{{chat.name1}}</h2>
 
-<div class="col-md6 border rounded" align="left">
-    <h2>{{item.name}}</h2>
-    <img src="/static/chat_imgs/{{item.photo}}" width="70" height="70">
-    <div>
-        {{item.count_peoples}} users
-    </div>
-    <a href="read_chat/{{item.id}}" class="btn btn-success">Перейти</a>
-</div>
-{% endfor %}
+
+                         {% else %}
+                             <img src="/static/profile_photos/{{chat.photo1}}" width="70" height="70">
+                             <h2>{{chat.name2}}</h2>
 
 
-<br>
-<br>
+                         {% endif %}
 
+                    </div>
+                    <button class="header__menu-button">
+                        <div class=""></div>
+                        <div class=""></div>
+                        <div class=""></div>
+                    </button>
+                    <div class="header__menu">
 
-<a href="chats" class="btn btn-primary">Вернуться</a>
+                    </div>
+                </nav>
+            </div>
 
-<br>
-
-{% for item in messages%}
-    {% if item.sender == 0 %}
-        <div class="col-md6 border rounded" align="center">
+            {% for item in messages%}
+            {% if item.sender == 0 %}
+            <div class="col-md6 border rounded message" align="center">
                 <div>
                     {{item.text}}
                 </div>
             </div>
-    {% else %}
-        {% if item.sender != current_user.id %}
-            <div class="col-md6 border rounded" align="left">
-
-
+            {% else %}
+            {% if item.sender != current_user.id %}
+            <div class="col-md6 border rounded message" align="left">
 
                 <div>
                     {% if item.sticker == 'none' %}
-                        {{item.text}}
+                    {{item.text}}
                     {% else %}
-                        <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
+                    <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
                     {% endif %}
                     {% if current_user.role == 2 %}
                     <a href="delete_message1/{{id}}/{{item.id}}">Удалить</a>
@@ -69,44 +133,55 @@
 
             </div>
 
-        {% else %}
-            <div class="col-md6 border rounded" align="right">
+            {% else %}
+            <div class="col-md6 border rounded message message_your" align="right">
 
                 <div>
                     {% if item.sticker == 'none' %}
-                        {{item.text}}
+
+                    {{item.text}}
                     {% else %}
-                        <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
+
+                    <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
                     {% endif %}
                     <a href="delete_message1/{{id}}/{{item.id}}">Удалить</a>
+                    <!-- <button class="message__delete-for-you">Удалить только у себя</button> -->
                 </div>
                 <div>
                     {{item.time}}
                 </div>
             </div>
-        {% endif %}
-    {% endif %}
-{% endfor %}
+            {% endif %}
+            {% endif %}
+            {% endfor %} 
 
 
 
-    <form action="" method="post">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.content.label }}<br>
-            {{ form.content(class="form-control", type="email") }}<br>
-            {% for error in form.content.errors %}
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.content.label }}<br>
+                    {{ form.content(class="form-control", type="text") }}<br>
+                    {% for error in form.content.errors %}
                 <div class="alert alert-danger" role="alert">
                     {{ error }}
                 </div>
-            {% endfor %}
-        </p>
-        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
-        <div>{{ message }}</div>
-    </form>
+                {% endfor %}
+                </p>
+                <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+                <div>{{ message }}</div>
+            </form>
+            <div class="stickers">
+                {% for item in stickers %}
+                <a href="/send_sticker1/{{id}}/{{item}}"><img src="/static/stickers/{{item}}.png" width="100"
+                        height="100"></a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 
-    {% for item in stickers %}
-        <a href="/send_sticker1/{{id}}/{{item}}"><img src="/static/stickers/{{item}}.png" width="100" height="100"></a>
-    {% endfor %}
 
-{% endblock %}
+    <script src="../static/js/read_private_chat.js"></script>
+</body>
+
+</html>

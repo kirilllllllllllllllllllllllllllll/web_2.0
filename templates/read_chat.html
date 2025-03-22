@@ -1,121 +1,253 @@
-{% extends "base2.html" %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-{% for item in data2%}
-<div class="col-md6 border rounded" align="left" width="400">
-    {% if current_user.id == item.user1%}
-        <h2>{{item.name1}}</h2>
-        <img src="/static/profile_photos/{{item.photo2}}" width="70" height="70">
+    <!-- DM Sans font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
 
-        <a href="read_private_chat/{{item.id}}" class="btn btn-success">Перейти</a>
-    {% else %}
-        <h2>{{item.name2}}</h2>
-        <img src="/static/profile_photos/{{item.photo1}}" width="70" height="70">
+    <!-- Open Sans font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
 
-        <a href="read_private_chat/{{item.id}}" class="btn btn-success">Перейти</a>
-    {% endif %}
-</div>
-{% endfor %}
+    <link rel="stylesheet" href="../static/css/read-chat_style/read-chat_style.css">
+    <title>Read chat</title>
+</head>
 
-{% for item in data%}
+<body>
+    {% if current_user.is_authenticated %}
+    <div class="site">
+        <div class="site_left">
+            <div class="profile">
+                <div class="profile__img-wrapper">
+                    <img src="/static/profile_photos/{{current_user.photo}}" alt="" class="profile__img">
+                </div>
+                <a href="/profile" class="profile__name" display="block">{{current_user.name}}</a>
+            </div>
+            <nav class="menu">
+                <details class="menu__deatils-block">
+                    <summary class="menu__title">Меню</summary>
+                    <div class="menu__list-wrapper">
+                        <ul class="menu__list">
+                            <li><a href="/main" class="menu__link">Сообщения</a></li>
+                            <li><a href="/posts" class="menu__link">Посты</a></li>
+                            <li><a href="/add_friend" class="menu__link">Добавить друга</a></li>
+                            <li><a href="/date" class="menu__link">Планер</a></li>
+                            <li><a href="/timetable" class="menu__link">Расписание</a></li>
+                        </ul>
+                    </div>
+                </details>
+                <ul class="menu__buttons">
+                    <li><a href="/add_private" class="menu__link">Создать чат</a></li>
+                    <li><a href="/add_chat" class="menu__link">Создать группу</a></li>
+                </ul>
+                <ul class="menu__chats">
+                    {% for item in data2%}
+                    <a href="read_private_chat/{{item.id}}" class="chat" width="400">
+                        {% if current_user.id == item.user1%}
+                        <h2 class="chat__name">{{item.name1}}</h2>
+                        <img class="chat__img" src="/static/profile_photos/{{item.photo2}}" width="70" height="70">
+                        {% else %}
+                        <h2 class="chat__name">{{item.name2}}</h2>
+                        <img class="chat__img" src="/static/profile_photos/{{item.photo1}}" width="70" height="70">
+                        {% endif %}
 
-<div class="col-md6 border rounded" align="left">
-    <h2>{{item.name}}</h2>
-    <img src="/static/chat_imgs/{{item.photo}}" width="70" height="70">
-    <div>
-        {{item.count_peoples}} users
+                    </a>
+                    {% endfor %}
+                    {% for item in data%}
+                    <a href="/read_chat/{{item.id}}" class="chat" width="400">
+                        <h2 class="chat__name">{{item.name}}</h2>
+                        <img class="chat__img" src="/static/chat_imgs/{{item.photo}}" width="70" height="70">
+                        <!-- <div>
+                            {{item.count_peoples}} users
+                        </div> -->
+                    </a>
+                    {% endfor %}
+                </ul>
+            </nav>
+            <footer class="footer">
+                <a href="/index" class="footer__logo"><img src="/static/img/logo_footer.png" alt=""></a>
+                <p class="footer__copyright">copyright</p>
+            </footer>
+        </div>
+        <div class="site_right">
+            <div class="group-chat">
+                <nav class="group-chat__header header">
+                    <div class="header-wrapper">
+                        <img src="/static/chat_imgs/{{chat.photo}}" width="60" height="60">
+                        <p class="header__chat-name">{{chat.name}}</p>
+                        <span>{{chat.count_peoples}} участников</span>
+
+                    </div>
+                    <button class="header__menu-button">
+                        <div class=""></div>
+                        <div class=""></div>
+                        <div class=""></div>
+                    </button>
+
+                    <div class="header__menu">
+                        {% if current_user.id == admin %}
+                        <a href="add_peoples/{{id}}" class="header__menu-el">Участники</a>
+                        <a href="delete_chat/{{id}}" class="header__menu-el header__menu-el_red">Удалить группу</a>
+                        {% else %}
+                        <a href="del/{{id}}/{{current_user.id}}" class="header__menu-el header__menu-el_red">Покинуть
+                            группу</a>
+                        <a href="/check_peoples/{{id}}" class="header__menu-el">Участники</a>
+                        {% endif %}
+                    </div>
+                </nav>
+                <div class="messages">
+                    {% for item in messages%}
+                    {% if item.sender == 0 %}
+                    <div class="col-md6 border rounded" align="center">
+                        <div>
+                            {{item.text}}
+                        </div>
+                    </div>
+                    {% else %}
+                    {% if item.sender != current_user.id %}
+                    <div class="message-wrapper">
+                        <a href="check_private/{{item.sender}}"><img class="message__user-image"
+                                src="/static/profile_photos/{{item.photo}}" width="40" height="40"></a>
+
+                        <div class="message message_not-user">
+                            <a class="message__username" href="check_private/{{item.sender}}">
+                                {{item.name}}
+                            </a>
+                            <p class="message__content">
+                                {% if item.sticker == 'none' %}
+                                {{item.text}}
+                                {% else %}
+                                <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
+                                {% endif %}
+                                {% if current_user.role == 2 %}
+                                <a class="message__delete" href="delete_message/{{id}}/{{item.id}}">X</a>
+                                {% endif %}
+                            </p>
+                            <p class="message__time">
+                                {{item.time}}
+                            </p>
+                        </div>
+                    </div>
+
+
+
+                    {% else %}
+                    <div class="message message_user">
+                        <p class="message__content">
+                            {% if item.sticker == 'none' %}
+                            {{item.text}}
+                            {% else %}
+                            <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
+                            {% endif %}
+                        </p>
+                        <a class="message__delete" href="delete_message/{{id}}/{{item.id}}">X</a>
+                        <p class="message__time">
+                            {{item.time}}
+                        </p>
+                    </div>
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <form class="group-chat__send" action="" method="post">
+                    {{ form.hidden_tag() }}
+                    {{ form.content(class="form-control", placeholder="Введите сообщение") }}
+                    {% for error in form.content.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                    <a class="group-chat__send-stickers">
+                        <img src="/static/img/sticker_button_img.png" alt="">
+                    </a>
+                    {{ form.submit(type="submit", class="group-chat__send-button") }}
+                    <div>{{ message }}</div>
+                </form>
+                <div class="group-chat__stickers">
+                    {% for item in stickers %}
+                    <a href="/send_sticker/{{id}}/{{item}}"><img src="/static/stickers/{{item}}.png" width="100"
+                            height="100"></a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
-    <a href="{{item.id}}" class="btn btn-success">Перейти</a>
-</div>
-{% endfor %}
-
-
-<br>
-<br>
-
-
-<a href="chats" class="btn btn-primary">Вернуться</a>
-{% if current_user.id == admin %}
-<a href="add_peoples/{{id}}" class="btn btn-primary">Участники</a>
-<a href="delete_chat/{{id}}" class="btn btn-primary">Удалить группу</a>
-{% else %}
-<a href="del/{{id}}/{{current_user.id}}" class="btn btn-primary">Покинуть группу</a>
-<a href="/check_peoples/{{id}}" class="btn btn-primary">Участники</a>
-{% endif %}
-<br>
-
-{% for item in messages%}
-    {% if item.sender == 0 %}
-        <div class="col-md6 border rounded" align="center">
-                <div>
-                    {{item.text}}
-                </div>
-            </div>
-    {% else %}
-        {% if item.sender != current_user.id %}
-            <div class="col-md6 border rounded" align="left">
-                <h3><img src="/static/profile_photos/{{item.photo}}" width="100" height="100"> {{item.name}}</h3>
-
-
-                <div>
-                    {% if item.sticker == 'none' %}
-                        {{item.text}}
-                    {% else %}
-                        <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
-                    {% endif %}
-                    {% if current_user.role == 2 %}
-                    <a href="delete_message/{{id}}/{{item.id}}">Удалить</a>
-                    {% endif %}
-                    <br>
-                    <a href="check_private/{{item.sender}}">Личные сообщения</a>
-                </div>
-
-                <div>
-                    {{item.time}}
-                </div>
-
-            </div>
-
-        {% else %}
-            <div class="col-md6 border rounded" align="right">
-                <h3><img src="/static/profile_photos/{{item.photo}}" width="100" height="100"> {{item.name}}</h3>
-
-                <div>
-                    {% if item.sticker == 'none' %}
-                        {{item.text}}
-                    {% else %}
-                        <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
-                    {% endif %}
-                    <a href="delete_message/{{id}}/{{item.id}}">Удалить</a>
-                </div>
-                <div>
-                    {{item.time}}
-                </div>
-            </div>
-        {% endif %}
     {% endif %}
-{% endfor %}
+    <!--  -->
+    <script>
+        const page = 'read_chat'
+        const messages = document.querySelector('.messages')
+        const sendButton = document.querySelector('.group-chat__send-button')
+        const sendStickers = document.querySelector('.group-chat__send-stickers')
+        const groupChatMenu = document.querySelector('.menu')
+        const headerMenuButton = document.querySelector('.header__menu-button')
+        const headerMenu = document.querySelector('.header__menu')
+        const deleteMessageButton = document.querySelectorAll('.message__delete')
+
+        messages.scroll(0, 99999999999)
+        if (localStorage.getItem('currentPage') == page) {
+            console.log(1);
+            groupChatMenu.scroll(0, localStorage.getItem('leftMenu_readChatY'))
+        }
+        localStorage.setItem('currentPage', page)
+        // let messageId = 1
+        // messages.forEach(element => {
+        //     element.setAttribute('data-message-id', messageId)
+        //     const deleteButton = element.querySelector('.message__delete')
+        //     deleteButton.setAttribute('data-message-id', messageId)
+        //     messageId++
+
+        //     element.addEventListener('contextmenu', (e) => {
+
+        //         // deleteMessageButton.
+        //     })
+        // });
+        // headerMenuButton.addEventListener('click', (e) => {
+        //     if (headerMenu.classList.contains('open')) {
+        //         headerMenu.classList.remove('open')
+        //     }
+        //     else {
+        //         headerMenu.classList.add('open')
+        //     }
+        // })
+
+        sendButton.value = ">"
+        sendButton.addEventListener('click', (e) => {
+            localStorage.setItem('leftMenu_readChatY', groupChatMenu.scrollTop)
+        })
 
 
 
-    <form action="" method="post">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.content.label }}<br>
-            {{ form.content(class="form-control", type="email") }}<br>
-            {% for error in form.content.errors %}
-                <div class="alert alert-danger" role="alert">
-                    {{ error }}
-                </div>
-            {% endfor %}
-        </p>
-        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
-        <div>{{ message }}</div>
-    </form>
+        sendStickers.addEventListener('click', (e) => {
+            const stickers = document.querySelector('.group-chat__stickers')
+            if (stickers.classList.contains('open')) {
+                stickers.classList.remove('open')
+                stickers.style.display = 'none'
+                messages.classList.remove('messages_open')
 
-    {% for item in stickers %}
-<a href="/send_sticker/{{id}}/{{item}}"><img src="/static/stickers/{{item}}.png" width="100" height="100"></a>
-    {% endfor %}
+            }
+            else {
+                stickers.classList.add('open')
+                stickers.style.display = 'grid'
+                messages.classList.add('messages_open')
+            }
+        })
 
-{% endblock %}
+
+
+
+    </script>
+
+</body>
+
+</html>
