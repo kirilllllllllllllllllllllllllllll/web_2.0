@@ -1,124 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- DM Sans font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-        rel="stylesheet">
-
-    <!-- Open Sans font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet">
-
-    <!-- Основные стили -->
-    <link rel="stylesheet" href="../static/css/posts_style/posts_style.css">
-    <title>Posts</title>
-</head>
-
-<body>
-    <div class="wrapper">
-        <div class="site__left">
-            <div class="profile">
-                <div class="profile__img-wrapper">
-                    <img src="/static/profile_photos/{{current_user.photo}}" alt="" class="profile__img">
-                </div>
-                <a href="/profile" class="profile__name" display="block">{{current_user.name}}</a>
-            </div>
-            <nav class="menu">
-                <details class="menu__deatils-block" open>
-                    <summary class="menu__title">Меню</summary>
-                    <div class="menu__list-wrapper">
-                        <ul class="menu__list">
-                            <li><a href="/main" class="menu__link">Сообщения</a></li>
-                            <li><a href="/chats" class="menu__link">Чаты</a></li>
-                            <li><a href="/add_friend" class="menu__link">Добавить друга</a></li>
-                            <li><a href="/date" class="menu__link">Планер</a></li>
-                            <li><a href="/timetable" class="menu__link">Расписание</a></li>
-                        </ul>
-                    </div>
-                </details>
-            </nav>
-            <footer class="footer">
-                <a href="/index" class="footer__logo"><img src="/static/img/logo_footer.png" alt=""></a>
-                <p class="footer__copyright">copyright</p>
-            </footer>
-        </div>
-        <div class="site__right">
-            <section class="posts">
-                {% if current_user.is_authenticated %}
-                <header class="posts__header">
-                    <h1 class="posts__heading">Публикации</h1>
-                    <a href="/add_publication" class="posts__add-post">
-                        Добавить пост
-                        <svg width="25.010254" height="25.010254" viewBox="0 0 25.0103 25.0103" fill="none"
-                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <defs />
-                            <path id="Стрелка 1"
-                                d="M16.47 5L2.51 5C1.11 5 0.01 3.9 0.01 2.5C0.01 1.09 1.11 0 2.51 0L22.51 0C23.91 0 25.01 1.09 25.01 2.5L25.01 22.5C25.01 23.9 23.91 25 22.51 25C21.11 25 20.01 23.9 20.01 22.5L20.01 8.53L4.27 24.26C3.28 25.25 1.73 25.25 0.74 24.26C-0.25 23.27 -0.25 21.72 0.74 20.73L16.47 5Z"
-                                fill="#FFFFFF" fill-opacity="1.000000" fill-rule="evenodd" />
-                        </svg>
-                    </a>
-                </header>
-
-
-                {% for item in data%}
-
-                <div class="post">
-                    <div class="post__top">
-                        <div class="post__info">
-                            <a href="" class="post__user-photo">
-                                <img src="" alt="">
-                            </a>
-                            <p class="post__user-name">{{item.author_name}}</p>
-                        </div>
-                        
-                        {% if current_user.id == item.author or current_user.role == 2 %}
-                            <div class="post__refactor">
-                                <a href="add_photo/{{item.id}}" class="post__add-photo">Добавить фото</a>
-                                <a href="delete_post/{{item.id}}" class="post__delete">Удалить</a>
-                            </div>
-                        {% endif %}
-                        
-
-                    </div>
-                    <div class="post__content">
-                        <h2 class="post__title">{{item.name}}</h2>
-                        <div class="post__imgs">
-                            {% for img in item.photos.split(',') %}
-                            {% if img != '0' %}
-                            <img src="/static/posts/{{img}}" height="300"
-                                width="img.split('.')[0].split('-')[2].split('_')[1]">
-                            {% endif %}
-                            {% endfor %}
-                        </div>
-                        <p class="post__text">
-                            {{item.content}}
-                        </p>
-                    </div>
-                    <div class="post__bottom">
-                        {% if current_user.idstr not in item.flags %}
-                            <a href="like/{{item.id}}/{{current_user.id}}" class="post_like">{{item.likes}}</a>
-                        {% else %}
-                            <a href="dislike/{{item.id}}/{{current_user.id}}" class="post_like post_like_liked">{{item.likes}}</a>
-                        {% endif %}
-                        
-                        <a href="read_publication/{{item.id}}" class="post__comments">Комменты</a>
-                    </div>
-                </div>
-                {% endfor %}
-                {% endif %}
-            </section>
-        </div>
+{% block content %}
+{% if current_user.is_authenticated %}
+<center><h1>Публикации</h1></center>
+<center><a href="add_publication" class="btn btn-primary">Add post</a></center>
+{% for item in data%}
+<center>
+<div class="col-md6 border rounded">
+    <h2>{{item.name}}</h2>
+    <div>
+        Публикация от {{item.author_name}}
     </div>
-    <script src="../static/js/posts.js"></script>
-</body>
+    <br>
+    {% for img in item.photos.split(',') %}
+        {% if img != '0' %}
+            <img src="/static/posts/{{img}}" height="300" width="img.split('.')[0].split('-')[2].split('_')[1]">
+        {% endif %}
+    {% endfor %}
+    <br>
+    <div>
+        {{item.content}}
+    </div>
 
-</html>
+    {% if current_user.idstr not in item.flags %}
+        <a href="like/{{item.id}}/{{current_user.id}}" class="btn btn-success">{{item.likes}}</a>
+    {% else %}
+        <a href="dislike/{{item.id}}/{{current_user.id}}" class="btn btn-warning">{{item.likes}}</a>
+    {% endif %}
+    <a href="read_publication/{{item.id}}" class="btn btn-success">Комменты</a>
+    {% if current_user.id == item.author or current_user.role == 2 %}
+        <a href="delete_post/{{item.id}}" class="btn btn-warning">Удалить</a>
+        <a href="add_photo/{{item.id}}" class="btn btn-warning">+ фото</a>
+    {% endif %}
+</div>
+</center>
+{% endfor %}
+{% endif %}
+{% endblock %}
