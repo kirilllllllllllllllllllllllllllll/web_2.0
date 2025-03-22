@@ -719,6 +719,7 @@ def read_private_chat(id):
 @app.route('/read_private_chat/delete_message1/<int:id>/<int:message>')
 def delete_message1(id, message):
     db_sess.query(PrivateMessages).filter(PrivateMessages.id == message).delete()
+    db_sess.commit()
     return redirect(f'/read_private_chat/{id}')
 
 
@@ -844,6 +845,7 @@ def delete_chat(id):
 @app.route('/read_chat/delete_message/<int:id>/<int:message>')
 def delete_message(id, message):
     db_sess.query(Messages).filter(Messages.id == message).delete()
+    db_sess.commit()
     return redirect(f'/read_chat/{id}')
 
 
