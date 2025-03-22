@@ -29,11 +29,11 @@ class User(SqlAlchemyBase, UserMixin):
 
     messages_bad = sqlalchemy.Column(sqlalchemy.String)
 
-    about = sqlalchemy.Column(sqlalchemy.String)
+    # about = sqlalchemy.Column(sqlalchemy.String)
 
     form = sqlalchemy.Column(sqlalchemy.String)
 
-    informal_name = sqlalchemy.Column(sqlalchemy.Integer)
+    # informal_name = sqlalchemy.Column(sqlalchemy.Integer)
 
     role = sqlalchemy.Column(sqlalchemy.Integer)
 
