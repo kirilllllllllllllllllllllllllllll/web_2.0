@@ -471,12 +471,8 @@ html {
   height: 360px;
 }
 .roles__img-wrapper img {
-  /* background: rgb(60, 126, 126); */
-  /* width: 505px; */
   height: 360px;
-  
 }
-
 
 @keyframes roles {
   0% {

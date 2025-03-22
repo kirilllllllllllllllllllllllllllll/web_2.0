@@ -390,7 +390,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .messages {
-  padding: 0px 15px;
+  padding: 15px 15px 0;
   height: calc(100vh - 70px - 50px);
   overflow: auto;
   scrollbar-color: #FAEBD5 #FAEBD5;
@@ -414,6 +414,14 @@ h1, h2, h3, h4, h5, h6 {
   align-items: end;
   gap: 5px;
 }
+.message_not-user {
+  padding-left: 50px;
+  border-radius: 5px 10px 10px 5px;
+}
+.message__user-image {
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
 .message__content {
   color: rgb(47, 47, 47);
   font-family: Montserrat;
@@ -421,6 +429,22 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
   line-height: 120%;
   text-align: right;
+}
+.message__username {
+  position: absolute;
+  left: 7px;
+  top: -15px;
+  font-size: 12px;
+  color: rgb(75, 75, 75);
+  font-family: Montserrat;
+  font-weight: 400;
+  line-height: 120%;
+}
+.message__delete {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: red;
 }
 .message__time {
   font-size: 10px;
@@ -437,31 +461,7 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 10px 5px 5px 10px;
   background-color: #B0D0C6;
 }
-.message_not-user {
-  padding-left: 50px;
-  border-radius: 5px 10px 10px 5px;
-}
-.message__user-image {
-  border-radius: 50%;
-  margin-bottom: 15px;
-}
-.message__delete {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  color: red;
-}
-.message__username {
-  position: absolute;
-  left: 7px;
-  top: -15px;
 
-  font-size: 12px;
-  color: rgb(75, 75, 75);
-  font-family: Montserrat;
-  font-weight: 400;
-  line-height: 120%;
-}
 .group-chat {
   position: relative;
 }
