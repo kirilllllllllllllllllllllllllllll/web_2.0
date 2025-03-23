@@ -118,7 +118,11 @@
                     <div class="message message_not-user">
                         <p class="message__content">
                             {% if item.sticker == 'none' %}
-                            {{item.text}}
+                                {% if item.file == 'none' %}
+                                    {{item.text}}
+                                {% else %}
+                                    <a href="/static/files_private/{{item.file}}" download>Скачать {{item.file}}</a>
+                                {% endif %}
                             {% else %}
                             <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
                             {% endif %}
@@ -135,7 +139,11 @@
                 <div class="message message_user">
                     <p class="message__content">
                         {% if item.sticker == 'none' %}
-                        {{item.text}}
+                            {% if item.file == 'none' %}
+                                {{item.text}}
+                            {% else %}
+                                <a href="/static/files_private/{{item.file}}" download>Скачать {{item.file}}</a>
+                            {% endif %}
                         {% else %}
                         <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
                         {% endif %}
@@ -151,7 +159,7 @@
                 {% endfor %}
             </div>
 
-            <form class="group-chat__send" action="" method="post">
+            <form class="group-chat__send" action="" method="post" enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
                 {{ form.content(class="form-control", placeholder="Введите сообщение")}}
                 {% for error in form.content.errors %}
@@ -159,6 +167,14 @@
                     {{ error }}
                 </div>
                 {% endfor %}
+
+                {{ form.file(class="form-control") }}<br>
+                    {% for error in form.file.errors %}
+                        <p class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </p>
+                    {% endfor %}
+
                 <a class="group-chat__send-stickers">
                     <img src="/static/img/sticker_button_img.png" alt="">
                 </a>

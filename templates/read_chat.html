@@ -125,12 +125,16 @@
                             </a>
                             <p class="message__content">
                                 {% if item.sticker == 'none' %}
-                                {{item.text}}
+                                    {% if item.file == 'none' %}
+                                        {{item.text}}
+                                    {% else %}
+                                        <a href="/static/files/{{item.file}}" download>Скачать {{item.file}}</a>
+                                    {% endif %}
                                 {% else %}
                                 <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
                                 {% endif %}
                                 {% if current_user.role == 2 %}
-                                <a class="message__delete" href="delete_message/{{id}}/{{item.id}}" display="none">X</a>
+                                <a class="message__delete" href="delete_message/{{id}}/{{item.id}}">X</a>
                                 {% endif %}
                             </p>
                             <p class="message__time">
@@ -145,12 +149,16 @@
                     <div class="message message_user">
                         <p class="message__content">
                             {% if item.sticker == 'none' %}
-                            {{item.text}}
-                            {% else %}
+                                {% if item.file == 'none' %}
+                                            {{item.text}}
+                                        {% else %}
+                                            <a href="/static/files/{{item.file}}" download>Скачать {{item.file}}</a>
+                                        {% endif %}
+                                {% else %}
                             <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
                             {% endif %}
                         </p>
-                        <a class="message__delete" href="delete_message/{{id}}/{{item.id}}" display="none">X</a>
+                        <a class="message__delete" href="delete_message/{{id}}/{{item.id}}">X</a>
                         <p class="message__time">
                             {{item.time}}
                         </p>
@@ -159,7 +167,7 @@
                     {% endif %}
                     {% endfor %}
                 </div>
-                <form class="group-chat__send" action="" method="post">
+                <form class="group-chat__send" action="" method="post" enctype="multipart/form-data">
                     {{ form.hidden_tag() }}
                     {{ form.content(class="form-control", placeholder="Введите сообщение") }}
                     {% for error in form.content.errors %}
@@ -167,6 +175,14 @@
                         {{ error }}
                     </div>
                     {% endfor %}
+
+                    {{ form.file(class="form-control") }}<br>
+                    {% for error in form.file.errors %}
+                        <p class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </p>
+                    {% endfor %}
+
                     <a class="group-chat__send-stickers">
                         <img src="/static/img/sticker_button_img.png" alt="">
                     </a>
@@ -223,7 +239,7 @@
                 deleteButton.style.display = 'block'
             })
         });
-        
+
         headerMenuButton.addEventListener('click', (e) => {
             if (headerMenu.classList.contains('open')) {
                 headerMenu.classList.remove('open')
