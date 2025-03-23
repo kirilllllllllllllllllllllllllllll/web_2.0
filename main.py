@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 from sqlalchemy import and_, or_
 
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect
 from data import db_session
 from data.private_chat import PrivateChat
 
@@ -35,16 +35,24 @@ from flask_login import logout_user
 from flask_login import current_user
 
 import os
+from dotenv import load_dotenv
 
 from PIL import Image
+
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path)
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'kirik1234pro_and_thisismyshadow_secret_key'
 app.config['UPLOAD_FOLDER'] = os.getcwd() + "/static/profile_photos"
 app.config['UPLOAD_FOLDER2'] = os.getcwd() + "/static/chat_imgs"
 app.config['UPLOAD_FOLDER3'] = os.getcwd() + "/static/posts"
-SECRET_CODE1 = '124_9713'
-SECRET_CODE2 = '124_nexus'
+app.config['UPLOAD_FOLDER4'] = os.getcwd() + '/static/files'
+app.config['UPLOAD_FOLDER5'] = os.getcwd() + '/static/files_private'
+SECRET_CODE1 = os.environ['SECRET_CODE1']
+SECRET_CODE2 = os.environ['SECRET_CODE2']
 CONST = ['7А', '7Б', '7В', '7Г', '8А', '8Б', '8В', '8Г', '9А', '9Б', '9В', '9Г', '10А', '10Б', '10В', '10Г', '11А',
          '11Б', '11В', '11Г']
 TIME1 = ['8:00 - 8:35', '8:40 - 9:20', '9:25 - 10:05', '10:25 - 12:05', '12:25 - 13:05', '13:10 - 13:50',
@@ -663,18 +671,44 @@ def send_sticker1(id, sticker):
 def read_chat(id):
     form = AddMessage()
     if form.validate_on_submit():
-        message = Messages(
-            text=form.content.data,
-            sender=current_user.id,
-            name=current_user.name,
-            photo=current_user.photo,
-            chat=id,
-            time=str(datetime.now()).split('.')[0][:-3].split()[1],
-            sticker='none'
-        )
-        db_sess.add(message)
-        db_sess.commit()
-        return redirect(f'/read_chat/{id}')
+        f = form.file.data
+        if not f.filename:
+            if form.content.data:
+                message = Messages(
+                    text=form.content.data,
+                    sender=current_user.id,
+                    name=current_user.name,
+                    photo=current_user.photo,
+                    chat=id,
+                    time=str(datetime.now()).split('.')[0][:-3].split()[1],
+                    sticker='none',
+                    file='none'
+                )
+                db_sess.add(message)
+                db_sess.commit()
+            return redirect(f'/read_chat/{id}')
+        else:
+            type = f.filename.split('.')[-1]
+            if type not in ['.trojan', '.dll', '.valve', '.exe', '.bat', '.js', '.jse', '.vbs', '.ps1', '.scr', '.msi',
+                            '.com', '.dmg', '.apk']:
+                message = Messages(
+                    text=form.content.data,
+                    sender=current_user.id,
+                    name=current_user.name,
+                    photo=current_user.photo,
+                    chat=id,
+                    time=str(datetime.now()).split('.')[0][:-3].split()[1],
+                    sticker='none',
+                    file='none'
+                )
+                db_sess.add(message)
+                db_sess.commit()
+                st = str(message.id) + '.' + type
+                f.save(os.path.join(app.config['UPLOAD_FOLDER4'], st))
+                message.file = st
+
+                db_sess.commit()
+            return redirect(f'/read_chat/{id}')
 
     # chat = db_sess.query(Chat).filter(Chat.id == id).first()
     data = db_sess.query(Chat).filter(Chat.peoples.like(f'%{current_user.id}%')).all()
@@ -692,18 +726,42 @@ def read_chat(id):
 def read_private_chat(id):
     form = AddMessage()
     if form.validate_on_submit():
-        message = PrivateMessages(
-            text=form.content.data,
-            sender=current_user.id,
-            name=current_user.name,
-            photo=current_user.photo,
-            chat=id,
-            sticker='none',
-            time=str(datetime.now()).split('.')[0][:-3].split()[1]
-        )
-        db_sess.add(message)
-        db_sess.commit()
-        return redirect(f'/read_private_chat/{id}')
+        f = form.file.data
+        if not f.filename:
+            message = PrivateMessages(
+                text=form.content.data,
+                sender=current_user.id,
+                name=current_user.name,
+                photo=current_user.photo,
+                chat=id,
+                sticker='none',
+                time=str(datetime.now()).split('.')[0][:-3].split()[1]
+            )
+            db_sess.add(message)
+            db_sess.commit()
+            return redirect(f'/read_private_chat/{id}')
+        else:
+            type = f.filename.split('.')[-1]
+            if type not in ['.trojan', '.dll', '.valve', '.exe', '.bat', '.js', '.jse', '.vbs', '.ps1', '.scr', '.msi',
+                            '.com', '.dmg', '.apk']:
+                message = PrivateMessages(
+                    text=form.content.data,
+                    sender=current_user.id,
+                    name=current_user.name,
+                    photo=current_user.photo,
+                    chat=id,
+                    sticker='none',
+                    time=str(datetime.now()).split('.')[0][:-3].split()[1]
+                )
+                db_sess.add(message)
+                db_sess.commit()
+
+                st = str(message.id) + '.' + type
+                f.save(os.path.join(app.config['UPLOAD_FOLDER5'], st))
+                message.file = st
+
+                db_sess.commit()
+            return redirect(f'/read_private_chat/{id}')
 
     # chat = db_sess.query(Chat).filter(Chat.id == id).first()
     data = db_sess.query(Chat).filter(Chat.peoples.like(f'%{current_user.id}%')).all()

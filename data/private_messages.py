@@ -22,3 +22,5 @@ class PrivateMessages(SqlAlchemyBase):
     time = sqlalchemy.Column(sqlalchemy.String)
 
     sticker = sqlalchemy.Column(sqlalchemy.String)
+
+    file = sqlalchemy.Column(sqlalchemy.String)
