@@ -83,12 +83,12 @@
                     <div class="header-wrapper">
                         {% if current_user.id == chat.user1%}
                         <img src="/static/profile_photos/{{chat.photo2}}" width="60" height="60">
-                        <h2>{{chat.name1}}</h2>
+                        <h2 class="header__chat-name">{{chat.name1}}</h2>
 
 
                         {% else %}
                         <img src="/static/profile_photos/{{chat.photo1}}" width="60" height="60">
-                        <h2>{{chat.name2}}</h2>
+                        <h2 class="header__chat-name">{{chat.name2}}</h2>
 
 
                         {% endif %}
