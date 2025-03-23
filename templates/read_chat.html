@@ -130,7 +130,7 @@
                                 <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
                                 {% endif %}
                                 {% if current_user.role == 2 %}
-                                <a class="message__delete" href="delete_message/{{id}}/{{item.id}}">X</a>
+                                <a class="message__delete" href="delete_message/{{id}}/{{item.id}}" display="none">X</a>
                                 {% endif %}
                             </p>
                             <p class="message__time">
@@ -150,7 +150,7 @@
                             <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
                             {% endif %}
                         </p>
-                        <a class="message__delete" href="delete_message/{{id}}/{{item.id}}">X</a>
+                        <a class="message__delete" href="delete_message/{{id}}/{{item.id}}" display="none">X</a>
                         <p class="message__time">
                             {{item.time}}
                         </p>
@@ -193,25 +193,37 @@
         const headerMenuButton = document.querySelector('.header__menu-button')
         const headerMenu = document.querySelector('.header__menu')
         const deleteMessageButton = document.querySelectorAll('.message__delete')
+        const formControl = document.querySelector('.form-control')
+        const messageList = messages.querySelectorAll('.message')
 
+        formControl.focus()
+        messages.addEventListener('scroll', (e) => {
+            if (!messages.classList.contains('noPadding')) {
+                messages.classList.add('noPadding')
+            }
+        })
         messages.scroll(0, 99999999999)
         if (localStorage.getItem('currentPage') == page) {
             console.log(1);
             groupChatMenu.scroll(0, localStorage.getItem('leftMenu_readChatY'))
         }
         localStorage.setItem('currentPage', page)
-        // let messageId = 1
-        // messages.forEach(element => {
-        //     element.setAttribute('data-message-id', messageId)
-        //     const deleteButton = element.querySelector('.message__delete')
-        //     deleteButton.setAttribute('data-message-id', messageId)
-        //     messageId++
 
-        //     element.addEventListener('contextmenu', (e) => {
+        deleteMessageButton.forEach(el => {
+            el.style.display = 'none'
+        })
+        let messageId = 1
+        messageList.forEach(element => {
+            element.setAttribute('data-message-id', messageId)
+            const deleteButton = element.querySelector('.message__delete')
+            deleteButton.setAttribute('data-message-id', messageId)
+            messageId++
 
-        //         // deleteMessageButton.
-        //     })
-        // });
+            element.addEventListener('contextmenu', (e) => {
+                deleteButton.style.display = 'block'
+            })
+        });
+        
         headerMenuButton.addEventListener('click', (e) => {
             if (headerMenu.classList.contains('open')) {
                 headerMenu.classList.remove('open')
@@ -220,7 +232,6 @@
                 headerMenu.classList.add('open')
             }
         })
-
         sendButton.value = ">"
         sendButton.addEventListener('click', (e) => {
             localStorage.setItem('leftMenu_readChatY', groupChatMenu.scrollTop)
@@ -238,7 +249,7 @@
             }
             else {
                 stickers.classList.add('open')
-                stickers.style.display = 'grid'
+                stickers.style.display = 'flex'
                 messages.classList.add('messages_open')
             }
         })

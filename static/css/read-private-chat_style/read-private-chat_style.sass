@@ -23,6 +23,7 @@ $inputHeight: 50px
     position: absolute
     top: 0
     width: 100vw
+    max-height: 100vh
 
     padding-left: $menu_width
     background-color: #FAEBD5
@@ -166,13 +167,10 @@ $inputHeight: 50px
                 z-index: 1000
 .messages
     padding: 10px 10px 0 10px
-
     height: calc( 100vh - 70px - $inputHeight)
     overflow: auto
 
     scrollbar-color: $site_rigth_color $site_rigth_color
-    &_open
-        height: calc( 100vh - 270px - $inputHeight)
 .noPadding
     padding: 10px 0px 0px 10px
 
@@ -184,7 +182,7 @@ $inputHeight: 50px
     border-radius: 10px
     background-color: #fff
     max-width: 350px
-    margin-bottom: 15px
+    margin-bottom: 5px
     margin-top: 1px
 
     position: relative
@@ -193,7 +191,6 @@ $inputHeight: 50px
         align-items: end
         gap: 5px
     &_not-user
-        padding-left: 50px
         border-radius: 5px 10px 10px 5px
     &__user-image
         border-radius: 50%

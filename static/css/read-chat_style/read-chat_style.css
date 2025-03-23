@@ -115,8 +115,9 @@ h1, h2, h3, h4, h5, h6 {
 .site_left .menu {
   overflow: auto;
   max-height: 68vh;
-  padding: 2px;
-  scrollbar-color: white rgb(60, 126, 126);
+  padding: 2px 2px 2px 12px;
+  scrollbar-color: rgb(60, 126, 126) rgb(60, 126, 126);
+  position: relative;
 }
 .site_left .menu__deatils-block {
   overflow: hidden;
@@ -390,12 +391,19 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .messages {
-  padding: 15px 15px 0;
+  padding: 10px 10px 0 10px;
   height: calc(100vh - 70px - 50px);
   overflow: auto;
   scrollbar-color: #FAEBD5 #FAEBD5;
 }
 .messages_open {
+  height: calc(100vh - 270px - 50px);
+}
+
+.noPadding {
+  padding: 10px 0px 0px 10px;
+}
+.noPadding_open {
   height: calc(100vh - 270px - 50px);
 }
 
@@ -474,5 +482,5 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 100;
   overflow: auto;
   scrollbar-color: #fff #fff;
-  grid-template-columns: repeat(11, 115px);
+  flex-wrap: wrap;
 }/*# sourceMappingURL=read-chat_style.css.map */

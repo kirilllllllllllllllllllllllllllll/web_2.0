@@ -24,8 +24,8 @@
 </head>
 
 <body>
-    <div class="wrapper">
-        <div class="site__left">
+    <div class="site">
+        <div class="site_left">
             <div class="profile">
                 <div class="profile__img-wrapper">
                     <img src="/static/profile_photos/{{current_user.photo}}" alt="" class="profile__img">
@@ -51,7 +51,7 @@
                 <p class="footer__copyright">copyright</p>
             </footer>
         </div>
-        <div class="site__right">
+        <div class="site_right">
             <section class="posts">
                 {% if current_user.is_authenticated %}
                 <header class="posts__header">

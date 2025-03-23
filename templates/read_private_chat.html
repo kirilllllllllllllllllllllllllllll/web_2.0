@@ -18,7 +18,7 @@
         href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="../static/css/read-chat_style/read-chat_style.css">
+    <link rel="stylesheet" href="../static/css/read-private-chat_style/read-private-chat_style.css">
     <title>Read private chat</title>
 </head>
 
@@ -82,16 +82,16 @@
                 <nav class="group-chat__header header">
                     <div class="header-wrapper">
                         {% if current_user.id == chat.user1%}
-                             <img src="/static/profile_photos/{{chat.photo2}}" width="70" height="70">
-                             <h2>{{chat.name1}}</h2>
+                        <img src="/static/profile_photos/{{chat.photo2}}" width="60" height="60">
+                        <h2>{{chat.name1}}</h2>
 
 
-                         {% else %}
-                             <img src="/static/profile_photos/{{chat.photo1}}" width="70" height="70">
-                             <h2>{{chat.name2}}</h2>
+                        {% else %}
+                        <img src="/static/profile_photos/{{chat.photo1}}" width="60" height="60">
+                        <h2>{{chat.name2}}</h2>
 
 
-                         {% endif %}
+                        {% endif %}
 
                     </div>
                     <button class="header__menu-button">
@@ -104,74 +104,68 @@
                     </div>
                 </nav>
             </div>
-
-            {% for item in messages%}
-            {% if item.sender == 0 %}
-            <div class="col-md6 border rounded message" align="center">
-                <div>
-                    {{item.text}}
+            <div class="messages">
+                {% for item in messages%}
+                {% if item.sender == 0 %}
+                <div class="message" align="center">
+                    <div>
+                        {{item.text}}
+                    </div>
                 </div>
+                {% else %}
+                {% if item.sender != current_user.id %}
+                <div class="message-wrapper">
+                    <div class="message message_not-user">
+                        <p class="message__content">
+                            {% if item.sticker == 'none' %}
+                            {{item.text}}
+                            {% else %}
+                            <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
+                            {% endif %}
+                            {% if current_user.role == 2 %}
+                            <a class="message__delete" href="delete_message1/{{id}}/{{item.id}}">X</a>
+                            {% endif %}
+                        </p>
+                        <p class="message__time">
+                            {{item.time}}
+                        </p>
+                    </div>
+                </div>
+                {% else %}
+                <div class="message message_user">
+                    <p class="message__content">
+                        {% if item.sticker == 'none' %}
+                        {{item.text}}
+                        {% else %}
+                        <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
+                        {% endif %}
+                        <!-- <button class="message__delete-for-you">Удалить только у себя</button> -->
+                    </p>
+                    <a class="message__delete" href="delete_message1/{{id}}/{{item.id}}">X</a>
+                    <p class="message__time">
+                        {{item.time}}
+                    </p>
+                </div>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
             </div>
-            {% else %}
-            {% if item.sender != current_user.id %}
-            <div class="col-md6 border rounded message" align="left">
 
-                <div>
-                    {% if item.sticker == 'none' %}
-                    {{item.text}}
-                    {% else %}
-                    <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
-                    {% endif %}
-                    {% if current_user.role == 2 %}
-                    <a href="delete_message1/{{id}}/{{item.id}}">Удалить</a>
-                    {% endif %}
-                </div>
-
-                <div>
-                    {{item.time}}
-                </div>
-
-            </div>
-
-            {% else %}
-            <div class="col-md6 border rounded message message_your" align="right">
-
-                <div>
-                    {% if item.sticker == 'none' %}
-
-                    {{item.text}}
-                    {% else %}
-
-                    <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
-                    {% endif %}
-                    <a href="delete_message1/{{id}}/{{item.id}}">Удалить</a>
-                    <!-- <button class="message__delete-for-you">Удалить только у себя</button> -->
-                </div>
-                <div>
-                    {{item.time}}
-                </div>
-            </div>
-            {% endif %}
-            {% endif %}
-            {% endfor %} 
-
-
-
-            <form action="" method="post">
+            <form class="group-chat__send" action="" method="post">
                 {{ form.hidden_tag() }}
-                <p>
-                    {{ form.content.label }}<br>
-                    {{ form.content(class="form-control", type="text") }}<br>
-                    {% for error in form.content.errors %}
+                {{ form.content(class="form-control", placeholder="Введите сообщение")}}
+                {% for error in form.content.errors %}
                 <div class="alert alert-danger" role="alert">
                     {{ error }}
                 </div>
                 {% endfor %}
-                </p>
-                <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+                <a class="group-chat__send-stickers">
+                    <img src="/static/img/sticker_button_img.png" alt="">
+                </a>
+                {{ form.submit(type="submit", class="group-chat__send-button") }}
                 <div>{{ message }}</div>
             </form>
-            <div class="stickers">
+            <div class="group-chat__stickers">
                 {% for item in stickers %}
                 <a href="/send_sticker1/{{id}}/{{item}}"><img src="/static/stickers/{{item}}.png" width="100"
                         height="100"></a>
@@ -180,8 +174,64 @@
         </div>
     </div>
 
+    <script>
+        const page = 'read_private_chat'
+        const messages = document.querySelector('.messages')
+        const sendButton = document.querySelector('.group-chat__send-button')
+        const sendStickers = document.querySelector('.group-chat__send-stickers')
+        const groupChatMenu = document.querySelector('.menu')
+        const headerMenuButton = document.querySelector('.header__menu-button')
+        const headerMenu = document.querySelector('.header__menu')
+        const deleteMessageButton = document.querySelectorAll('.message__delete')
+        const formControl = document.querySelector('.form-control')
 
-    <script src="../static/js/read_private_chat.js"></script>
+        formControl.focus()
+
+        messages.scroll(0, 99999999999)
+        if (localStorage.getItem('currentPage') == page) {
+            groupChatMenu.scroll(0, localStorage.getItem('leftMenu_readChatY'))
+        }
+        localStorage.setItem('currentPage', page)
+
+
+        messages.addEventListener('scroll', (e) => {
+            if (!messages.classList.contains('noPadding')){
+                messages.classList.add('noPadding')
+            }
+        })
+        headerMenuButton.addEventListener('click', (e) => {
+            if (headerMenu.classList.contains('open')) {
+                headerMenu.classList.remove('open')
+            }
+            else {
+                headerMenu.classList.add('open')
+            }
+        })
+
+        sendButton.value = ">"
+        sendButton.addEventListener('click', (e) => {
+            localStorage.setItem('leftMenu_readChatY', groupChatMenu.scrollTop)
+        })
+
+
+
+        sendStickers.addEventListener('click', (e) => {
+            const stickers = document.querySelector('.group-chat__stickers')
+            if (stickers.classList.contains('open')) {
+                stickers.classList.remove('open')
+                stickers.style.display = 'none'
+                messages.classList.remove('messages_open')
+
+            }
+            else {
+                stickers.classList.add('open')
+                stickers.style.display = 'flex'
+                messages.classList.add('messages_open')
+            }
+        })
+
+
+    </script>
 </body>
 
 </html>
