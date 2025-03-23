@@ -20,3 +20,4 @@ class PrivateChat(SqlAlchemyBase):
     photo1 = sqlalchemy.Column(sqlalchemy.String)
 
     photo2 = sqlalchemy.Column(sqlalchemy.String)
+
