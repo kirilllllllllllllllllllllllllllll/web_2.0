@@ -65,8 +65,8 @@ STICKERS = ['shark_1', 'shark_2', 'shark_3', 'shark_4', 'shark_5', 'shark_6', 's
             'shark_19', 'shark_20', 'shark_21', 'shark_22', 'shark_23', 'shark_24', 'shark_25', 'shark_26', 'shark_27',
             'shark_28', 'shark_29', 'shark_30', 'shark_31', 'shark_32', 'shark_33', 'shark_34', 'shark_35', 'shark_36',
             'shark_37', 'shark_38', 'shark_39', 'shark_40', 'shark_41', 'shark_42', 'shark_43', 'shark_44', 'shark_45',
-            'shark_46',
-            'shark_47', 'shark_48']
+            'shark_46', 'shark_47', 'shark_48']
+
 SIZE_PHOTO = 500
 
 login_manager = LoginManager()
@@ -735,7 +735,8 @@ def read_private_chat(id):
                 photo=current_user.photo,
                 chat=id,
                 sticker='none',
-                time=str(datetime.now()).split('.')[0][:-3].split()[1]
+                time=str(datetime.now()).split('.')[0][:-3].split()[1],
+                file='none'
             )
             db_sess.add(message)
             db_sess.commit()
@@ -751,7 +752,8 @@ def read_private_chat(id):
                     photo=current_user.photo,
                     chat=id,
                     sticker='none',
-                    time=str(datetime.now()).split('.')[0][:-3].split()[1]
+                    time=str(datetime.now()).split('.')[0][:-3].split()[1],
+                    file='none'
                 )
                 db_sess.add(message)
                 db_sess.commit()
