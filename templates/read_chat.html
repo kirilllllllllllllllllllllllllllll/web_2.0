@@ -175,8 +175,10 @@
                         {{ error }}
                     </div>
                     {% endfor %}
-
-                    {{ form.file(class="form-control") }}<br>
+                    <label for="file-upload" class="group-chat__send-file">
+                        <img src="/static/img/send_file.jpg" alt="">
+                    </label>
+                    {{ form.file(id="file-upload") }}
                     {% for error in form.file.errors %}
                         <p class="alert alert-danger" role="alert">
                             {{ error }}

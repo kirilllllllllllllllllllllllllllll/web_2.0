@@ -118,11 +118,11 @@
                     <div class="message message_not-user">
                         <p class="message__content">
                             {% if item.sticker == 'none' %}
-                                {% if item.file == 'none' %}
-                                    {{item.text}}
-                                {% else %}
-                                    <a href="/static/files_private/{{item.file}}" download>Скачать {{item.file}}</a>
-                                {% endif %}
+                            {% if item.file == 'none' %}
+                            {{item.text}}
+                            {% else %}
+                            <a href="/static/files_private/{{item.file}}" download>Скачать {{item.file}}</a>
+                            {% endif %}
                             {% else %}
                             <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
                             {% endif %}
@@ -139,11 +139,11 @@
                 <div class="message message_user">
                     <p class="message__content">
                         {% if item.sticker == 'none' %}
-                            {% if item.file == 'none' %}
-                                {{item.text}}
-                            {% else %}
-                                <a href="/static/files_private/{{item.file}}" download>Скачать {{item.file}}</a>
-                            {% endif %}
+                        {% if item.file == 'none' %}
+                        {{item.text}}
+                        {% else %}
+                        <a href="/static/files_private/{{item.file}}" download>Скачать {{item.file}}</a>
+                        {% endif %}
                         {% else %}
                         <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
                         {% endif %}
@@ -167,13 +167,15 @@
                     {{ error }}
                 </div>
                 {% endfor %}
-
-                {{ form.file(class="form-control") }}<br>
-                    {% for error in form.file.errors %}
-                        <p class="alert alert-danger" role="alert">
-                            {{ error }}
-                        </p>
-                    {% endfor %}
+                <label for="file-upload" class="group-chat__send-file">
+                    <img src="/static/img/send_file.jpg" alt="">
+                </label>
+                {{ form.file(id="file-upload") }}
+                {% for error in form.file.errors %}
+                <p class="alert alert-danger" role="alert">
+                    {{ error }}
+                </p>
+                {% endfor %}
 
                 <a class="group-chat__send-stickers">
                     <img src="/static/img/sticker_button_img.png" alt="">
@@ -211,7 +213,7 @@
 
 
         messages.addEventListener('scroll', (e) => {
-            if (!messages.classList.contains('noPadding')){
+            if (!messages.classList.contains('noPadding')) {
                 messages.classList.add('noPadding')
             }
         })

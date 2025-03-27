@@ -123,12 +123,15 @@ $inputHeight: 50px
     display: flex
 .group-chat
     max-height: 100vh
+    input[type="file"]
+        display: none
+
     &__send
         display: flex
         height: $inputHeight
         .form-control
             height: $inputHeight
-            width: 100%
+            width: calc( 100vw - $menu_width - $inputHeight * 3 )
             padding-left: 30px
             padding-right: 30px
 
@@ -164,8 +167,19 @@ $inputHeight: 50px
                 width: 30px
                 height: 30px
                 z-index: 1000
+        &-file
+            font-size: 0
+            display: flex
+            align-items: center
+            justify-content: center
+            width: 50px
+            background-color: #fff
+
+            img
+                width: 40px
+                height: 40px
 .messages
-    padding: 10px 10px 0 10px
+    padding: 12px 10px 0 10px
 
     height: calc( 100vh - 70px - $inputHeight)
     overflow: auto
@@ -234,6 +248,8 @@ $inputHeight: 50px
         justify-self: flex-end
         border-radius: 10px 5px 5px 10px
         background-color: #B0D0C6
+        margin-top: -10px
+
 .group-chat
     position: relative
 .group-chat__stickers
