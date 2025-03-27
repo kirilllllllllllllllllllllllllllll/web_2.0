@@ -217,6 +217,30 @@ $inputHeight: 50px
         font-weight: 400
         line-height: 120%
         text-align: right
+        
+        &-wrapper
+            position: absolute
+            max-width: 100px
+            background-color: #f1f1f1
+            padding: 10px
+            border-radius: 5px
+
+            display: flex
+            flex-direction: column
+            gap: 10px
+
+            rigth: 10px
+            top: 0
+            a
+                color: rgb(205, 0, 0)
+                font-family: Montserrat
+                font-size: 14px
+                font-weight: 400
+                line-height: 120%
+                text-align: left
+            &_user
+                right: 0
+                left: -110px
     &__username
         position: absolute
         left: 7px
@@ -227,11 +251,6 @@ $inputHeight: 50px
         font-family: Montserrat
         font-weight: 400
         line-height: 120%
-    &__delete
-        position: absolute
-        top: 5px
-        right: 5px
-        color: red
     &__time
         font-size: 10px
         position: absolute

@@ -453,6 +453,30 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 120%;
   text-align: right;
 }
+.message__content-wrapper {
+  position: absolute;
+  max-width: 100px;
+  background-color: #f1f1f1;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  rigth: 10px;
+  top: 0;
+}
+.message__content-wrapper a {
+  color: rgb(205, 0, 0);
+  font-family: Montserrat;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 120%;
+  text-align: left;
+}
+.message__content-wrapper_user {
+  right: 0;
+  left: -110px;
+}
 .message__username {
   position: absolute;
   left: 7px;
@@ -462,12 +486,6 @@ h1, h2, h3, h4, h5, h6 {
   font-family: Montserrat;
   font-weight: 400;
   line-height: 120%;
-}
-.message__delete {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  color: red;
 }
 .message__time {
   font-size: 10px;

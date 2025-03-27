@@ -125,18 +125,21 @@
                             </a>
                             <p class="message__content">
                                 {% if item.sticker == 'none' %}
-                                    {% if item.file == 'none' %}
-                                        {{item.text}}
-                                    {% else %}
-                                        <a href="/static/files/{{item.file}}" download>Скачать {{item.file}}</a>
-                                    {% endif %}
+                                {% if item.file == 'none' %}
+                                {{item.text}}
                                 {% else %}
-                                <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
+                                <a class="message__a" href="/static/files/{{item.file}}" download>Скачать {{item.file}}</a> <br>
+                                {{item.text}}
                                 {% endif %}
-                                {% if current_user.role == 2 %}
-                                <a class="message__delete" href="delete_message/{{id}}/{{item.id}}">X</a>
-                                {% endif %}
+                                {% else %}
+                                <img class="message__img" src="/static/stickers/{{item.sticker}}" width="250" height="250">
+                                {% endif %}       
                             </p>
+                            {% if current_user.role == 2 %}
+                                <div class="message__content-wrapper">
+                                    <a class="message__delete" href="delete_message/{{id}}/{{item.id}}">Удалить</a>
+                                </div>
+                                {% endif %}
                             <p class="message__time">
                                 {{item.time}}
                             </p>
@@ -149,16 +152,19 @@
                     <div class="message message_user">
                         <p class="message__content">
                             {% if item.sticker == 'none' %}
-                                {% if item.file == 'none' %}
-                                            {{item.text}}
-                                        {% else %}
-                                            <a href="/static/files/{{item.file}}" download>Скачать {{item.file}}</a>
-                                        {% endif %}
-                                {% else %}
-                            <img src="/static/stickers/{{item.sticker}}" width="250" height="250">
+                            {% if item.file == 'none' %}
+                            {{item.text}}
+                            {% else %}
+                            <a class="message__a" href="/static/files/{{item.file}}" download>Скачать {{item.file}}</a> <br>
+                            {{item.text}}
+                            {% endif %}
+                            {% else %}
+                            <img class="message__img" src="/static/stickers/{{item.sticker}}" width="250" height="250">
                             {% endif %}
                         </p>
-                        <a class="message__delete" href="delete_message/{{id}}/{{item.id}}">X</a>
+                        <div class="message__content-wrapper message__content-wrapper_user">
+                            <a class="message__delete" href="delete_message/{{id}}/{{item.id}}">Удалить</a>
+                        </div>
                         <p class="message__time">
                             {{item.time}}
                         </p>
@@ -180,9 +186,9 @@
                     </label>
                     {{ form.file(id="file-upload") }}
                     {% for error in form.file.errors %}
-                        <p class="alert alert-danger" role="alert">
-                            {{ error }}
-                        </p>
+                    <p class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </p>
                     {% endfor %}
 
                     <a class="group-chat__send-stickers">
@@ -227,9 +233,11 @@
         }
         localStorage.setItem('currentPage', page)
 
+
         deleteMessageButton.forEach(el => {
-            el.style.display = 'none'
+            el.parentNode.style.display = 'none'
         })
+        
         let messageId = 1
         messageList.forEach(element => {
             element.setAttribute('data-message-id', messageId)
@@ -237,10 +245,18 @@
             deleteButton.setAttribute('data-message-id', messageId)
             messageId++
 
-            element.addEventListener('contextmenu', (e) => {
-                deleteButton.style.display = 'block'
+            element.addEventListener('click', (e) => {
+                deleteButton.parentNode.style.display = 'block'
             })
         });
+        document.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('message') && !e.target.classList.contains('message__a') && !e.target.classList.contains('message__img') && !e.target.classList.contains('message__time') && !e.target.classList.contains('message__content')) {
+                deleteMessageButton.forEach(el => {
+                el.parentNode.style.display = 'none'
+            })
+            }
+            
+        })
 
         headerMenuButton.addEventListener('click', (e) => {
             if (headerMenu.classList.contains('open')) {

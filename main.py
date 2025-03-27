@@ -728,18 +728,19 @@ def read_private_chat(id):
     if form.validate_on_submit():
         f = form.file.data
         if not f.filename:
-            message = PrivateMessages(
-                text=form.content.data,
-                sender=current_user.id,
-                name=current_user.name,
-                photo=current_user.photo,
-                chat=id,
-                sticker='none',
-                time=str(datetime.now()).split('.')[0][:-3].split()[1],
-                file='none'
-            )
-            db_sess.add(message)
-            db_sess.commit()
+            if form.content.data:
+                message = PrivateMessages(
+                    text=form.content.data,
+                    sender=current_user.id,
+                    name=current_user.name,
+                    photo=current_user.photo,
+                    chat=id,
+                    sticker='none',
+                    time=str(datetime.now()).split('.')[0][:-3].split()[1],
+                    file='none'
+                )
+                db_sess.add(message)
+                db_sess.commit()
             return redirect(f'/read_private_chat/{id}')
         else:
             type = f.filename.split('.')[-1]
