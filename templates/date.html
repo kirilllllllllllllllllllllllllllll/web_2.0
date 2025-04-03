@@ -1,53 +1,123 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block content %}
-<center><h1>События в ближайшие дни</h1></center>
-{% for item in dates1%}
-<center>
-<div class="col-md6 border rounded">
-    <h2>{{item.name}}</h2>
-    <div>
-        Запланировано на {{item.date}}
-    </div>
-    <div>
-        Осталось меньше 2 дней!
-    </div>
-</div>
-</center>
-{% endfor %}
-<center><h1>Другие запланированные события</h1></center>
-{% for item in dates2%}
-<center>
-<div class="col-md6 border rounded">
-    <h2>{{item.name}}</h2>
-    <div>
-        Запланировано на {{item.date}}
-    </div>
-</div>
-</center>
-{% endfor %}
-<center><h1>Добавление даты</h1></center>
-    <form action="" method="post">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.name.label }}<br>
-            {{ form.name(class="form-control") }}<br>
-            {% for error in form.name.errors %}
-                <div class="alert alert-danger" role="alert">
-                    {{ error }}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- DM Sans font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+
+    <!-- Open Sans font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <!-- Основные стили -->
+    <link rel="stylesheet" href="/static/css/planer_style/planer_style.css">
+    <title>Planer</title>
+</head>
+
+<body>
+    <div class="site">
+        <div class="site_left">
+            <div class="profile">
+                <div class="profile__img-wrapper">
+                    <img src="/static/profile_photos/{{current_user.photo}}" alt="" class="profile__img">
                 </div>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.date.label }}<br>
-            {{ form.date(class="form-control") }}<br>
-            {% for error in form.date.errors %}
-                <div class="alert alert-danger" role="alert">
-                    {{ error }}
+                <a href="/profile" class="profile__name" display="block">{{current_user.name}}</a>
+            </div>
+            <nav class="menu">
+                <details class="menu__deatils-block" open>
+                    <summary class="menu__title">Меню</summary>
+                    <div class="menu__list-wrapper">
+                        <ul class="menu__list">
+                            <li><a href="/main" class="menu__link">Сообщения</a></li>
+                            <li><a href="/posts" class="menu__link">Посты</a></li>
+                            <li><a href="/add_friend" class="menu__link">Добавить друга</a></li>
+                            <li><a href="/date" class="menu__link">Планер</a></li>
+                            <li><a href="/timetable" class="menu__link">Расписание</a></li>
+                        </ul>
+                    </div>
+                </details>
+            </nav>
+            <footer class="footer">
+                <a href="/index" class="footer__logo"><img src="/static/img/logo_footer.png" alt=""></a>
+                <p class="footer__copyright">copyright</p>
+            </footer>
+        </div>
+        <div class="site_right">
+            <h1 class="site__heading">Планеровщик событий</h1>
+            <button class="planer__action-button">
+                Добавить дату
+            </button>
+            <div class="planer">
+                <div class="planer_left">
+                    <h2 class="planer__heading">Ближайшие события</h2>
+                    {% for item in dates1%}
+                    <div class="planer__item">
+                        <p class="planer__item-name">{{item.name}}</p>
+                        <p class="planer__item-date">{{item.date}}</p>
+                    </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
-        </p>
-        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
-        <div>{{ message }}</div>
-    </form>
-{% endblock %}
+                <div class="planer_right">
+                    <h2 class="planer__heading">Остальные события</h2>
+                    {% for item in dates2%}
+                    <div class="planer__item planer__item_2">
+                        <p class="planer__item-name">{{item.name}}</p>
+                        <p class="planer__item-date">{{item.date}}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <form class="planer__add-form none" action="" method="post">
+                {{ form.hidden_tag() }}
+                <div class="add-form__block">
+                    {{ form.name.label }}
+                    {{ form.name(class="add-form__input add-form__input_1", placeholder="Введите название события") }}
+
+                    {% for error in form.name.errors %}
+                    <div role="alert">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="add-form__block">
+                    {{ form.date.label }}
+                    {{ form.date(class="add-form__input add-form__input_2") }}
+
+                    {% for error in form.date.errors %}
+                    <div role="alert">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+                </div>
+
+                {{form.submit(type="submit", class="add-form__button")}}
+
+                <div>{{ message }}</div>
+            </form>
+        </div>
+    </div>
+    <script>
+        const actionButton = document.querySelector('.planer__action-button')
+        const addForm = document.querySelector('.planer__add-form')
+
+        actionButton.addEventListener('click', (e) => {
+            if (addForm.classList.contains('none')) {
+                addForm.classList.remove('none')
+            }
+            else {
+                addForm.classList.add('none')
+            }
+        })
+    </script>
+</body>
+
+</html>

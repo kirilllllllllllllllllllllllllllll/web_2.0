@@ -1,0 +1,114 @@
+@import "../nullstyle/nullstyle"
+@import "../templates/site-left_style"
+
+$site_rigth_color: #FAEBD5
+$inputHeight: 50px
+
+@keyframes slide
+    0%
+        opacity: 0
+        transform: translate(0, -426px)
+    100%
+        opacity: 1
+        transform: translate(0, 0)
+@keyframes slide-back
+    0%
+        opacity: 0
+        transform: translate(0, 0px)
+    100%
+        opacity: 1
+        transform: translate(0, -10px)
+
+.site_right
+    position: absolute
+    top: 0
+    width: 100vw
+    max-height: 100vh
+
+    padding-left: $menu_width
+.timetable
+    padding: 48px 80px
+    position: relative
+    &__heading
+        color: rgb(21, 68, 68)
+        font-family: Montserrat
+        font-size: 54px
+        font-weight: 700
+        line-height: 120%
+        letter-spacing: 0%
+        text-align: left
+
+        margin-bottom: 28px
+        &_second
+            color: rgb(68, 68, 68)
+            font-family: Open Sans
+            font-size: 30px
+            font-weight: 600
+            line-height: 120%
+            letter-spacing: 0%
+            text-align: left
+
+            margin-bottom: 10px
+    &__content
+    &__action
+        margin-bottom: 16px
+    &__action-wrapper
+        display: flex
+        gap: 20px
+    &__action-fix
+        position: absolute
+        top: 52px
+        right: 80px
+
+        width: 50px
+        height: 50px
+
+        background-color: #225858
+        border-radius: 5px
+        font-size: 0
+    &__action-button
+        border-radius: 15px
+
+        background: rgb(60, 126, 126)
+        width: 55px
+        height: 50px
+
+        font-size: 0px
+    &__action-select
+        box-sizing: border-box
+        border: 2px solid rgb(34, 88, 88)
+        border-radius: 5px
+
+        background: rgb(255, 255, 255)
+        padding-left: 5px
+
+        color: rgb(21, 68, 68)
+        font-family: Montserrat
+        font-size: 30px
+        font-weight: 700
+        line-height: 120%
+        letter-spacing: 0%
+        text-align: left
+        option
+            font-size: 20px
+    &__block
+        &-wrapper
+            overflow: auto
+            max-height: 75vh
+            scrollbar-color: #fff #fff
+        margin-bottom: 30px
+    &__heading
+    &__table
+        border: 2px solid rgb(34, 88, 88)
+        width: 400px
+        border-collapse: collapse
+
+        color: rgb(21, 68, 68)
+        font-family: Montserrat
+        font-size: 12px
+        font-weight: 500
+        line-height: 120%
+        text-align: left
+
+        td
+            padding: 5px 10px

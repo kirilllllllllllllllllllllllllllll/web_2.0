@@ -1,0 +1,153 @@
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+:focus, :active {
+  outline: none;
+}
+
+a:focus, a:active {
+  outline: none;
+}
+
+nav, footer, header, aside {
+  display: block;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  font-size: 100%;
+  line-height: 1;
+  font-size: 14px;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+input, button, textarea {
+  font-family: inherit;
+}
+
+input::-ms-clear {
+  display: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+a, a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+ul li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: inherit;
+  font-weight: 400;
+}
+
+.site__wrapper {
+  padding: 60px calc(50% - 400px) 0;
+}
+
+.profile {
+  box-sizing: border-box;
+  border: 3px solid rgb(60, 126, 126);
+  border-radius: 25px;
+  padding: 35px;
+  background: rgb(255, 255, 255);
+  position: relative;
+}
+.profile img {
+  border-radius: 50%;
+}
+.profile__top-block {
+  display: flex;
+  gap: 24px;
+  align-items: end;
+  margin-bottom: 32px;
+}
+.profile__action-button {
+  color: rgb(182, 0, 0);
+  font-family: Montserrat;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 130%;
+  text-align: left;
+  position: absolute;
+}
+.profile__action-button:hover {
+  text-decoration: underline;
+}
+.profile__action-button_leave {
+  right: 20px;
+  top: 35px;
+}
+.profile__action-button_delete {
+  top: 20px;
+  right: 20px;
+}
+.profile__info-text {
+  color: rgb(56, 55, 56);
+  font-family: Montserrat;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 130%;
+  letter-spacing: 0px;
+  text-align: left;
+  max-width: 350px;
+}
+.profile__info-text_small {
+  font-size: 24px;
+}
+.profile__info-block {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.friends__text {
+  margin-bottom: 12px;
+}
+.friends__list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-height: 365px;
+  overflow: auto;
+  scrollbar-color: rgb(60, 126, 126) #fff;
+}
+.friends__block {
+  box-sizing: border-box;
+  border: 2px solid rgb(60, 126, 126);
+  border-radius: 15px;
+  padding: 24px;
+  background: rgb(255, 255, 255);
+  display: flex;
+  align-items: end;
+  gap: 28px;
+  position: relative;
+}/*# sourceMappingURL=profile_style.css.map */

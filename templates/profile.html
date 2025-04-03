@@ -1,24 +1,65 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block content %}
-{% if current_user.is_authenticated %}
-<center><h1>Профиль</h1></center>
-<a class="navbar-brand" href="/logout">Выйти из аккаунта</a>
-<h3>{{current_user.name}}</h3>
-<img src="/static/profile_photos/{{current_user.photo}}" width="100" height="100"> {{current_user.name}} <br>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- DM Sans font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
 
-Класс: {{current_user.form}} <br>
+    <!-- Open Sans font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <!-- Основные стили -->
+    <link rel="stylesheet" href="/static/css/profile_style/profile_style.css">
+    <title>Profile</title>
+</head>
 
-Роль: {{roles[current_user.role]}} <br>
+<body>
+    {% if current_user.is_authenticated %}
 
-Друзья:
 
-{% for item in friends %}
-<img src="/static/profile_photos/{{item.photo}}" width="100" height="100"> {{item.name}} <br>
+    <div class="site__wrapper">
+        <div class="profile">
+            <div class="profile__top-block">
+                <img src="/static/profile_photos/{{current_user.photo}}" width="120" height="120">
 
-<a href="delete_friend/{{item.id}}" class="btn btn-success">Удалить</a>
-<br><br>
-{% endfor %}
+                <a class="profile__action-button profile__action-button_leave" href="/logout">Выйти из аккаунта</a>
+                <h3 class="profile__info-text">{{current_user.name}}</h3>
+            </div>
+            <div class="profile__info-block">
+                <p class="profile__info-text">Класс: {{current_user.form}}</p>
+                <p class="profile__info-text">Роль: {{roles[current_user.role]}}</p>
 
-{% endif %}
-{% endblock %}
+                <details class="friends">
+                    <summary class="profile__info-text friends__text">Друзья</summary>
+                    <ul class="friends__list">
+                        {% for item in friends %}
+                        <li class="friends__block">
+                            <img src="/static/profile_photos/{{item.photo}}" width="120" height="120">
+                            <p class="profile__info-text profile__info-text_small">{{item.name}}</p>
+                            <a href="delete_friend/{{item.id}}"
+                                class="profile__action-button profile__action-button_delete">Удалить</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </details>
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+    {% endif %}
+</body>
+
+</html>

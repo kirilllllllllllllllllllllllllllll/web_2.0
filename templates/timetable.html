@@ -1,49 +1,107 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block content %}
-<br><br>
-<h2>Расписание {{current_user.current_form}}</h2>
-{% if current_user.role == 2 %}
-    <a href="refactor_timetable">Редактировать расписание</a>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- DM Sans font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
 
-    <form action="" method="post">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.form.label }}<br>
-            {{ form.form(class="form-control", type="email") }}<br>
-            {% for error in form.form.errors %}
-                <div class="alert alert-danger" role="alert">
-                    {{ error }}
+    <!-- Open Sans font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <!-- Основные стили -->
+    <link rel="stylesheet" href="/static/css/timetable_style/timetable_style.css">
+    <title>Timetable</title>
+</head>
+
+<body>
+    <div class="site">
+        <div class="site_left">
+            <div class="profile">
+                <div class="profile__img-wrapper">
+                    <img src="/static/profile_photos/{{current_user.photo}}" alt="" class="profile__img">
                 </div>
-            {% endfor %}
-        </p>
+                <a href="/profile" class="profile__name" display="block">{{current_user.name}}</a>
+            </div>
+            <nav class="menu">
+                <details class="menu__deatils-block">
+                    <summary class="menu__title">Меню</summary>
+                    <div class="menu__list-wrapper">
+                        <ul class="menu__list">
+                            <li><a href="/main" class="menu__link">Сообщения</a></li>
+                            <li><a href="/posts" class="menu__link">Посты</a></li>
+                            <li><a href="/add_friend" class="menu__link">Добавить друга</a></li>
+                            <li><a href="/date" class="menu__link">Планер</a></li>
+                            <li><a href="/timetable" class="menu__link">Расписание</a></li>
+                        </ul>
+                    </div>
+                </details>
+            </nav>
+            <footer class="footer">
+                <a href="/index" class="footer__logo"><img src="/static/img/logo_footer.png" alt=""></a>
+                <p class="footer__copyright">copyright</p>
+            </footer>
+        </div>
+        <div class="site_right">
+            <div class="timetable">
+                <h2 class="timetable__heading">Расписание {{current_user.current_form}}</h2>
+                <div class="timetable__content">
+                    {% if current_user.role == 2 %}
+                    <a class="timetable__action-fix" href="refactor_timetable">Редактировать расписание</a>
 
-        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
-        <div>{{ message }}</div>
-    </form>
-{% endif %}
+                    <form class="timetable__action" action="" method="post">
+                        {{ form.hidden_tag() }}
+                        <div class="timetable__action-wrapper">
+                            {{ form.form(class="timetable__action-select", type="email") }}
+                            {{ form.submit(type="submit", class="timetable__action-button") }}
+                        </div>
+                        {% for error in form.form.errors %}
+                        <div role="alert">
+                            {{ error }}
+                        </div>
+                        {% endfor %}
 
-{% for item in data %}
-    <br>
-    <center>{{item[0]}}</center>
-    <table border="2" width="20%" align="center">
-    {% for ind in nums %}
-        <tr bgcolor="{{colors[ind % 2]}}">
-            <td>{{ind}}</td>
-            {% if item[0] == 'понедельник' or item[0] == 'четверг' %}
-                <td>{{time1[ind]}}</td>
-            {% else %}
-                <td>{{time2[ind]}}</td>
-            {% endif %}
+                        <div>{{ message }}</div>
+                    </form>
+                    {% endif %}
+                    <div class="timetable__block-wrapper">
+                        {% for item in data %}
+                        <div class="timetable__block">
+                            <h2 class="timetable__heading timetable__heading_second">{{item[0]}}</h2>
+                            <table class="timetable__table" border="2" width="20%" align="center">
+                                {% for ind in nums %}
+                                <tr bgcolor="{{colors[ind % 2]}}">
+                                    <td>{{ind}}</td>
+                                    {% if item[0] == 'понедельник' or item[0] == 'четверг' %}
+                                    <td>{{time1[ind]}}</td>
+                                    {% else %}
+                                    <td>{{time2[ind]}}</td>
+                                    {% endif %}
 
-            {% if item[1][ind] %}
-                <td>{{item[1][ind]}}</td>
-            {% else %}
-                <td>---</td>
-            {% endif %}
-        </tr>
-    {% endfor %}
-    </table>
-{% endfor %}
+                                    {% if item[1][ind] %}
+                                    <td>{{item[1][ind]}}</td>
+                                    {% else %}
+                                    <td>---</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                        {% endfor %}
+                    </div>
 
-{% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

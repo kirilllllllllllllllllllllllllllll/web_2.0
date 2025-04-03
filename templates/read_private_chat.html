@@ -130,11 +130,12 @@
                             {% endif %}
 
                         </p>
+                        {% if current_user.role == 2 %}
                         <div class="message__content-wrapper">
-                            {% if current_user.role == 2 %}
                             <a class="message__delete" href="delete_message1/{{id}}/{{item.id}}">Удалить</a>
-                            {% endif %}
                         </div>
+                        {% endif %}
+
                         <p class="message__time">
                             {{item.time}}
                         </p>
@@ -242,9 +243,12 @@
         })
 
         let messageId = 1
+        console.log(messageList);
         messageList.forEach(element => {
             element.setAttribute('data-message-id', messageId)
+            console.log(messageId);
             const deleteButton = element.querySelector('.message__delete')
+            console.log(deleteButton);
             deleteButton.setAttribute('data-message-id', messageId)
             messageId++
 
