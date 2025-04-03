@@ -338,12 +338,17 @@ h1, h2, h3, h4, h5, h6 {
 .add-form__button {
   font-size: 0;
   width: 60px;
-  height: 60px;
+  height: 50px;
   position: absolute;
   bottom: 0;
   right: -65px;
   border-radius: 15px;
   background: rgb(60, 126, 126);
+}
+.add-form__button img {
+  position: absolute;
+  bottom: 2px;
+  left: 10px;
 }
 
 .add-form__input {

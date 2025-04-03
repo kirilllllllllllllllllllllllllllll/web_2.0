@@ -98,8 +98,11 @@
                     </div>
                     {% endfor %}
                 </div>
-
-                {{form.submit(type="submit", class="add-form__button")}}
+                <button class="add-form__button">
+                    <img src="/static/img/arrow_button.png" alt="">
+                    {{form.submit(type="submit")}}
+                </button>
+                
 
                 <div>{{ message }}</div>
             </form>
@@ -120,6 +123,9 @@
                 addForm.classList.add('none')
             }
         })
+        const actionButton2 = document.querySelector('.add-form__button input') 
+
+        actionButton2.value = ''
     </script>
 </body>
 

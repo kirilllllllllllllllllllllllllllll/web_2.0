@@ -55,13 +55,21 @@
                 <h2 class="timetable__heading">Расписание {{current_user.current_form}}</h2>
                 <div class="timetable__content">
                     {% if current_user.role == 2 %}
-                    <a class="timetable__action-fix" href="refactor_timetable">Редактировать расписание</a>
+                    <a class="timetable__action-fix" href="refactor_timetable">
+                        <img src="/static/img/pencil.png" title="pencil icons"></img>
+                    </a>
 
                     <form class="timetable__action" action="" method="post">
                         {{ form.hidden_tag() }}
                         <div class="timetable__action-wrapper">
                             {{ form.form(class="timetable__action-select", type="email") }}
-                            {{ form.submit(type="submit", class="timetable__action-button") }}
+                            <button class="timetable__action-button">
+                                <img src="/static/img/arrow_button.png" alt="">
+                                {{ form.submit(type="submit") }}
+                            </button>
+                            
+
+
                         </div>
                         {% for error in form.form.errors %}
                         <div role="alert">
@@ -97,7 +105,6 @@
                         </div>
                         {% endfor %}
                     </div>
-
                 </div>
             </div>
         </div>
@@ -105,6 +112,9 @@
     <script>
         const page = 'timetable'
         localStorage.setItem('currentPage', page)
+        const actionButton = document.querySelector('.timetable__action-button input')
+        actionButton.value = ''
+            
     </script>
 </body>
 
