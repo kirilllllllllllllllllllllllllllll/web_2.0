@@ -23,6 +23,7 @@
 </head>
 
 <body>
+    <p id="currentUser-info" style="font-size: 0px;">{{current_user.role}}</p>
     <div class="site">
         <div class="site_left">
             <div class="profile">
@@ -128,8 +129,8 @@
                             {% else %}
                             <img class="message__img" src="/static/stickers/{{item.sticker}}" width="250" height="250">
                             {% endif %}
-
                         </p>
+
                         {% if current_user.role == 2 %}
                         <div class="message__content-wrapper">
                             <a class="message__delete" href="delete_message1/{{id}}/{{item.id}}">Удалить</a>
@@ -214,7 +215,7 @@
         const deleteMessageButton = document.querySelectorAll('.message__delete')
         const formControl = document.querySelector('.form-control')
         const messageList = messages.querySelectorAll('.message')
-
+        const userRole = document.getElementById('currentUser-info').textContent.trim();
 
         formControl.focus()
 
@@ -243,15 +244,13 @@
         })
 
         let messageId = 1
-        console.log(messageList);
         messageList.forEach(element => {
             element.setAttribute('data-message-id', messageId)
-            console.log(messageId);
-            const deleteButton = element.querySelector('.message__delete')
-            console.log(deleteButton);
-            deleteButton.setAttribute('data-message-id', messageId)
-            messageId++
-
+            if (!element.classList.contains('message_not-user') || userRole == 2) {
+                const deleteButton = element.querySelector('.message__delete')
+                deleteButton.setAttribute('data-message-id', messageId)
+                messageId++
+            }
             element.addEventListener('click', (e) => {
                 deleteButton.parentNode.style.display = 'block'
             })
@@ -270,7 +269,9 @@
             localStorage.setItem('leftMenu_readChatY', groupChatMenu.scrollTop)
         })
         sendStickers.addEventListener('click', (e) => {
+            console.log(1);
             const stickers = document.querySelector('.group-chat__stickers')
+            console.log(stickers);
             if (stickers.classList.contains('open')) {
                 stickers.classList.remove('open')
                 stickers.style.display = 'none'

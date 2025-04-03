@@ -183,14 +183,15 @@ $inputHeight: 50px
 .messages
     padding: 10px 10px 0 10px
     height: calc( 100vh - 70px - $inputHeight)
+    &_open
+        height: calc( 100vh - 270px - $inputHeight)
     overflow: auto
 
     scrollbar-color: $site_rigth_color $site_rigth_color
 .noPadding
     padding: 10px 0px 0px 10px
 
-    &_open
-        height: calc( 100vh - 270px - $inputHeight)
+    
 .message
     display: block
     padding: 10px 35px 10px 10px

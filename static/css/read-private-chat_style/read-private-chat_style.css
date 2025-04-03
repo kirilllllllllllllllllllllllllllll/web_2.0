@@ -413,12 +413,12 @@ h1, h2, h3, h4, h5, h6 {
   overflow: auto;
   scrollbar-color: #FAEBD5 #FAEBD5;
 }
+.messages_open {
+  height: calc(100vh - 270px - 50px);
+}
 
 .noPadding {
   padding: 10px 0px 0px 10px;
-}
-.noPadding_open {
-  height: calc(100vh - 270px - 50px);
 }
 
 .message {
